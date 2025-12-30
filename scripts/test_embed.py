@@ -1,0 +1,137 @@
+"""
+测试 bge-large-zh-v1.5 embedding 模型
+注意：此脚本使用已下载的模型，不会重新下载
+"""
+import os
+import sys
+
+# 添加父目录到路径
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+
+from app.embedder import create_embedder
+import numpy as np
+
+def main():
+    print("=" * 70)
+    print("测试 bge-large-zh-v1.5 模型")
+    print("=" * 70)
+    print("\n注意：此脚本使用已缓存的模型，不会重新下载")
+    print("如果模型未下载，请先运行: python scripts/download_model.py\n")
+    
+    try:
+        # 创建embedder（使用缓存的模型，不会重新下载）
+        print("正在加载模型...")
+        embedder = create_embedder(
+            model_name="BAAI/bge-large-zh-v1.5",
+            use_mirror=True  # 使用国内镜像（如果需要下载）
+        )
+        
+        print("\n" + "=" * 70)
+        print("✓ 模型加载成功！")
+        print("=" * 70)
+        
+        # 显示模型信息
+        print("\n模型详细信息:")
+        info = embedder.get_model_info()
+        for key, value in info.items():
+            print(f"  • {key}: {value}")
+        
+        # 测试文本
+        print("\n" + "=" * 70)
+        print("测试保险相关文本编码")
+        print("=" * 70)
+        
+        documents = [
+            "意外伤害保险理赔流程说明",
+            "重大疾病保险条款详解",
+            "车险理赔所需材料清单",
+            "人寿保险投保须知",
+            "医疗保险报销范围介绍"
+        ]
+        
+        queries = [
+            "如何申请意外险理赔？",
+            "重疾险包含哪些疾病？",
+            "车险需要准备什么材料？"
+        ]
+        
+        # 编码文档
+        print("\n📄 编码文档...")
+        doc_embeddings = embedder.encode_documents(
+            documents, 
+            show_progress_bar=False
+        )
+        print(f"✓ 文档向量形状: {doc_embeddings.shape}")
+        print(f"  - 文档数量: {len(documents)}")
+        print(f"  - 向量维度: {doc_embeddings.shape[1]}")
+        
+        # 编码查询
+        print("\n🔍 编码查询...")
+        query_embeddings = embedder.encode_queries(
+            queries,
+            show_progress_bar=False
+        )
+        print(f"✓ 查询向量形状: {query_embeddings.shape}")
+        print(f"  - 查询数量: {len(queries)}")
+        print(f"  - 向量维度: {query_embeddings.shape[1]}")
+        
+        # 计算相似度
+        print("\n📊 计算相似度...")
+        similarities = embedder.similarity(query_embeddings, doc_embeddings)
+        
+        print("\n" + "=" * 70)
+        print("查询-文档相似度结果")
+        print("=" * 70)
+        
+        for i, query in enumerate(queries):
+            print(f"\n🔍 查询 {i+1}: {query}")
+            print("-" * 70)
+            
+            # 获取排序后的索引（从高到低）
+            sorted_indices = np.argsort(similarities[i])[::-1]
+            
+            for rank, j in enumerate(sorted_indices, 1):
+                similarity_score = similarities[i][j]
+                print(f"  {rank}. [相似度: {similarity_score:.4f}] {documents[j]}")
+            
+            # 标记最相关的文档
+            most_similar_idx = sorted_indices[0]
+            print(f"\n  ✓ 最相关文档: {documents[most_similar_idx]}")
+            print(f"    相似度分数: {similarities[i][most_similar_idx]:.4f}")
+        
+        # 额外测试：单个文本编码
+        print("\n" + "=" * 70)
+        print("测试单个文本编码")
+        print("=" * 70)
+        
+        single_text = "保险理赔需要哪些材料？"
+        print(f"\n文本: {single_text}")
+        
+        single_embedding = embedder.encode(single_text, show_progress_bar=False)
+        print(f"✓ 向量形状: {single_embedding.shape}")
+        print(f"  向量前5个值: {single_embedding[0][:5]}")
+        
+        # 验证向量归一化
+        norm = np.linalg.norm(single_embedding[0])
+        print(f"  向量范数: {norm:.6f} (应接近1.0，表示已归一化)")
+        
+        print("\n" + "=" * 70)
+        print("✓ 所有测试完成！")
+        print("=" * 70)
+        print("\n提示：")
+        print("  • 模型已成功加载并测试")
+        print("  • 相似度分数范围: -1 到 1 (越接近1越相似)")
+        print("  • 向量已归一化，适合用于余弦相似度计算")
+        
+        return True
+        
+    except Exception as e:
+        print(f"\n✗ 错误: {e}")
+        import traceback
+        traceback.print_exc()
+        print("\n提示：如果模型未下载，请先运行: python scripts/download_model.py")
+        return False
+
+if __name__ == "__main__":
+    success = main()
+    sys.exit(0 if success else 1)

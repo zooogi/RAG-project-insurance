@@ -1,5 +1,5 @@
 """
-下载并测试 bge-large-zh-v1.5 模型
+下载 bge-large-zh-v1.5 embedding 模型
 """
 import os
 import sys
@@ -33,26 +33,10 @@ def main():
         for key, value in info.items():
             print(f"  • {key}: {value}")
         
-        # 简单测试
         print("\n" + "=" * 70)
-        print("运行简单测试...")
+        print("✓ 模型已准备就绪！")
         print("=" * 70)
-        
-        test_texts = [
-            "保险理赔申请流程",
-            "意外险投保说明"
-        ]
-        
-        print(f"\n测试文本: {test_texts}")
-        embeddings = embedder.encode(test_texts, show_progress_bar=False)
-        print(f"✓ 生成向量成功！")
-        print(f"  向量形状: {embeddings.shape}")
-        print(f"  向量维度: {embeddings.shape[1]}")
-        print(f"  第一个向量前5个值: {embeddings[0][:5]}")
-        
-        print("\n" + "=" * 70)
-        print("✓ 所有测试通过！模型已准备就绪。")
-        print("=" * 70)
+        print("\n提示：使用 'python scripts/test_embed.py' 来测试模型功能")
         
         return True
         
