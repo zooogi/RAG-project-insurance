@@ -1,38 +1,92 @@
-### 3 分钟了解如何进入开发
+# RAG保险项目
 
-欢迎使用云效代码管理 Codeup，通过阅读以下内容，你可以快速熟悉 Codeup ，并立即开始今天的工作。
+基于检索增强生成(RAG)的保险文档智能问答系统。
 
-### 提交**文件**
+## 📖 项目简介
 
-Codeup 支持两种方式进行代码提交：网页端提交，以及本地 Git 客户端提交。
+本项目提供保险文档的智能处理和检索功能，包括：
+- PDF文档解析和文本提取
+- 文本向量化和语义检索
+-  
+## 📁 项目结构
 
-* 如需体验本地命令行操作，请先安装 Git 工具，安装方法参见[安装Git](https://help.aliyun.com/document_detail/153800.html)。
+```
+RAG-保险项目/
+├── app/                    # 应用代码
+│   ├── ocr.py             # PDF处理模块
+│   ├── embedder.py        # 文本向量化模块
+│   ├── chunker.py         # 文本分块模块
+│   ├── config.py          # 配置文件
+│   └── main.py            # 主程序
+├── data/                   # 数据目录
+│   ├── pdf/               # 原始PDF文件
+│   └── processed/         # 处理后的文件
+│       ├── markdown/      # Markdown格式
+│       ├── text/          # 纯文本格式
+│       ├── images/        # 提取的图片
+│       ├── tables/        # 提取的表格
+│       └── json/          # 元数据
+├── docs/                   # 文档
+│   ├── OCR_USAGE.md       # OCR模块使用指南
+│   └── EMBEDDER_USAGE.md  # Embedder使用指南
+├── scripts/                # 工具脚本
+│   ├── test_ocr.py        # OCR测试脚本
+│   ├── test_embed.py      # Embedder测试脚本
+│   └── download_embed.py  # 下载向量模型
+├── requirements.txt        # Python依赖
+└── README.md              # 本文件
+```
 
-* 如需体验 SSH 方式克隆和提交代码，请先在平台账号内配置 SSH 公钥，配置方法参见[配置 SSH 密钥](https://help.aliyun.com/document_detail/153709.html)。
+## ✨ 主要功能
 
-* 如需体验 HTTP 方式克隆和提交代码，请先在平台账号内配置克隆账密，配置方法参见[配置 HTTPS 克隆账号密码](https://help.aliyun.com/document_detail/153710.html)。
+### 1. PDF文档处理 (OCR模块)
+- 支持文字版和扫描版PDF
+- 自动提取文本、表格和图片
+- 双引擎支持：MineRU（高级）+ PyMuPDF（备选）
+- 输出Markdown和纯文本格式
 
-现在，你可以在 Codeup 中提交代码文件了，跟着文档「[__提交第一行代码__](https://help.aliyun.com/document_detail/153707.html?spm=a2c4g.153710.0.0.3c213774PFSMIV#6a5dbb1063ai5)」一起操作试试看吧。
+### 2. 文本向量化 (Embedder模块)
+- 使用bge-large-zh-v1.5中文向量模型
+- 支持文档和查询的向量化
+- 高效的语义相似度计算
 
-<img src="https://img.alicdn.com/imgextra/i3/O1CN013zHrNR1oXgGu8ccvY_!!6000000005235-0-tps-2866-1268.jpg" width="100%" />
+### 3. 文本分块 (Chunker模块)
+- 智能文本分块
+- 保持语义完整性
 
+## 🚀 快速开始
 
-### 进行代码检测
+### 安装依赖
 
-开发过程中，为了更好的维护你的代码质量，你可以开启 Codeup 内置开箱即用的「[代码检测服务](https://help.aliyun.com/document_detail/434321.html)」，开启后提交或合并请求的变更将自动触发检测，识别代码编写规范和安全漏洞问题，并及时提供结果报表和修复建议。
+```bash
+# 1. 克隆项目
+git clone <your-repo-url>
+cd RAG-保险项目
 
-<img src="https://img.alicdn.com/imgextra/i2/O1CN01BRzI1I1IO0CR2i4Aw_!!6000000000882-0-tps-2862-1362.jpg" width="100%" />
+# 2. 创建虚拟环境（推荐）
+conda create -n rag python=3.10
+conda activate rag
 
-### 开展代码评审
+# 3. 安装依赖包
+pip install -r requirements.txt
 
-功能开发完毕后，通常你需要发起「[代码评审并执行合并](https://help.aliyun.com/document_detail/153872.html)」，Codeup 支持多人协作的代码评审服务，你可以通过「[保护分支设置合并规则](https://help.aliyun.com/document_detail/153873.html?spm=a2c4g.203108.0.0.430765d1l9tTRR#p-4on-aep-l5q)」策略及「[__合并请求设置__](https://help.aliyun.com/document_detail/153874.html?spm=a2c4g.153871.0.0.3d38686cJpcdJI)」对合并过程进行流程化管控，同时提供在线代码评审及冲突解决能力，让评审过程更加流畅。
+# 使用国内镜像加速（可选）
+pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+```
 
-<img src="https://img.alicdn.com/imgextra/i1/O1CN01MaBDFH1WWcGnQqMHy_!!6000000002796-0-tps-2592-1336.jpg" width="100%" />
+### 首次使用配置
 
-### 成员协作
+#### 使用MineRU（推荐，功能更强大）
 
-是时候邀请成员一起编写卓越的代码工程了，请点击左下角「成员」邀请你的小伙伴开始协作吧！
+```bash
+# 安装MineRU和依赖
+pip install mineru>=2.7.0 accelerate>=0.20.0
 
-### 更多
+#check 有内容就是下载成功
+mineru --help
 
-Git 使用教学、高级功能指引等更多说明，参见[Codeup帮助文档](https://help.aliyun.com/document_detail/153402.html)。
+# test 首次运行会自动下载模型（约1-2GB，需要时间）
+mineru -p data/pdf/保险基础知多少.pdf -o data/mineru_test --source modelscope
+```
+
+#### 使用embedding
