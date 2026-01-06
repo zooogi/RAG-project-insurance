@@ -19,16 +19,42 @@ def main():
     print("如果模型未下载，请先运行: python scripts/download_model.py\n")
     
     try:
-        # 创建embedder（使用缓存的模型，不会重新下载）
-        print("正在加载模型...")
-        embedder = create_embedder(
-            model_name="BAAI/bge-large-zh-v1.5",
-            use_mirror=True  # 使用国内镜像（如果需要下载）
+        # 创建 embedder（使用本地缓存的模型，避免重复下载）
+        print("\n📦 加载模型...")
+        
+        # 构建本地模型缓存路径
+        model_cache_path = os.path.join(
+            os.path.expanduser("~"),
+            ".cache",
+            "huggingface",
+            "hub",
+            "models--BAAI--bge-large-zh-v1.5",
+            "snapshots"
         )
         
-        print("\n" + "=" * 70)
-        print("✓ 模型加载成功！")
-        print("=" * 70)
+        # 检查本地缓存是否存在
+        if os.path.exists(model_cache_path):
+            # 获取最新的snapshot目录
+            snapshots = [d for d in os.listdir(model_cache_path) if os.path.isdir(os.path.join(model_cache_path, d))]
+            if snapshots:
+                # 使用最新的snapshot
+                latest_snapshot = sorted(snapshots)[-1]
+                local_model_path = os.path.join(model_cache_path, latest_snapshot)
+                print(f"✓ 找到本地缓存模型: {local_model_path}")
+                
+                # 使用本地路径加载，完全避免网络请求
+                embedder = create_embedder(model_path=local_model_path)
+            else:
+                raise FileNotFoundError("模型缓存目录存在但为空")
+        else:
+            # 如果本地没有缓存，提示用户先下载
+            raise FileNotFoundError(
+                f"未找到本地模型缓存！\n"
+                f"请先运行: python scripts/download_model.py\n"
+                f"预期路径: {model_cache_path}"
+            )
+        
+        print("✓ 模型加载成功！（使用本地缓存，无需联网）")
         
         # 显示模型信息
         print("\n模型详细信息:")
@@ -65,15 +91,51 @@ def main():
         print(f"  - 文档数量: {len(documents)}")
         print(f"  - 向量维度: {doc_embeddings.shape[1]}")
         
+        # 详细展示每个文档的原文和embedding向量
+        print("\n" + "=" * 70)
+        print("文档详细信息（原文 → Embedding向量）")
+        print("=" * 70)
+        
+        for i, doc in enumerate(documents):
+            print(f"\n📄 文档 {i+1}:")
+            print(f"  原文: \"{doc}\"")
+            print(f"  向量维度: {doc_embeddings.shape[1]}")
+            print(f"  向量前20个值: {doc_embeddings[i][:20]}")
+            print(f"  向量统计:")
+            print(f"    - 最大值: {np.max(doc_embeddings[i]):.6f}")
+            print(f"    - 最小值: {np.min(doc_embeddings[i]):.6f}")
+            print(f"    - 均值: {np.mean(doc_embeddings[i]):.6f}")
+            print(f"    - 标准差: {np.std(doc_embeddings[i]):.6f}")
+            print(f"    - L2范数: {np.linalg.norm(doc_embeddings[i]):.6f}")
+        
         # 编码查询
-        print("\n🔍 编码查询...")
+        print("\n" + "=" * 70)
+        print("🔍 编码查询...")
+        print("=" * 70)
         query_embeddings = embedder.encode_queries(
             queries,
             show_progress_bar=False
         )
-        print(f"✓ 查询向量形状: {query_embeddings.shape}")
+        print(f"\n✓ 查询向量形状: {query_embeddings.shape}")
         print(f"  - 查询数量: {len(queries)}")
         print(f"  - 向量维度: {query_embeddings.shape[1]}")
+        
+        # 详细展示每个查询的原文和embedding向量
+        print("\n" + "=" * 70)
+        print("查询详细信息（原文 → Embedding向量）")
+        print("=" * 70)
+        
+        for i, query in enumerate(queries):
+            print(f"\n🔍 查询 {i+1}:")
+            print(f"  原文: \"{query}\"")
+            print(f"  向量维度: {query_embeddings.shape[1]}")
+            print(f"  向量前20个值: {query_embeddings[i][:20]}")
+            print(f"  向量统计:")
+            print(f"    - 最大值: {np.max(query_embeddings[i]):.6f}")
+            print(f"    - 最小值: {np.min(query_embeddings[i]):.6f}")
+            print(f"    - 均值: {np.mean(query_embeddings[i]):.6f}")
+            print(f"    - 标准差: {np.std(query_embeddings[i]):.6f}")
+            print(f"    - L2范数: {np.linalg.norm(query_embeddings[i]):.6f}")
         
         # 计算相似度
         print("\n📊 计算相似度...")
