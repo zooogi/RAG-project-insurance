@@ -29,11 +29,6 @@ class Embedder:
         self.model_name = model_name
         self.model_path = model_path
         
-        # 如果使用镜像，设置环境变量
-        if use_mirror and not model_path:
-            os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
-            print("使用国内镜像加速下载模型...")
-        
         # 加载模型
         print(f"正在加载模型: {model_path or model_name}")
         try:

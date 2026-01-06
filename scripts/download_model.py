@@ -4,6 +4,9 @@
 import os
 import sys
 
+# 必须在导入任何HuggingFace库之前设置环境变量！
+os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
+
 # 添加父目录到路径
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
@@ -13,7 +16,8 @@ def main():
     print("=" * 70)
     print("开始下载 bge-large-zh-v1.5 模型")
     print("=" * 70)
-    print("\n注意：首次下载模型大小约 1.3GB，请耐心等待...")
+    print("\n✓ 已配置使用国内镜像: https://hf-mirror.com")
+    print("注意：首次下载模型大小约 1.3GB，请耐心等待...")
     print("模型将缓存到: C:\\Users\\47927\\.cache\\huggingface\\hub\\\n")
     
     try:
