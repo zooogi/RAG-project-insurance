@@ -1,9 +1,12 @@
 # RAG保险项目 - Python依赖包
 
 # PDF处理
-PyMuPDF>=1.24.0              # PDF文本提取（备选方案）
-mineru>=2.7.0                # MineRU PDF解析（高级功能）
-accelerate>=0.20.0           # MineRU所需的模型加载库
+#PyMuPDF>=1.24.0              # PDF文本提取（备选方案）
+mineru               # MineRU PDF解析（高级功能）
+accelerate          # MineRU所需的模型加载库
+pyclipper           # MineRU所需的多边形裁剪库
+omegaconf           # MineRU所需的配置管理库
+ftfy                # MineRU所需的文本修复库
 
 # 文本向量化
 sentence-transformers>=2.2.0  # 文本嵌入模型
@@ -14,6 +17,8 @@ numpy>=1.21.0                # 数值计算
 tqdm>=4.65.0                 # 进度条
 loguru>=0.7.0                # 日志记录
 click>=8.1.0                 # 命令行工具
+doclayout-yolo
+ultralytics
 
 # 可选依赖（用于开发和测试）
 # pytest>=7.0.0              # 单元测试

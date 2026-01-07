@@ -80,7 +80,9 @@ pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 ```bash
 # 安装MineRU和依赖
-pip install mineru>=2.7.0 accelerate>=0.20.0
+# 下载依赖包已经包含了安装MineRU
+pip install -r requirements.txt
+#pip install mineru>=2.7.0 accelerate>=0.20.0
 
 #check 有内容就是下载成功
 mineru --help

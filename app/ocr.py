@@ -1,407 +1,471 @@
 """
-PDF OCR处理模块
-使用MineRU进行PDF文档解析和内容提取
+OCR模块 - 使用MineRU进行PDF文档解析和文本提取
 """
-
 import os
 import json
-import shutil
 import subprocess
 from pathlib import Path
-from typing import List, Dict, Optional, Tuple
-from loguru import logger
-from tqdm import tqdm
+from typing import Dict, List, Optional, Union
+import shutil
 
 
 class PDFProcessor:
-    """PDF文档处理器，使用MineRU进行OCR和内容提取"""
+    """PDF文档处理器，使用MineRU进行高质量文档解析"""
     
     def __init__(
         self,
-        pdf_dir: str = "data/pdf",
-        output_dir: str = "data/processed",
-        temp_dir: str = "data/mineru_temp",
-        source: str = "modelscope"
+        output_base_dir: str = "data/processed",
+        source: str = "modelscope",
+        use_gpu: bool = True
     ):
         """
         初始化PDF处理器
         
         Args:
-            pdf_dir: PDF文件所在目录
-            output_dir: 处理后文件的输出目录
-            temp_dir: MineRU临时输出目录
-            source: MineRU模型源（modelscope或huggingface）
+            output_base_dir: 输出基础目录
+            source: 模型源 ('modelscope' 或 'huggingface')
+            use_gpu: 是否使用GPU加速
         """
-        self.pdf_dir = Path(pdf_dir)
-        self.output_dir = Path(output_dir)
-        self.temp_dir = Path(temp_dir)
+        self.output_base_dir = Path(output_base_dir)
         self.source = source
+        self.use_gpu = use_gpu
         
-        # 创建输出目录结构
-        self._create_output_dirs()
+        # 创建输出目录
+        self.output_base_dir.mkdir(parents=True, exist_ok=True)
         
-        logger.info(f"PDF处理器初始化完成")
-        logger.info(f"PDF目录: {self.pdf_dir}")
-        logger.info(f"输出目录: {self.output_dir}")
+        # 检查MineRU是否安装
+        self._check_mineru_installed()
     
-    def _create_output_dirs(self):
-        """创建输出目录结构"""
-        subdirs = ["markdown", "text", "json", "images", "tables"]
-        for subdir in subdirs:
-            (self.output_dir / subdir).mkdir(parents=True, exist_ok=True)
-        
-        # 创建临时目录
-        self.temp_dir.mkdir(parents=True, exist_ok=True)
+    def _check_mineru_installed(self):
+        """检查MineRU是否已安装"""
+        try:
+            result = subprocess.run(
+                ["mineru", "--help"],
+                capture_output=True,
+                text=True,
+                timeout=10
+            )
+            if result.returncode == 0:
+                print("✓ MineRU已安装")
+            else:
+                raise RuntimeError("MineRU未正确安装")
+        except FileNotFoundError:
+            raise RuntimeError(
+                "MineRU未安装，请运行: pip install mineru>=2.7.0"
+            )
+        except Exception as e:
+            raise RuntimeError(f"检查MineRU时出错: {e}")
     
-    def get_pdf_files(self) -> List[Path]:
-        """
-        获取PDF目录下的所有PDF文件
-        
-        Returns:
-            PDF文件路径列表
-        """
-        if not self.pdf_dir.exists():
-            logger.error(f"PDF目录不存在: {self.pdf_dir}")
-            return []
-        
-        pdf_files = list(self.pdf_dir.glob("*.pdf"))
-        logger.info(f"找到 {len(pdf_files)} 个PDF文件")
-        return pdf_files
-    
-    def is_processed(self, pdf_name: str) -> bool:
-        """
-        检查PDF是否已经处理过
-        
-        Args:
-            pdf_name: PDF文件名（不含扩展名）
-        
-        Returns:
-            是否已处理
-        """
-        markdown_file = self.output_dir / "markdown" / f"{pdf_name}.md"
-        json_file = self.output_dir / "json" / f"{pdf_name}_metadata.json"
-        
-        return markdown_file.exists() and json_file.exists()
-    
-    def process_single_pdf(
+    def process_pdf(
         self,
-        pdf_path: Path,
-        skip_if_exists: bool = True
-    ) -> bool:
+        pdf_path: Union[str, Path],
+        output_dir: Optional[Union[str, Path]] = None,
+        extract_images: bool = True,
+        extract_tables: bool = True
+    ) -> Dict:
         """
         处理单个PDF文件
         
         Args:
             pdf_path: PDF文件路径
-            skip_if_exists: 如果已处理是否跳过
+            output_dir: 输出目录（如果为None，自动生成）
+            extract_images: 是否提取图片
+            extract_tables: 是否提取表格
         
         Returns:
-            处理是否成功
+            包含处理结果的字典
         """
-        pdf_name = pdf_path.stem
-        logger.info(f"开始处理: {pdf_name}")
+        pdf_path = Path(pdf_path)
         
-        # 检查是否已处理
-        if skip_if_exists and self.is_processed(pdf_name):
-            logger.info(f"文件已处理，跳过: {pdf_name}")
-            return True
+        if not pdf_path.exists():
+            raise FileNotFoundError(f"PDF文件不存在: {pdf_path}")
         
+        # 确定输出目录
+        if output_dir is None:
+            output_dir = self.output_base_dir / pdf_path.stem
+        else:
+            output_dir = Path(output_dir)
+        
+        output_dir.mkdir(parents=True, exist_ok=True)
+        
+        print(f"\n{'='*60}")
+        print(f"开始处理PDF: {pdf_path.name}")
+        print(f"输出目录: {output_dir}")
+        print(f"{'='*60}\n")
+        
+        # 构建MineRU命令
+        cmd = [
+            "mineru",
+            "-p", str(pdf_path.absolute()),
+            "-o", str(output_dir.absolute()),
+            "--source", self.source
+        ]
+        
+        # 执行MineRU处理
         try:
-            # 1. 调用MineRU处理PDF
-            success = self._run_mineru(pdf_path)
-            if not success:
-                logger.error(f"MineRU处理失败: {pdf_name}")
-                return False
-            
-            # 2. 提取和保存内容
-            success = self._extract_and_save(pdf_name)
-            if not success:
-                logger.error(f"内容提取失败: {pdf_name}")
-                return False
-            
-            # 3. 清理临时文件
-            self._cleanup_temp_files(pdf_name)
-            
-            logger.info(f"处理完成: {pdf_name}")
-            return True
-            
-        except Exception as e:
-            logger.error(f"处理PDF时出错 {pdf_name}: {str(e)}")
-            return False
-    
-    def _run_mineru(self, pdf_path: Path) -> bool:
-        """
-        运行MineRU命令行工具
-        
-        Args:
-            pdf_path: PDF文件路径
-        
-        Returns:
-            是否成功
-        """
-        try:
-            # 构建MineRU命令
-            cmd = [
-                "mineru",
-                "-p", str(pdf_path.absolute()),
-                "-o", str(self.temp_dir.absolute()),
-                "--source", self.source
-            ]
-            
-            logger.info(f"执行命令: {' '.join(cmd)}")
-            
-            # 执行命令
+            print("正在运行MineRU...")
             result = subprocess.run(
                 cmd,
                 capture_output=True,
                 text=True,
-                encoding='utf-8',
-                errors='ignore'
+                timeout=600  # 10分钟超时
             )
             
             if result.returncode != 0:
-                logger.error(f"MineRU执行失败: {result.stderr}")
-                return False
+                print(f"MineRU执行出错:\n{result.stderr}")
+                raise RuntimeError(f"MineRU处理失败: {result.stderr}")
             
-            logger.info("MineRU处理完成")
-            return True
+            print("✓ MineRU处理完成")
             
-        except FileNotFoundError:
-            logger.error("未找到mineru命令，请确保已安装MineRU")
-            return False
+        except subprocess.TimeoutExpired:
+            raise RuntimeError("MineRU处理超时（超过10分钟）")
         except Exception as e:
-            logger.error(f"执行MineRU时出错: {str(e)}")
-            return False
-    
-    def _extract_and_save(self, pdf_name: str) -> bool:
-        """
-        从MineRU输出中提取内容并保存到processed目录
+            raise RuntimeError(f"执行MineRU时出错: {e}")
         
-        Args:
-            pdf_name: PDF文件名（不含扩展名）
+        # 解析处理结果
+        result_data = self._parse_mineru_output(pdf_path, output_dir)
         
-        Returns:
-            是否成功
-        """
-        try:
-            # MineRU输出目录结构: temp_dir/pdf_name/hybrid_auto/
-            mineru_output = self.temp_dir / pdf_name / "hybrid_auto"
-            
-            if not mineru_output.exists():
-                logger.error(f"MineRU输出目录不存在: {mineru_output}")
-                return False
-            
-            # 1. 保存Markdown文件
-            md_source = mineru_output / f"{pdf_name}.md"
-            if md_source.exists():
-                md_dest = self.output_dir / "markdown" / f"{pdf_name}.md"
-                shutil.copy2(md_source, md_dest)
-                logger.info(f"保存Markdown: {md_dest}")
-                
-                # 同时生成纯文本版本
-                self._save_as_text(md_source, pdf_name)
-            else:
-                logger.warning(f"未找到Markdown文件: {md_source}")
-            
-            # 2. 保存JSON元数据
-            json_source = mineru_output / f"{pdf_name}_content_list.json"
-            if json_source.exists():
-                json_dest = self.output_dir / "json" / f"{pdf_name}_metadata.json"
-                shutil.copy2(json_source, json_dest)
-                logger.info(f"保存JSON元数据: {json_dest}")
-                
-                # 提取图片和表格信息
-                self._extract_images_and_tables(json_source, pdf_name, mineru_output)
-            else:
-                logger.warning(f"未找到JSON文件: {json_source}")
-            
-            return True
-            
-        except Exception as e:
-            logger.error(f"提取内容时出错: {str(e)}")
-            return False
-    
-    def _save_as_text(self, md_path: Path, pdf_name: str):
-        """
-        将Markdown转换为纯文本并保存
+        print(f"\n{'='*60}")
+        print("处理完成！")
+        print(f"{'='*60}\n")
         
-        Args:
-            md_path: Markdown文件路径
-            pdf_name: PDF文件名
-        """
-        try:
-            with open(md_path, 'r', encoding='utf-8') as f:
-                content = f.read()
-            
-            # 简单的Markdown到文本转换（移除一些Markdown标记）
-            text_content = content.replace('#', '').replace('*', '').replace('`', '')
-            
-            text_dest = self.output_dir / "text" / f"{pdf_name}.txt"
-            with open(text_dest, 'w', encoding='utf-8') as f:
-                f.write(text_content)
-            
-            logger.info(f"保存纯文本: {text_dest}")
-            
-        except Exception as e:
-            logger.warning(f"保存纯文本时出错: {str(e)}")
+        return result_data
     
-    def _extract_images_and_tables(
+    def _parse_mineru_output(
         self,
-        json_path: Path,
-        pdf_name: str,
-        mineru_output: Path
-    ):
+        pdf_path: Path,
+        output_dir: Path
+    ) -> Dict:
         """
-        从JSON元数据中提取图片和表格信息
+        解析MineRU的输出结果
         
         Args:
-            json_path: JSON文件路径
-            pdf_name: PDF文件名
-            mineru_output: MineRU输出目录
-        """
-        try:
-            with open(json_path, 'r', encoding='utf-8') as f:
-                content_list = json.load(f)
-            
-            images = []
-            tables = []
-            
-            for item in content_list:
-                if item.get('type') == 'image':
-                    images.append(item)
-                elif item.get('type') == 'table':
-                    tables.append(item)
-            
-            # 保存图片信息
-            if images:
-                images_info = {
-                    'pdf_name': pdf_name,
-                    'total_images': len(images),
-                    'images': images
-                }
-                images_dest = self.output_dir / "images" / f"{pdf_name}_images.json"
-                with open(images_dest, 'w', encoding='utf-8') as f:
-                    json.dump(images_info, f, ensure_ascii=False, indent=2)
-                logger.info(f"保存图片信息: {images_dest} ({len(images)}张)")
-            
-            # 保存表格信息
-            if tables:
-                tables_info = {
-                    'pdf_name': pdf_name,
-                    'total_tables': len(tables),
-                    'tables': tables
-                }
-                tables_dest = self.output_dir / "tables" / f"{pdf_name}_tables.json"
-                with open(tables_dest, 'w', encoding='utf-8') as f:
-                    json.dump(tables_info, f, ensure_ascii=False, indent=2)
-                logger.info(f"保存表格信息: {tables_dest} ({len(tables)}个)")
-            
-        except Exception as e:
-            logger.warning(f"提取图片和表格信息时出错: {str(e)}")
-    
-    def _cleanup_temp_files(self, pdf_name: str):
-        """
-        清理临时文件
-        
-        Args:
-            pdf_name: PDF文件名
-        """
-        try:
-            temp_pdf_dir = self.temp_dir / pdf_name
-            if temp_pdf_dir.exists():
-                shutil.rmtree(temp_pdf_dir)
-                logger.info(f"清理临时文件: {temp_pdf_dir}")
-        except Exception as e:
-            logger.warning(f"清理临时文件时出错: {str(e)}")
-    
-    def process_all_pdfs(
-        self,
-        skip_if_exists: bool = True
-    ) -> Tuple[int, int]:
-        """
-        批量处理所有PDF文件
-        
-        Args:
-            skip_if_exists: 如果已处理是否跳过
+            pdf_path: 原始PDF路径
+            output_dir: MineRU输出目录
         
         Returns:
-            (成功数量, 失败数量)
+            解析后的结果字典
         """
-        pdf_files = self.get_pdf_files()
+        pdf_name = pdf_path.stem
         
-        if not pdf_files:
-            logger.warning("没有找到PDF文件")
-            return 0, 0
+        # MineRU的输出结构: output_dir/pdf_name/hybrid_auto/
+        mineru_output = output_dir / pdf_name / "hybrid_auto"
         
-        success_count = 0
-        fail_count = 0
+        if not mineru_output.exists():
+            raise RuntimeError(f"MineRU输出目录不存在: {mineru_output}")
         
-        logger.info(f"开始批量处理 {len(pdf_files)} 个PDF文件")
-        
-        # 使用进度条
-        for pdf_path in tqdm(pdf_files, desc="处理PDF"):
-            if self.process_single_pdf(pdf_path, skip_if_exists):
-                success_count += 1
-            else:
-                fail_count += 1
-        
-        logger.info(f"批量处理完成: 成功 {success_count}, 失败 {fail_count}")
-        return success_count, fail_count
-    
-    def get_processing_summary(self) -> Dict:
-        """
-        获取处理结果摘要
-        
-        Returns:
-            处理结果统计信息
-        """
-        summary = {
-            'total_pdfs': len(self.get_pdf_files()),
-            'processed_pdfs': 0,
-            'markdown_files': len(list((self.output_dir / "markdown").glob("*.md"))),
-            'text_files': len(list((self.output_dir / "text").glob("*.txt"))),
-            'json_files': len(list((self.output_dir / "json").glob("*.json"))),
-            'image_files': len(list((self.output_dir / "images").glob("*.json"))),
-            'table_files': len(list((self.output_dir / "tables").glob("*.json")))
+        result = {
+            "pdf_path": str(pdf_path.absolute()),
+            "pdf_name": pdf_name,
+            "output_dir": str(output_dir.absolute()),
+            "mineru_output_dir": str(mineru_output.absolute()),
+            "files": {}
         }
         
-        # 统计已处理的PDF数量
-        for pdf_file in self.get_pdf_files():
-            if self.is_processed(pdf_file.stem):
-                summary['processed_pdfs'] += 1
+        # 读取Markdown文件
+        md_file = mineru_output / f"{pdf_name}.md"
+        if md_file.exists():
+            with open(md_file, 'r', encoding='utf-8') as f:
+                result["markdown"] = f.read()
+                result["files"]["markdown"] = str(md_file)
+            print(f"✓ 读取Markdown文件: {md_file.name}")
         
-        return summary
+        # 读取内容列表JSON
+        content_list_file = mineru_output / f"{pdf_name}_content_list.json"
+        if content_list_file.exists():
+            with open(content_list_file, 'r', encoding='utf-8') as f:
+                result["content_list"] = json.load(f)
+                result["files"]["content_list"] = str(content_list_file)
+            print(f"✓ 读取内容列表: {content_list_file.name}")
+        
+        # 读取内容列表v2 JSON
+        content_list_v2_file = mineru_output / f"{pdf_name}_content_list_v2.json"
+        if content_list_v2_file.exists():
+            with open(content_list_v2_file, 'r', encoding='utf-8') as f:
+                result["content_list_v2"] = json.load(f)
+                result["files"]["content_list_v2"] = str(content_list_v2_file)
+            print(f"✓ 读取内容列表v2: {content_list_v2_file.name}")
+        
+        # 读取中间JSON
+        middle_file = mineru_output / f"{pdf_name}_middle.json"
+        if middle_file.exists():
+            with open(middle_file, 'r', encoding='utf-8') as f:
+                result["middle_data"] = json.load(f)
+                result["files"]["middle"] = str(middle_file)
+            print(f"✓ 读取中间数据: {middle_file.name}")
+        
+        # 读取模型JSON
+        model_file = mineru_output / f"{pdf_name}_model.json"
+        if model_file.exists():
+            with open(model_file, 'r', encoding='utf-8') as f:
+                result["model_data"] = json.load(f)
+                result["files"]["model"] = str(model_file)
+            print(f"✓ 读取模型数据: {model_file.name}")
+        
+        # 检查布局PDF
+        layout_pdf = mineru_output / f"{pdf_name}_layout.pdf"
+        if layout_pdf.exists():
+            result["files"]["layout_pdf"] = str(layout_pdf)
+            print(f"✓ 找到布局PDF: {layout_pdf.name}")
+        
+        # 检查原始PDF副本
+        origin_pdf = mineru_output / f"{pdf_name}_origin.pdf"
+        if origin_pdf.exists():
+            result["files"]["origin_pdf"] = str(origin_pdf)
+        
+        # 统计信息
+        if "content_list" in result:
+            result["statistics"] = self._calculate_statistics(result["content_list"])
+        
+        return result
+    
+    def _calculate_statistics(self, content_list: List[Dict]) -> Dict:
+        """
+        计算文档统计信息
+        
+        Args:
+            content_list: 内容列表
+        
+        Returns:
+            统计信息字典
+        """
+        stats = {
+            "total_items": len(content_list),
+            "text_items": 0,
+            "list_items": 0,
+            "image_items": 0,
+            "table_items": 0,
+            "pages": set(),
+            "total_text_length": 0
+        }
+        
+        for item in content_list:
+            item_type = item.get("type", "")
+            
+            if item_type == "text":
+                stats["text_items"] += 1
+                if "text" in item:
+                    stats["total_text_length"] += len(item["text"])
+            elif item_type == "list":
+                stats["list_items"] += 1
+            elif item_type == "image":
+                stats["image_items"] += 1
+            elif item_type == "table":
+                stats["table_items"] += 1
+            
+            if "page_idx" in item:
+                stats["pages"].add(item["page_idx"])
+        
+        stats["total_pages"] = len(stats["pages"])
+        stats["pages"] = sorted(list(stats["pages"]))
+        
+        return stats
+    
+    def extract_text(self, result: Dict) -> str:
+        """
+        从处理结果中提取纯文本
+        
+        Args:
+            result: process_pdf返回的结果字典
+        
+        Returns:
+            提取的纯文本
+        """
+        if "markdown" in result:
+            return result["markdown"]
+        
+        if "content_list" not in result:
+            raise ValueError("结果中没有可用的文本内容")
+        
+        # 从content_list提取文本
+        text_parts = []
+        for item in result["content_list"]:
+            if item.get("type") == "text" and "text" in item:
+                text_parts.append(item["text"])
+            elif item.get("type") == "list" and "list_items" in item:
+                for list_item in item["list_items"]:
+                    text_parts.append(list_item)
+        
+        return "\n\n".join(text_parts)
+    
+    def extract_by_page(self, result: Dict) -> Dict[int, str]:
+        """
+        按页码提取文本
+        
+        Args:
+            result: process_pdf返回的结果字典
+        
+        Returns:
+            页码到文本的映射字典
+        """
+        if "content_list" not in result:
+            raise ValueError("结果中没有content_list")
+        
+        pages_text = {}
+        
+        for item in result["content_list"]:
+            page_idx = item.get("page_idx", 0)
+            
+            if page_idx not in pages_text:
+                pages_text[page_idx] = []
+            
+            if item.get("type") == "text" and "text" in item:
+                pages_text[page_idx].append(item["text"])
+            elif item.get("type") == "list" and "list_items" in item:
+                for list_item in item["list_items"]:
+                    pages_text[page_idx].append(list_item)
+        
+        # 合并每页的文本
+        return {
+            page: "\n\n".join(texts)
+            for page, texts in pages_text.items()
+        }
+    
+    def save_text(
+        self,
+        result: Dict,
+        output_path: Optional[Union[str, Path]] = None
+    ) -> Path:
+        """
+        保存提取的文本到文件
+        
+        Args:
+            result: process_pdf返回的结果字典
+            output_path: 输出文件路径（如果为None，自动生成）
+        
+        Returns:
+            保存的文件路径
+        """
+        text = self.extract_text(result)
+        
+        if output_path is None:
+            output_path = self.output_base_dir / "text" / f"{result['pdf_name']}.txt"
+        else:
+            output_path = Path(output_path)
+        
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        
+        with open(output_path, 'w', encoding='utf-8') as f:
+            f.write(text)
+        
+        print(f"✓ 文本已保存到: {output_path}")
+        return output_path
+    
+    def batch_process(
+        self,
+        pdf_dir: Union[str, Path],
+        pattern: str = "*.pdf"
+    ) -> List[Dict]:
+        """
+        批量处理PDF文件
+        
+        Args:
+            pdf_dir: PDF文件所在目录
+            pattern: 文件匹配模式
+        
+        Returns:
+            处理结果列表
+        """
+        pdf_dir = Path(pdf_dir)
+        pdf_files = list(pdf_dir.glob(pattern))
+        
+        if not pdf_files:
+            print(f"在 {pdf_dir} 中没有找到匹配 {pattern} 的PDF文件")
+            return []
+        
+        print(f"\n找到 {len(pdf_files)} 个PDF文件")
+        
+        results = []
+        for i, pdf_file in enumerate(pdf_files, 1):
+            print(f"\n处理 {i}/{len(pdf_files)}: {pdf_file.name}")
+            try:
+                result = self.process_pdf(pdf_file)
+                results.append(result)
+            except Exception as e:
+                print(f"✗ 处理失败: {e}")
+                continue
+        
+        print(f"\n批量处理完成！成功: {len(results)}/{len(pdf_files)}")
+        return results
 
 
-def main():
-    """主函数示例"""
-    # 配置日志
-    logger.add(
-        "logs/ocr_{time}.log",
-        rotation="1 day",
-        retention="7 days",
-        level="INFO"
-    )
+# 便捷函数
+def create_processor(
+    output_base_dir: str = "data/processed",
+    **kwargs
+) -> PDFProcessor:
+    """
+    创建PDF处理器的便捷函数
     
-    # 创建处理器
-    processor = PDFProcessor()
+    Args:
+        output_base_dir: 输出基础目录
+        **kwargs: 其他参数
     
-    # 批量处理所有PDF
-    success, fail = processor.process_all_pdfs(skip_if_exists=True)
+    Returns:
+        PDFProcessor实例
+    """
+    return PDFProcessor(output_base_dir=output_base_dir, **kwargs)
+
+
+def process_single_pdf(
+    pdf_path: Union[str, Path],
+    output_dir: Optional[Union[str, Path]] = None,
+    **kwargs
+) -> Dict:
+    """
+    处理单个PDF文件的便捷函数
     
-    # 显示摘要
-    summary = processor.get_processing_summary()
-    logger.info("=" * 50)
-    logger.info("处理摘要:")
-    logger.info(f"  总PDF数量: {summary['total_pdfs']}")
-    logger.info(f"  已处理数量: {summary['processed_pdfs']}")
-    logger.info(f"  Markdown文件: {summary['markdown_files']}")
-    logger.info(f"  文本文件: {summary['text_files']}")
-    logger.info(f"  JSON元数据: {summary['json_files']}")
-    logger.info(f"  图片信息: {summary['image_files']}")
-    logger.info(f"  表格信息: {summary['table_files']}")
-    logger.info("=" * 50)
+    Args:
+        pdf_path: PDF文件路径
+        output_dir: 输出目录
+        **kwargs: 其他参数
+    
+    Returns:
+        处理结果字典
+    """
+    processor = create_processor(**kwargs)
+    return processor.process_pdf(pdf_path, output_dir)
 
 
 if __name__ == "__main__":
-    main()
+    # 测试代码
+    print("=" * 60)
+    print("测试 OCR 模块")
+    print("=" * 60)
+    
+    # 创建处理器
+    processor = create_processor()
+    
+    # 测试单个PDF
+    test_pdf = "data/pdf/保险基础知多少.pdf"
+    
+    if Path(test_pdf).exists():
+        print(f"\n测试处理: {test_pdf}")
+        
+        try:
+            result = processor.process_pdf(test_pdf)
+            
+            # 显示统计信息
+            if "statistics" in result:
+                print("\n文档统计:")
+                for key, value in result["statistics"].items():
+                    print(f"  {key}: {value}")
+            
+            # 提取并保存文本
+            text = processor.extract_text(result)
+            print(f"\n提取的文本长度: {len(text)} 字符")
+            print(f"\n文本预览（前500字符）:")
+            print("-" * 60)
+            print(text[:500])
+            print("-" * 60)
+            
+            # 保存文本
+            text_file = processor.save_text(result)
+            
+            print("\n处理完成！")
+            
+        except Exception as e:
+            print(f"\n处理失败: {e}")
+    else:
+        print(f"\n测试文件不存在: {test_pdf}")
+        print("请确保 data/pdf/ 目录下有PDF文件")

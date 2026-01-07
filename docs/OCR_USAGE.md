@@ -2,139 +2,415 @@
 
 ## 📖 简介
 
-OCR模块（`app/ocr.py`）提供了基于MineRU的PDF文档处理功能，能够自动提取PDF中的文本、表格和图片信息，并将结果保存为多种格式。
-
-OCR模块（`app/ocr.py`）结构设计（封装成）：
-```
-class PDFProcessor:
-    - process_single_pdf()    # 处理单个PDF
-    - process_all_pdfs()      # 批量处理所有PDF
-    - extract_from_mineru()   # 从MineRU输出提取内容
-    - save_to_processed()     # 保存到data/processed目录
-```
+OCR模块使用MineRU进行高质量的PDF文档解析和文本提取。MineRU是一个强大的文档解析工具，能够准确识别文本、表格、图片等多种元素，并保持文档的结构信息。
 
 ## ✨ 主要功能
 
-- ✅ 批量处理PDF文件
-- ✅ 自动提取文本内容
-- ✅ 识别并提取表格信息
-- ✅ 提取图片元数据
-- ✅ 输出多种格式（Markdown、纯文本、JSON）
-- ✅ 智能跳过已处理文件
-- ✅ 自动清理临时文件
-- ✅ 详细的日志记录
+- ✅ 高质量PDF文档解析（基于MineRU）
+- ✅ 自动提取文本、表格、图片
+- ✅ 保留文档结构信息（标题层级、列表等）
+- ✅ 输出Markdown和JSON格式
+- ✅ 支持单个和批量处理
+- ✅ 按页码提取文本
+- ✅ 文档统计信息
 
-## 📁 输出目录结构
+## 🚀 快速开始
 
-处理后的文件保存在 `data/processed/` 目录下：
+### 1. 基本使用
+
+```python
+from app.ocr import process_single_pdf
+
+# 处理单个PDF文件
+result = process_single_pdf("data/pdf/保险基础知多少.pdf")
+
+# 查看提取的Markdown文本
+print(result["markdown"])
+
+# 查看统计信息
+print(result["statistics"])
+```
+
+### 2. 使用PDFProcessor类
+
+```python
+from app.ocr import PDFProcessor
+
+# 创建处理器
+processor = PDFProcessor(
+    output_base_dir="data/processed",
+    source="modelscope"  # 使用国内镜像
+)
+
+# 处理PDF
+result = processor.process_pdf("data/pdf/保险基础知多少.pdf")
+
+# 提取纯文本
+text = processor.extract_text(result)
+
+# 按页提取文本
+pages_text = processor.extract_by_page(result)
+for page_idx, page_text in pages_text.items():
+    print(f"第{page_idx}页: {len(page_text)}字符")
+
+# 保存文本到文件
+processor.save_text(result)
+```
+
+### 3. 批量处理
+
+```python
+from app.ocr import create_processor
+
+# 创建处理器
+processor = create_processor()
+
+# 批量处理目录下的所有PDF
+results = processor.batch_process("data/pdf")
+
+# 查看处理结果
+for result in results:
+    print(f"PDF: {result['pdf_name']}")
+    print(f"页数: {result['statistics']['total_pages']}")
+    print(f"文本长度: {result['statistics']['total_text_length']}")
+```
+
+## 📊 返回结果结构
+
+`process_pdf()` 方法返回一个包含以下信息的字典：
+
+```python
+{
+    "pdf_path": "原始PDF文件的绝对路径",
+    "pdf_name": "PDF文件名（不含扩展名）",
+    "output_dir": "输出目录路径",
+    "mineru_output_dir": "MineRU输出目录路径",
+    
+    # 提取的内容
+    "markdown": "Markdown格式的文本",
+    "content_list": [  # 结构化内容列表
+        {
+            "type": "text",  # 类型: text, list, image, table
+            "text": "文本内容",
+            "text_level": 1,  # 标题层级（可选）
+            "bbox": [x1, y1, x2, y2],  # 边界框坐标
+            "page_idx": 0  # 页码索引
+        },
+        # ... 更多项目
+    ],
+    "content_list_v2": [...],  # 内容列表v2版本
+    "middle_data": {...},  # 中间处理数据
+    "model_data": {...},  # 模型数据
+    
+    # 文件路径
+    "files": {
+        "markdown": "Markdown文件路径",
+        "content_list": "内容列表JSON文件路径",
+        "content_list_v2": "内容列表v2 JSON文件路径",
+        "middle": "中间数据JSON文件路径",
+        "model": "模型数据JSON文件路径",
+        "layout_pdf": "布局PDF文件路径",
+        "origin_pdf": "原始PDF副本路径"
+    },
+    
+    # 统计信息
+    "statistics": {
+        "total_items": 60,  # 总项目数
+        "text_items": 45,  # 文本项数
+        "list_items": 10,  # 列表项数
+        "image_items": 3,  # 图片项数
+        "table_items": 2,  # 表格项数
+        "total_pages": 5,  # 总页数
+        "pages": [0, 1, 2, 3, 4],  # 页码列表
+        "total_text_length": 5000  # 总文本长度
+    }
+}
+```
+
+## 🔧 API参考
+
+### PDFProcessor类
+
+#### 初始化参数
+
+```python
+PDFProcessor(
+    output_base_dir="data/processed",  # 输出基础目录
+    source="modelscope",  # 模型源: "modelscope" 或 "huggingface"
+    use_gpu=True  # 是否使用GPU加速
+)
+```
+
+#### 主要方法
+
+##### process_pdf()
+
+处理单个PDF文件。
+
+```python
+result = processor.process_pdf(
+    pdf_path="path/to/file.pdf",  # PDF文件路径
+    output_dir=None,  # 输出目录（None则自动生成）
+    extract_images=True,  # 是否提取图片
+    extract_tables=True  # 是否提取表格
+)
+```
+
+##### extract_text()
+
+从处理结果中提取纯文本。
+
+```python
+text = processor.extract_text(result)
+```
+
+##### extract_by_page()
+
+按页码提取文本。
+
+```python
+pages_text = processor.extract_by_page(result)
+# 返回: {0: "第0页文本", 1: "第1页文本", ...}
+```
+
+##### save_text()
+
+保存提取的文本到文件。
+
+```python
+text_file = processor.save_text(
+    result,
+    output_path=None  # 输出路径（None则自动生成）
+)
+```
+
+##### batch_process()
+
+批量处理PDF文件。
+
+```python
+results = processor.batch_process(
+    pdf_dir="data/pdf",  # PDF目录
+    pattern="*.pdf"  # 文件匹配模式
+)
+```
+
+### 便捷函数
+
+#### create_processor()
+
+创建PDFProcessor实例。
+
+```python
+from app.ocr import create_processor
+
+processor = create_processor(
+    output_base_dir="data/processed",
+    source="modelscope"
+)
+```
+
+#### process_single_pdf()
+
+快速处理单个PDF文件。
+
+```python
+from app.ocr import process_single_pdf
+
+result = process_single_pdf(
+    pdf_path="data/pdf/example.pdf",
+    output_dir=None
+)
+```
+
+## 📝 使用示例
+
+### 示例1: 提取保险文档文本
+
+```python
+from app.ocr import create_processor
+
+# 创建处理器
+processor = create_processor()
+
+# 处理保险文档
+result = processor.process_pdf("data/pdf/保险基础知多少.pdf")
+
+# 提取文本
+text = processor.extract_text(result)
+
+# 保存为txt文件
+processor.save_text(result, "output/保险基础知识.txt")
+
+print(f"提取完成！文本长度: {len(text)} 字符")
+```
+
+### 示例2: 分析文档结构
+
+```python
+from app.ocr import process_single_pdf
+
+# 处理PDF
+result = process_single_pdf("data/pdf/保险基础知多少.pdf")
+
+# 分析content_list
+content_list = result["content_list"]
+
+# 提取所有标题
+titles = [
+    item["text"] 
+    for item in content_list 
+    if item.get("type") == "text" and item.get("text_level") == 1
+]
+
+print("文档标题:")
+for i, title in enumerate(titles, 1):
+    print(f"{i}. {title}")
+```
+
+### 示例3: 按页处理
+
+```python
+from app.ocr import create_processor
+
+processor = create_processor()
+result = processor.process_pdf("data/pdf/保险基础知多少.pdf")
+
+# 按页提取文本
+pages_text = processor.extract_by_page(result)
+
+# 处理每一页
+for page_idx, page_text in pages_text.items():
+    print(f"\n{'='*60}")
+    print(f"第 {page_idx + 1} 页")
+    print(f"{'='*60}")
+    print(page_text[:200])  # 显示前200字符
+```
+
+### 示例4: 批量处理并统计
+
+```python
+from app.ocr import create_processor
+
+processor = create_processor()
+
+# 批量处理
+results = processor.batch_process("data/pdf")
+
+# 统计分析
+total_pages = 0
+total_text_length = 0
+
+for result in results:
+    stats = result["statistics"]
+    total_pages += stats["total_pages"]
+    total_text_length += stats["total_text_length"]
+    
+    print(f"\n{result['pdf_name']}:")
+    print(f"  页数: {stats['total_pages']}")
+    print(f"  文本长度: {stats['total_text_length']}")
+
+print(f"\n总计:")
+print(f"  文档数: {len(results)}")
+print(f"  总页数: {total_pages}")
+print(f"  总文本长度: {total_text_length}")
+```
+
+## 🎯 MineRU输出结构
+
+MineRU处理后会生成以下文件结构：
 
 ```
 data/processed/
-├── markdown/           # Markdown格式文本
-│   ├── 保险基础知多少.md
-│   ├── 中国互联网保险发展报告2024.md
-│   └── ...
-├── text/              # 纯文本格式
-│   ├── 保险基础知多少.txt
-│   └── ...
-├── json/              # JSON元数据
-│   ├── 保险基础知多少_metadata.json
-│   └── ...
-├── images/            # 图片信息
-│   ├── 保险基础知多少_images.json
-│   └── ...
-└── tables/            # 表格信息
-    ├── 保险基础知多少_tables.json
-    └── ...
+└── 保险基础知多少/
+    └── 保险基础知多少/
+        └── hybrid_auto/
+            ├── 保险基础知多少.md                    # Markdown格式文本
+            ├── 保险基础知多少_content_list.json     # 结构化内容列表
+            ├── 保险基础知多少_content_list_v2.json  # 内容列表v2
+            ├── 保险基础知多少_middle.json           # 中间处理数据
+            ├── 保险基础知多少_model.json            # 模型数据
+            ├── 保险基础知多少_layout.pdf            # 布局标注PDF
+            └── 保险基础知多少_origin.pdf            # 原始PDF副本
 ```
 
+## ⚙️ 配置说明
 
-## ⚠️ 重要提示
+### 模型源选择
 
-MineRU处理PDF需要较长时间，特别是大文件：
-- 小文件（10-20页）：约 2-5 分钟
-- 中等文件（50-100页）：约 10-20 分钟  
-- 大文件（100+页）：约 20-60 分钟
+- `modelscope`: 使用国内镜像（推荐，速度快）
+- `huggingface`: 使用HuggingFace官方源
 
-## 🚀 推荐使用流程
+```python
+# 使用国内镜像
+processor = PDFProcessor(source="modelscope")
 
-### 第一步：测试功能（只处理1个小文件）
+# 使用官方源
+processor = PDFProcessor(source="huggingface")
+```
 
+### GPU加速
+
+```python
+# 启用GPU（默认）
+processor = PDFProcessor(use_gpu=True)
+
+# 仅使用CPU
+processor = PDFProcessor(use_gpu=False)
+```
+
+## 🐛 常见问题
+
+### Q1: MineRU未安装
+
+**错误**: `MineRU未安装，请运行: pip install mineru>=2.7.0`
+
+**解决**: 
 ```bash
-# 按 Ctrl+C 中断当前运行的进程（如果有）
-# 然后运行测试脚本
-python scripts/test_ocr.py
+pip install mineru>=2.7.0
 ```
 
-**这个脚本会：**
-- ✅ 只处理"友邦保险-寿险说明书.pdf"（较小的文件）
-- ✅ 验证OCR功能是否正常
-- ✅ 大约需要 3-5 分钟
+### Q2: 首次运行很慢
 
-### 第二步：批量处理所有PDF
+**原因**: MineRU首次运行会自动下载模型（约1-2GB）
 
-测试通过后，再批量处理所有文件：
+**解决**: 耐心等待模型下载完成，后续运行会很快
 
-```bash
-python scripts/run_ocr.py
-```
+### Q3: 处理超时
 
-**这个脚本会：**
-- 显示所有4个PDF文件
-- 询问是否开始处理
-- 逐个处理所有PDF（总共约30-60分钟）
+**错误**: `MineRU处理超时（超过10分钟）`
 
-## 📊 你的PDF文件列表
+**解决**: 
+- 检查PDF文件大小，超大文件可能需要更长时间
+- 可以修改`process_pdf()`中的timeout参数
 
-1. **友邦保险-寿险说明书.pdf** ⭐ 推荐先测试这个
-2. 保险基础知多少.pdf
-3. 平安-寿险说明书.pdf
-4. 中国互联网保险发展报告2024.pdf（最大，处理最慢）
+### Q4: 内存不足
 
-## 🔍 检查处理进度
+**解决**:
+- 减少批量处理的文件数量
+- 使用GPU加速
+- 增加系统内存
 
-### 方法1：查看日志
-```bash
-# 查看最新日志
-type logs\ocr_*.log
-```
+## 📚 相关资源
 
-### 方法2：查看输出目录
-```bash
-# 查看已处理的文件
-dir data\processed\markdown
-```
+- [MineRU官方文档](https://github.com/opendatalab/MinerU)
+- [项目README](../README.md)
+- [Embedder使用指南](./EMBEDDER_USAGE.md)
 
-### 方法3：查看进程
-```bash
-# 查看Python进程（如果内存占用很高说明正在处理）
-tasklist | findstr python
-```
+## 💡 最佳实践
 
-## ⚡ 当前情况说明
+1. **首次使用**: 先用小文件测试，确保MineRU正常工作
+2. **批量处理**: 建议分批处理，避免一次处理过多文件
+3. **结果保存**: 及时保存处理结果，避免重复处理
+4. **错误处理**: 使用try-except捕获异常，确保批量处理的稳定性
+5. **资源管理**: 处理大量文件时注意磁盘空间
 
-你之前运行的是 `run_ocr.py`，它正在处理"中国互联网保险发展报告2024.pdf"这个大文件。
+## 🔄 更新日志
 
-**建议操作：**
-
-1. 按 `Ctrl+C` 中断当前进程
-2. 运行 `python scripts/test_ocr.py` 先测试小文件
-3. 测试成功后，再运行 `python scripts/run_ocr.py` 批量处理
-
-## 📝 处理完成后
-
-处理完成的文件会保存在：
-```
-data/processed/
-├── markdown/          # Markdown格式
-├── text/             # 纯文本格式
-├── json/             # JSON元数据
-├── images/           # 图片信息
-└── tables/           # 表格信息
-```
-
-## 💡 提示
-
-- 处理过程中可以查看日志了解进度
-- 已处理的文件会自动跳过，不会重复处理
-- 如果中断了处理，下次运行会从未处理的文件继续
+### v1.0.0 (2026-01-07)
+- ✨ 初始版本
+- ✅ 支持MineRU PDF处理
+- ✅ 支持文本提取和保存
+- ✅ 支持批量处理
+- ✅ 支持按页提取
+- ✅ 提供详细统计信息
