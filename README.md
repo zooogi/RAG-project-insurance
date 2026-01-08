@@ -2,12 +2,7 @@
 
 基于检索增强生成(RAG)的保险文档智能问答系统。
 
-## 📖 项目简介
-
-本项目提供保险文档的智能处理和检索功能，包括：
-- PDF文档解析和文本提取
-- 文本向量化和语义检索
--  
+ 
 ## 📁 项目结构
 
 ```
@@ -18,20 +13,19 @@ RAG-保险项目/
 │   ├── chunker.py         # 文本分块模块
 │   ├── config.py          # 配置文件
 │   └── main.py            # 主程序
+|
 ├── data/                   # 数据目录
 │   ├── pdf/               # 原始PDF文件
 │   └── processed/         # 处理后的文件
-│       ├── markdown/      # Markdown格式
-│       ├── text/          # 纯文本格式
-│       ├── images/        # 提取的图片
-│       ├── tables/        # 提取的表格
-│       └── json/          # 元数据
+|
 ├── docs/                   # 文档
 │   ├── OCR_USAGE.md       # OCR模块使用指南
+│   ├── CHUNKER_USAGE.md   # Chunker模块使用指南
 │   └── EMBEDDER_USAGE.md  # Embedder使用指南
 ├── scripts/                # 工具脚本
 │   ├── test_ocr.py        # OCR测试脚本
 │   ├── test_embed.py      # Embedder测试脚本
+│   ├── test_chunker.py     #chunker测试脚本
 │   └── download_embed.py  # 下载向量模型
 ├── requirements.txt        # Python依赖
 └── README.md              # 本文件
@@ -45,14 +39,24 @@ RAG-保险项目/
 - 双引擎支持：MineRU（高级）+ PyMuPDF（备选）
 - 输出Markdown和纯文本格式
 
-### 2. 文本向量化 (Embedder模块)
+### 2. 文本分块 (Chunker模块)
+- 基于语义的智能分块
+- 保留文档结构上下文（标题层级）
+- 表格作为不可拆分的原子单元
+- 识别并记录图片引用
+- 统一的结构化输出格式
+
+### 3. 文本向量化 (Embedder模块)
 - 使用bge-large-zh-v1.5中文向量模型
 - 支持文档和查询的向量化
 - 高效的语义相似度计算
 
-### 3. 文本分块 (Chunker模块)
-- 智能文本分块
-- 保持语义完整性
+### 4. reranking
+
+### 5. llm
+
+### 6. API
+
 
 ## 🚀 快速开始
 
