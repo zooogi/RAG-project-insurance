@@ -30,6 +30,7 @@ RAG-保险项目/
 │   ├── test_embed.py      # Embedder测试脚本
 │   ├── test_chunker.py    # Chunker测试脚本
 │   ├── test_reranker.py   # Reranker测试脚本
+│   ├── test_llm.py        # LLM测试脚本
 │   └── download_embed.py  # 下载向量模型
 ├── requirements.txt        # Python依赖
 └── README.md              # 本文件
@@ -61,7 +62,12 @@ RAG-保险项目/
 - 支持metadata加权（利用章节路径、chunk类型等信息）
 - 两阶段检索流程，兼顾效率和准确性
 
-### 5. LLM生成
+### 5. LLM生成 (LLM模块)
+- 使用Qwen2.5-3B-Instruct模型进行答案生成（默认，约6-8GB显存）
+- 支持更小模型：Qwen2.5-1.5B-Instruct（约3-4GB显存）
+- 自动构建RAG prompt（查询 + 检索到的chunks）
+- 支持模型缓存机制，节省显存
+- 可调节生成参数（temperature、top_p等）
 
 ### 6. API接口
 
@@ -114,10 +120,18 @@ python scripts/test_embed.py
 
 # 测试Reranker模块（首次运行会自动下载模型）
 python scripts/test_reranker.py
+
+# 测试LLM模块（首次运行会自动下载模型，约6GB）
+python scripts/test_llm.py
 ```
 
 **注意**：
 - Reranker使用`BAAI/bge-reranker-large`模型，首次运行会自动下载（约1-2GB）
+- LLM使用`Qwen/Qwen2.5-3B-Instruct`模型，首次运行会自动下载（约6GB）
 - **默认使用国内镜像源（hf-mirror.com）加速下载**
 - 如果使用GPU，建议安装`faiss-gpu`以提升检索速度
+- **显存需求**：
+  - Qwen2.5-3B：约6-8GB显存（默认）
+  - Qwen2.5-1.5B：约3-4GB显存（显存不足时使用）
+  - 如果显存不足，可以使用CPU模式或更小的模型
 - 模型会自动缓存到`~/.cache/huggingface/hub/`目录

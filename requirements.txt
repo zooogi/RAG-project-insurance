@@ -12,7 +12,7 @@ ftfy                # MineRU所需的文本修复库
 sentence-transformers>=2.2.0  # 文本嵌入模型
 torch>=2.0.0                 # PyTorch深度学习框架
 numpy>=1.21.0                # 数值计算
-transformers>=4.30.0         # Transformers库（用于reranker模型）
+transformers>=4.30.0         # Transformers库（用于reranker和LLM模型）
 
 # 向量检索和重排序
 faiss-cpu>=1.7.4            # Faiss向量检索库（CPU版本）
