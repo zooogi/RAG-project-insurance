@@ -23,7 +23,8 @@ RAG-保险项目/
 ├── docs/                   # 文档
 │   ├── OCR_USAGE.md       # OCR模块使用指南
 │   ├── CHUNKER_USAGE.md   # Chunker模块使用指南
-│   └── EMBEDDER_USAGE.md  # Embedder使用指南
+│   ├── EMBEDDER_USAGE.md  # Embedder使用指南
+│   └── RERANKER_USAGE.md  # Reranker使用指南
 ├── scripts/                # 工具脚本
 │   ├── test_ocr.py        # OCR测试脚本
 │   ├── test_embed.py      # Embedder测试脚本
