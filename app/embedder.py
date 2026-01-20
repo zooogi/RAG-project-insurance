@@ -2,9 +2,13 @@
 Embedding模块 - 使用bge-large-zh-v1.5模型进行文本向量化
 """
 import os
-from typing import List, Union
+from typing import List, Union, Dict, Any
 import numpy as np
 from sentence_transformers import SentenceTransformer
+
+
+# 类级别的模型缓存，避免重复加载占用显存
+_model_cache: Dict[str, Any] = {}  # key: (model_name, device, model_path), value: model
 
 
 class Embedder:
@@ -29,25 +33,45 @@ class Embedder:
         self.model_name = model_name
         self.model_path = model_path
         
-        # 加载模型
-        print(f"正在加载模型: {model_path or model_name}")
-        try:
-            if model_path and os.path.exists(model_path):
-                # 从本地路径加载
-                self.model = SentenceTransformer(model_path, device=device)
-                print(f"✓ 成功从本地加载模型: {model_path}")
-            else:
-                # 从HuggingFace加载（首次会自动下载）
-                self.model = SentenceTransformer(model_name, device=device)
-                print(f"✓ 成功加载模型: {model_name}")
+        # 自动检测设备
+        if device is None:
+            import torch
+            device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        self.device = device
+        
+        # 生成缓存key：模型名称+设备+路径
+        cache_key = f"{model_path or model_name}_{device}"
+        
+        # 检查模型缓存
+        global _model_cache
+        if cache_key in _model_cache:
+            # 复用已加载的模型
+            self.model = _model_cache[cache_key]
+            print(f"✓ 复用已缓存的embedder模型: {cache_key}")
+        else:
+            # 加载模型
+            print(f"正在加载模型: {model_path or model_name}")
+            try:
+                if model_path and os.path.exists(model_path):
+                    # 从本地路径加载
+                    self.model = SentenceTransformer(model_path, device=device)
+                    print(f"✓ 成功从本地加载模型: {model_path}")
+                else:
+                    # 从HuggingFace加载（首次会自动下载）
+                    self.model = SentenceTransformer(model_name, device=device)
+                    print(f"✓ 成功加载模型: {model_name}")
+                    
+                    # 显示模型缓存位置
+                    cache_dir = os.path.join(os.path.expanduser("~"), ".cache", "huggingface", "hub")
+                    print(f"模型缓存位置: {cache_dir}")
                 
-                # 显示模型缓存位置
-                cache_dir = os.path.join(os.path.expanduser("~"), ".cache", "huggingface", "hub")
-                print(f"模型缓存位置: {cache_dir}")
+                # 将模型加入缓存
+                _model_cache[cache_key] = self.model
+                print(f"✓ 模型已缓存，后续实例将复用此模型（节省显存）")
                 
-        except Exception as e:
-            print(f"✗ 模型加载失败: {e}")
-            raise
+            except Exception as e:
+                print(f"✗ 模型加载失败: {e}")
+                raise
         
         # 获取向量维度
         self.embedding_dim = self.model.get_sentence_embedding_dimension()
@@ -151,6 +175,9 @@ def create_embedder(
     """
     创建Embedder实例的便捷函数
     
+    注意：模型会被缓存，多个实例共享同一个模型，节省显存。
+    相同模型名称+设备+路径的实例会复用同一个模型。
+    
     Args:
         model_name: 模型名称
         model_path: 本地模型路径
@@ -160,6 +187,31 @@ def create_embedder(
         Embedder实例
     """
     return Embedder(model_name=model_name, model_path=model_path, **kwargs)
+
+
+def clear_model_cache():
+    """
+    清空模型缓存，释放显存
+    
+    注意：清空后，后续创建的Embedder实例会重新加载模型
+    """
+    global _model_cache
+    _model_cache.clear()
+    print("✓ Embedder模型缓存已清空")
+
+
+def get_model_cache_info() -> Dict[str, Any]:
+    """
+    获取模型缓存信息
+    
+    Returns:
+        缓存信息字典
+    """
+    global _model_cache
+    return {
+        "cached_models": list(_model_cache.keys()),
+        "cache_count": len(_model_cache)
+    }
 
 
 if __name__ == "__main__":

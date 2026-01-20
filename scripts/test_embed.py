@@ -32,6 +32,8 @@ def main():
             "snapshots"
         )
         
+        local_model_path = None
+        
         # 检查本地缓存是否存在
         if os.path.exists(model_cache_path):
             # 获取最新的snapshot目录
@@ -177,6 +179,34 @@ def main():
         norm = np.linalg.norm(single_embedding[0])
         print(f"  向量范数: {norm:.6f} (应接近1.0，表示已归一化)")
         
+        # 测试模型缓存机制
+        print("\n" + "=" * 70)
+        print("💾 测试模型缓存机制（节省显存）")
+        print("=" * 70)
+        
+        from app.embedder import get_model_cache_info, clear_model_cache
+        
+        # 显示缓存信息
+        cache_info = get_model_cache_info()
+        print(f"\n当前模型缓存状态:")
+        print(f"  缓存数量: {cache_info['cache_count']}")
+        print(f"  缓存的模型: {cache_info['cached_models']}")
+        
+        # 创建第二个实例，应该复用模型
+        print("\n创建第二个Embedder实例（应该复用模型，不占用额外显存）...")
+        # 使用相同的参数创建第二个实例
+        if embedder.model_path:
+            embedder2 = create_embedder(model_path=embedder.model_path)
+        else:
+            embedder2 = create_embedder(model_name=embedder.model_name)
+        print("✓ 第二个实例创建成功（如果看到'复用已缓存的embedder模型'，说明缓存生效）")
+        
+        # 再次查看缓存信息
+        cache_info2 = get_model_cache_info()
+        print(f"\n缓存状态（创建第二个实例后）:")
+        print(f"  缓存数量: {cache_info2['cache_count']}")
+        print(f"  说明: 两个实例共享同一个模型，节省显存！")
+        
         print("\n" + "=" * 70)
         print("✓ 所有测试完成！")
         print("=" * 70)
@@ -184,6 +214,8 @@ def main():
         print("  • 模型已成功加载并测试")
         print("  • 相似度分数范围: -1 到 1 (越接近1越相似)")
         print("  • 向量已归一化，适合用于余弦相似度计算")
+        print("  • 模型缓存机制：多个实例共享模型，节省显存")
+        print("  • 如需释放显存，可调用: from app.embedder import clear_model_cache; clear_model_cache()")
         
         return True
         

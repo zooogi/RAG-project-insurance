@@ -78,6 +78,9 @@ cd RAG-保险项目
 conda create -n rag python=3.10
 conda activate rag
 
+# 在终端中运行（设置国内镜像环境）（做好优先设置好环境！！！）
+export HF_ENDPOINT=https://hf-mirror.com
+
 # 3. 安装依赖包
 pip install -r requirements.txt
 
@@ -114,5 +117,6 @@ python scripts/test_reranker.py
 
 **注意**：
 - Reranker使用`BAAI/bge-reranker-large`模型，首次运行会自动下载（约1-2GB）
+- **默认使用国内镜像源（hf-mirror.com）加速下载**
 - 如果使用GPU，建议安装`faiss-gpu`以提升检索速度
 - 模型会自动缓存到`~/.cache/huggingface/hub/`目录

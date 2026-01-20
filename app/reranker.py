@@ -14,6 +14,10 @@ from app.embedder import Embedder
 from app.chunker import Chunk, ChunkMetadata
 
 
+# 类级别的模型缓存，避免重复加载占用显存
+_model_cache: Dict[str, Tuple[Any, Any]] = {}  # key: (model_name, device, model_path), value: (tokenizer, model)
+
+
 class Reranker:
     """
     检索和重排序器
@@ -30,7 +34,8 @@ class Reranker:
         reranker_model_name: str = "BAAI/bge-reranker-large",
         reranker_model_path: Optional[str] = None,
         device: Optional[str] = None,
-        use_metadata: bool = True
+        use_metadata: bool = True,
+        use_mirror: bool = True
     ):
         """
         初始化Reranker
@@ -41,6 +46,7 @@ class Reranker:
             reranker_model_path: 本地reranker模型路径
             device: 设备类型 ('cuda', 'cpu' 或 None自动检测)
             use_metadata: 是否使用metadata进行加权
+            use_mirror: 是否使用国内镜像源（hf-mirror.com）
         """
         self.embedder = embedder
         self.use_metadata = use_metadata
@@ -50,24 +56,55 @@ class Reranker:
             device = 'cuda' if torch.cuda.is_available() else 'cpu'
         self.device = device
         
-        # 加载reranker模型
-        print(f"正在加载reranker模型: {reranker_model_path or reranker_model_name}")
-        try:
-            if reranker_model_path and os.path.exists(reranker_model_path):
-                self.tokenizer = AutoTokenizer.from_pretrained(reranker_model_path)
-                self.reranker_model = AutoModelForSequenceClassification.from_pretrained(
-                    reranker_model_path
-                ).to(device)
-                print(f"✓ 成功从本地加载reranker模型: {reranker_model_path}")
-            else:
-                self.tokenizer = AutoTokenizer.from_pretrained(reranker_model_name)
-                self.reranker_model = AutoModelForSequenceClassification.from_pretrained(
-                    reranker_model_name
-                ).to(device)
-                print(f"✓ 成功加载reranker模型: {reranker_model_name}")
-        except Exception as e:
-            print(f"✗ Reranker模型加载失败: {e}")
-            raise
+        # 生成缓存key：模型名称+设备+路径
+        cache_key = f"{reranker_model_path or reranker_model_name}_{device}"
+        
+        # 检查模型缓存
+        global _model_cache
+        if cache_key in _model_cache:
+            # 复用已加载的模型
+            self.tokenizer, self.reranker_model = _model_cache[cache_key]
+            print(f"✓ 复用已缓存的reranker模型: {cache_key}")
+        else:
+            # 设置国内镜像源（如果启用且不是从本地路径加载）
+            original_hf_endpoint = None
+            if use_mirror and not reranker_model_path:
+                # 保存原始环境变量
+                original_hf_endpoint = os.environ.get('HF_ENDPOINT')
+                # 设置国内镜像
+                os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
+                print("✓ 已配置使用国内镜像源: https://hf-mirror.com")
+            
+            # 加载reranker模型
+            print(f"正在加载reranker模型: {reranker_model_path or reranker_model_name}")
+            try:
+                if reranker_model_path and os.path.exists(reranker_model_path):
+                    self.tokenizer = AutoTokenizer.from_pretrained(reranker_model_path)
+                    self.reranker_model = AutoModelForSequenceClassification.from_pretrained(
+                        reranker_model_path
+                    ).to(device)
+                    print(f"✓ 成功从本地加载reranker模型: {reranker_model_path}")
+                else:
+                    self.tokenizer = AutoTokenizer.from_pretrained(reranker_model_name)
+                    self.reranker_model = AutoModelForSequenceClassification.from_pretrained(
+                        reranker_model_name
+                    ).to(device)
+                    print(f"✓ 成功加载reranker模型: {reranker_model_name}")
+                
+                # 将模型加入缓存
+                _model_cache[cache_key] = (self.tokenizer, self.reranker_model)
+                print(f"✓ 模型已缓存，后续实例将复用此模型（节省显存）")
+                
+            except Exception as e:
+                print(f"✗ Reranker模型加载失败: {e}")
+                raise
+            finally:
+                # 恢复原始环境变量
+                if use_mirror and not reranker_model_path:
+                    if original_hf_endpoint is not None:
+                        os.environ['HF_ENDPOINT'] = original_hf_endpoint
+                    elif 'HF_ENDPOINT' in os.environ:
+                        del os.environ['HF_ENDPOINT']
         
         self.reranker_model.eval()
         
@@ -363,15 +400,20 @@ def create_reranker(
     embedder: Embedder,
     reranker_model_name: str = "BAAI/bge-reranker-large",
     reranker_model_path: Optional[str] = None,
+    use_mirror: bool = True,
     **kwargs
 ) -> Reranker:
     """
     创建Reranker实例的便捷函数
     
+    注意：模型会被缓存，多个实例共享同一个模型，节省显存。
+    相同模型名称+设备+路径的实例会复用同一个模型。
+    
     Args:
         embedder: Embedder实例
         reranker_model_name: reranker模型名称
         reranker_model_path: 本地reranker模型路径
+        use_mirror: 是否使用国内镜像源（默认True）
         **kwargs: 其他参数
         
     Returns:
@@ -381,8 +423,34 @@ def create_reranker(
         embedder=embedder,
         reranker_model_name=reranker_model_name,
         reranker_model_path=reranker_model_path,
+        use_mirror=use_mirror,
         **kwargs
     )
+
+
+def clear_model_cache():
+    """
+    清空模型缓存，释放显存
+    
+    注意：清空后，后续创建的Reranker实例会重新加载模型
+    """
+    global _model_cache
+    _model_cache.clear()
+    print("✓ 模型缓存已清空")
+
+
+def get_model_cache_info() -> Dict[str, Any]:
+    """
+    获取模型缓存信息
+    
+    Returns:
+        缓存信息字典
+    """
+    global _model_cache
+    return {
+        "cached_models": list(_model_cache.keys()),
+        "cache_count": len(_model_cache)
+    }
 
 
 if __name__ == "__main__":
