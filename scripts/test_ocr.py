@@ -1,35 +1,16 @@
 """
-OCR模块测试脚本
+OCR模块测试脚本 - 增强版，包含图片信息显示和直接OCR测试
 """
 import sys
-import json
 from pathlib import Path
-
-# #region agent log
-log_path = Path("/home/chanson/Zhang/RAG-保险项目/.cursor/debug.log")
-def _debug_log(location, message, data, hypothesis_id="E"):
-    try:
-        with open(log_path, "a", encoding="utf-8") as f:
-            f.write(json.dumps({
-                "sessionId": "debug-session",
-                "runId": "run1",
-                "hypothesisId": hypothesis_id,
-                "location": location,
-                "message": message,
-                "data": data,
-                "timestamp": int(__import__("time").time() * 1000)
-            }) + "\n")
-    except: pass
-_debug_log("test_ocr.py:11", "测试脚本开始执行", {"python_version": sys.version}, "E")
-# #endregion agent log
+import cv2
+import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
 
 # 添加项目根目录到路径
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
-
-# #region agent log
-_debug_log("test_ocr.py:18", "开始导入OCR模块", {"project_root": str(project_root)}, "E")
-# #endregion agent log
 
 try:
     from app.ocr import (
@@ -40,13 +21,7 @@ try:
         process_single_file,
         clear_paddleocr_cache
     )
-    # #region agent log
-    _debug_log("test_ocr.py:28", "OCR模块导入成功", {}, "E")
-    # #endregion agent log
 except Exception as e:
-    # #region agent log
-    _debug_log("test_ocr.py:30", "OCR模块导入失败", {"error": str(e), "error_type": type(e).__name__}, "E")
-    # #endregion agent log
     raise
 
 
@@ -252,6 +227,136 @@ def test_batch_process():
         return False
 
 
+def display_image_info(image_path):
+    """显示图片信息和预览"""
+    print(f"\n{'='*60}")
+    print(f"图片信息: {image_path.name}")
+    print(f"{'='*60}")
+    
+    try:
+        # 使用PIL打开图片
+        img_pil = Image.open(image_path)
+        print(f"PIL格式: {img_pil.format}")
+        print(f"PIL尺寸: {img_pil.size}")
+        print(f"PIL模式: {img_pil.mode}")
+        
+        # 使用OpenCV打开图片
+        img_cv = cv2.imread(str(image_path))
+        if img_cv is not None:
+            height, width, channels = img_cv.shape
+            print(f"OpenCV尺寸: {width}x{height}, 通道数: {channels}")
+            
+            # 显示部分像素值（用于调试）
+            print(f"\n左上角10x10区域的BGR值:")
+            for y in range(min(10, height)):
+                row = img_cv[y, :min(10, width)]
+                print(f"  行{y}: {row}")
+            
+            # 检查图片不同区域的像素值
+            print(f"\n图片像素值统计:")
+            print(f"  左上角(100x100)平均值: {img_cv[:100, :100].mean():.2f}")
+            print(f"  中心区域(100x100)平均值: {img_cv[height//2-50:height//2+50, width//2-50:width//2+50].mean():.2f}")
+            print(f"  右下角(100x100)平均值: {img_cv[-100:, -100:].mean():.2f}")
+            print(f"  全图平均值: {img_cv.mean():.2f}")
+            print(f"  全图最小值: {img_cv.min()}")
+            print(f"  全图最大值: {img_cv.max()}")
+            
+            # 检查是否有非白色区域
+            non_white_pixels = (img_cv < 250).sum()
+            print(f"  非白色像素数量: {non_white_pixels} / {img_cv.size}")
+            print(f"  非白色像素比例: {non_white_pixels / img_cv.size * 100:.2f}%")
+                
+        else:
+            print("⚠ 无法用OpenCV读取图片")
+            
+    except Exception as e:
+        print(f"读取图片时出错: {e}")
+
+
+def test_ocr_directly(image_path):
+    """直接测试PaddleOCR"""
+    print(f"\n{'='*60}")
+    print("直接测试PaddleOCR")
+    print(f"{'='*60}")
+    
+    try:
+        # 导入DocumentProcessor以使用解析方法
+        from app.ocr import DocumentProcessor
+        processor = DocumentProcessor(
+            output_base_dir=str(project_root / "data/processed"),
+            use_paddleocr_slim=True
+        )
+        
+        # 尝试不同的OCR配置（移除不支持的参数）
+        test_configs = [
+            {
+                "name": "默认配置",
+                "params": {
+                    "lang": 'ch'
+                }
+            }
+        ]
+        
+        for config in test_configs:
+            print(f"\n测试配置: {config['name']}")
+            print(f"参数: {config['params']}")
+            
+            try:
+                from paddleocr import PaddleOCR
+                ocr = PaddleOCR(**config['params'])
+                
+                # 执行OCR（不使用cls参数，因为新版本不支持）
+                try:
+                    result_raw = ocr.ocr(str(image_path))
+                except TypeError as e:
+                    # 如果ocr方法不支持，尝试使用predict方法
+                    if "unexpected keyword argument" in str(e) or "predict" in str(e).lower():
+                        result_raw = ocr.predict(str(image_path))
+                    else:
+                        raise
+                
+                # 打印原始结果结构用于调试
+                print(f"\n原始OCR结果类型: {type(result_raw)}")
+                if result_raw:
+                    print(f"原始OCR结果长度: {len(result_raw)}")
+                    if len(result_raw) > 0:
+                        print(f"第一个元素类型: {type(result_raw[0])}")
+                        if isinstance(result_raw[0], list):
+                            print(f"第一个元素长度: {len(result_raw[0])}")
+                            if len(result_raw[0]) > 0:
+                                print(f"第一个文本块示例: {result_raw[0][0]}")
+                        elif hasattr(result_raw[0], '__dict__'):
+                            print(f"对象属性: {list(result_raw[0].__dict__.keys())}")
+                
+                print(f"OCR结果: {len(result_raw[0]) if result_raw and len(result_raw) > 0 and isinstance(result_raw[0], list) else 0} 个文本块")
+                
+                # 使用我们的解析方法提取文本
+                text_lines = processor._parse_paddleocr_result(result_raw)
+                
+                print(f"识别到的文本行数: {len(text_lines)}")
+                if text_lines:
+                    print(f"\n识别到的文本（前10行）:")
+                    for i, line in enumerate(text_lines[:10], 1):
+                        print(f"  [{i}] {line[:80]}...")
+                else:
+                    print("⚠ 没有识别到任何文本")
+                    # 打印原始结果的前几个元素用于调试
+                    if result_raw and len(result_raw) > 0:
+                        print(f"\n原始结果前3个元素:")
+                        for i, item in enumerate(result_raw[0][:3] if isinstance(result_raw[0], list) else []):
+                            print(f"  [{i+1}] {item}")
+                    
+            except Exception as e:
+                print(f"配置 {config['name']} 失败: {e}")
+                import traceback
+                traceback.print_exc()
+                
+    except Exception as e:
+        print(f"直接测试失败: {e}")
+        import traceback
+        traceback.print_exc()
+
+
 def test_image_processing():
     """测试图片处理（JPG/PNG等）"""
     print("\n" + "=" * 60)
@@ -267,10 +372,16 @@ def test_image_processing():
         return True  # 不视为失败
     
     try:
+        # 显示图片信息
+        display_image_info(test_image)
+        
         processor = create_processor(use_paddleocr_slim=True)
         
-        # 处理图片
-        result = processor.process_image(test_image)
+        # 明确指定输出目录为 data/processed/保险图片（确保不会输出到preprocessed目录）
+        output_dir = project_root / "data" / "processed" / "保险图片"
+        
+        # 处理图片，明确指定输出目录
+        result = processor.process_image(test_image, output_dir=str(output_dir), overwrite=True)
         
         print("\n处理结果:")
         print(f"  文件名称: {result['file_name']}")
@@ -285,15 +396,30 @@ def test_image_processing():
         
         # 显示识别的文本预览
         if "text_lines" in result:
-            print(f"\n识别到的文本（前5行）:")
-            for i, line in enumerate(result["text_lines"][:5], 1):
-                print(f"  {i}. {line[:50]}...")
+            print(f"\n识别到的文本（前10行）:")
+            for i, line in enumerate(result["text_lines"][:10], 1):
+                print(f"  [{i}] {line[:80]}...")
         
         # 显示Markdown文件
         if "files" in result and "markdown" in result["files"]:
             md_file = Path(result["files"]["markdown"])
             if md_file.exists():
                 print(f"\n✓ Markdown文件已生成: {md_file}")
+                print(f"  输出目录: {result.get('output_dir', 'N/A')}")
+                # 验证文件内容
+                with open(md_file, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                    print(f"  文件大小: {len(content)} 字符")
+                    print(f"  文件行数: {len(content.splitlines())} 行")
+                    if content.strip():
+                        print(f"  前3行预览:")
+                        for i, line in enumerate(content.splitlines()[:3], 1):
+                            print(f"    {i}. {line[:60]}...")
+                    else:
+                        print("  ⚠ 警告: 文件内容为空！")
+        
+        # 直接测试PaddleOCR
+        test_ocr_directly(test_image)
         
         print("\n✓ 测试4通过")
         return True
@@ -458,14 +584,14 @@ def test_content_list_parsing():
 def main():
     """运行所有测试"""
     print("\n" + "=" * 60)
-    print("OCR模块测试套件")
+    print("OCR模块测试套件（增强版）")
     print("=" * 60)
     
     tests = [
         ("单个PDF处理", test_single_pdf),
         ("PDFProcessor类方法", test_processor_class),
         ("批量处理", test_batch_process),
-        ("图片OCR处理", test_image_processing),
+        ("图片OCR处理（含图片信息显示和直接OCR测试）", test_image_processing),
         ("CSV文件处理", test_csv_processing),
         ("自动文件类型识别", test_auto_file_type_detection),
         ("content_list解析", test_content_list_parsing),

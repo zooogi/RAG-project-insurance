@@ -11,55 +11,32 @@ import subprocess
 from pathlib import Path
 from typing import Dict, List, Optional, Union, Any
 
-# #region agent log
-import json as json_lib
-log_path = Path("/home/chanson/Zhang/RAG-保险项目/.cursor/debug.log")
-def _debug_log(location, message, data, hypothesis_id="A"):
-    try:
-        with open(log_path, "a", encoding="utf-8") as f:
-            f.write(json_lib.dumps({
-                "sessionId": "debug-session",
-                "runId": "run1",
-                "hypothesisId": hypothesis_id,
-                "location": location,
-                "message": message,
-                "data": data,
-                "timestamp": int(__import__("time").time() * 1000)
-            }) + "\n")
-    except: pass
-_debug_log("ocr.py:13", "开始导入pandas模块", {}, "A")
-# #endregion agent log
+# 禁用OneDNN/MKLDNN以避免某些CPU上的NotImplementedError
+# 这个错误通常发生在PaddlePaddle尝试使用OneDNN优化时
+# 必须在导入PaddleOCR之前设置
+os.environ['FLAGS_onednn'] = '0'
+os.environ['PADDLE_WITH_DNNL'] = '0'
+os.environ['PADDLE_WITH_MKLDNN'] = '0'
+# 尝试多种可能的禁用方式
+os.environ['FLAGS_use_mkldnn'] = '0'
+os.environ['FLAGS_use_onednn'] = '0'
 
 try:
     import pandas as pd
-    # #region agent log
-    _debug_log("ocr.py:15", "pandas导入成功", {"pandas_version": pd.__version__ if hasattr(pd, "__version__") else "unknown"}, "A")
-    # #endregion agent log
     PANDAS_AVAILABLE = True
 except ImportError as e:
-    # #region agent log
-    _debug_log("ocr.py:18", "pandas导入失败", {"error": str(e), "error_type": type(e).__name__}, "A")
-    # #endregion agent log
     PANDAS_AVAILABLE = False
     pd = None
 
 # PaddleOCR导入（可选，如果未安装会提示）
-# #region agent log
-_debug_log("ocr.py:22", "开始导入PaddleOCR模块", {}, "B")
-# #endregion agent log
 try:
     from paddleocr import PaddleOCR
-    # #region agent log
-    _debug_log("ocr.py:25", "PaddleOCR导入成功", {}, "B")
-    # #endregion agent log
     PADDLEOCR_AVAILABLE = True
 except ImportError as e:
-    # #region agent log
-    _debug_log("ocr.py:28", "PaddleOCR导入失败", {"error": str(e), "error_type": type(e).__name__}, "B")
-    # #endregion agent log
     PADDLEOCR_AVAILABLE = False
 
 # 类级别的PaddleOCR模型缓存，避免重复加载占用显存
+# 注意：如果环境变量改变（如禁用OneDNN），需要清除缓存
 _paddleocr_cache: Optional[Any] = None
 
 
@@ -126,14 +103,7 @@ class DocumentProcessor:
         """获取PaddleOCR实例（使用缓存）"""
         global _paddleocr_cache
         
-        # #region agent log
-        _debug_log("ocr.py:125", "_get_paddleocr函数入口", {"PADDLEOCR_AVAILABLE": PADDLEOCR_AVAILABLE, "cache_exists": _paddleocr_cache is not None}, "F")
-        # #endregion agent log
-        
         if not PADDLEOCR_AVAILABLE:
-            # #region agent log
-            _debug_log("ocr.py:130", "PaddleOCR不可用", {}, "F")
-            # #endregion agent log
             raise RuntimeError(
                 "PaddleOCR未安装，请运行: pip install paddleocr\n"
                 "如果显存不足，可以使用CPU版本: pip install paddleocr --no-deps paddlepaddle"
@@ -141,24 +111,38 @@ class DocumentProcessor:
         
         if _paddleocr_cache is None:
             print("正在加载PaddleOCR（使用轻量模型，节省显存）...")
-            # #region agent log
-            _debug_log("ocr.py:137", "开始初始化PaddleOCR", {}, "F")
-            # #endregion agent log
             try:
                 # 使用基本参数，PaddleOCR会自动检测GPU是否可用
                 # 移除use_gpu参数，因为某些版本的PaddleOCR不支持此参数
-                _paddleocr_cache = PaddleOCR(
-                    use_angle_cls=True,
-                    lang='ch'  # 中文
-                )
-                # #region agent log
-                _debug_log("ocr.py:145", "PaddleOCR初始化成功", {}, "F")
-                # #endregion agent log
+                # 尝试禁用MKLDNN/OneDNN以避免NotImplementedError
+                # 对于照片类图片，使用更宽松的识别阈值以提高识别率
+                try:
+                    _paddleocr_cache = PaddleOCR(
+                        use_angle_cls=True,  # 启用角度分类，有助于处理倾斜图片
+                        lang='ch',  # 中文
+                        enable_mkldnn=False,  # 禁用MKLDNN/OneDNN
+                        # 以下参数可能在某些版本不支持，使用try-except处理
+                        # det_db_thresh=0.3,  # 文本检测阈值（降低以提高召回率）
+                        # det_db_box_thresh=0.5,  # 文本框阈值
+                        # rec_batch_num=6,  # 识别批次大小
+                        # max_text_length=25,  # 最大文本长度
+                    )
+                except TypeError as e:
+                    # 如果某些参数不支持，使用基本参数
+                    try:
+                        _paddleocr_cache = PaddleOCR(
+                            use_angle_cls=True,
+                            lang='ch',
+                            enable_mkldnn=False
+                        )
+                    except TypeError:
+                        # 如果enable_mkldnn也不支持，使用最简参数
+                        _paddleocr_cache = PaddleOCR(
+                            use_angle_cls=True,
+                            lang='ch'
+                        )
                 print("✓ PaddleOCR加载成功")
             except Exception as e:
-                # #region agent log
-                _debug_log("ocr.py:149", "PaddleOCR初始化失败", {"error": str(e), "error_type": type(e).__name__}, "F")
-                # #endregion agent log
                 error_msg = str(e)
                 if "No module named 'paddle'" in error_msg or "No module named 'paddlepaddle'" in error_msg:
                     raise RuntimeError(
@@ -171,9 +155,6 @@ class DocumentProcessor:
                 print(f"✗ PaddleOCR加载失败: {e}")
                 raise
         
-        # #region agent log
-        _debug_log("ocr.py:155", "_get_paddleocr函数返回", {"using_cache": _paddleocr_cache is not None}, "F")
-        # #endregion agent log
         return _paddleocr_cache
     
     def process_file(
@@ -322,20 +303,9 @@ class DocumentProcessor:
         Returns:
             处理结果字典
         """
-        # #region agent log
-        _debug_log("ocr.py:273", "process_image函数入口", {"image_path": str(image_path), "overwrite": overwrite}, "G")
-        # #endregion agent log
-        
         image_path = Path(image_path)
         
-        # #region agent log
-        _debug_log("ocr.py:280", "检查图片文件是否存在", {"image_path": str(image_path), "exists": image_path.exists()}, "G")
-        # #endregion agent log
-        
         if not image_path.exists():
-            # #region agent log
-            _debug_log("ocr.py:283", "图片文件不存在", {"image_path": str(image_path)}, "G")
-            # #endregion agent log
             raise FileNotFoundError(f"图片文件不存在: {image_path}")
         
         # 确定输出目录
@@ -378,36 +348,111 @@ class DocumentProcessor:
         print(f"{'='*60}\n")
         
         # 获取PaddleOCR实例
-        # #region agent log
-        _debug_log("ocr.py:342", "准备获取PaddleOCR实例", {}, "G")
-        # #endregion agent log
         ocr = self._get_paddleocr()
-        
-        # #region agent log
-        _debug_log("ocr.py:346", "PaddleOCR实例获取成功，准备调用ocr方法", {"image_path": str(image_path)}, "G")
-        # #endregion agent log
         
         # 执行OCR识别
         print("正在执行OCR识别...")
         try:
-            # #region agent log
-            _debug_log("ocr.py:351", "调用ocr.ocr()方法", {"image_path": str(image_path), "cls": True}, "G")
-            # #endregion agent log
-            result = ocr.ocr(str(image_path), cls=True)
+            # 尝试调用ocr方法，某些版本不支持cls参数
+            try:
+                result = ocr.ocr(str(image_path), cls=True)
+            except TypeError as e:
+                # 如果cls参数不支持，尝试不使用cls参数
+                if "cls" in str(e) or "unexpected keyword argument" in str(e):
+                    result = ocr.ocr(str(image_path))
+                else:
+                    raise
             
-            # #region agent log
-            _debug_log("ocr.py:354", "ocr.ocr()调用成功", {"result_type": type(result).__name__, "result_not_none": result is not None, "result_length": len(result) if result else 0}, "G")
-            # #endregion agent log
+            # 添加详细的调试信息
+            print(f"调试: OCR结果类型: {type(result)}")
+            if result:
+                print(f"调试: OCR结果长度: {len(result)}")
+                if len(result) > 0:
+                    ocr_result_obj = result[0]
+                    print(f"调试: 第一个元素类型: {type(ocr_result_obj)}")
+                    print(f"调试: 第一个元素类名: {ocr_result_obj.__class__.__name__}")
+                    
+                    # 检查所有属性和方法
+                    all_attrs = dir(ocr_result_obj)
+                    print(f"调试: 所有属性/方法数量: {len(all_attrs)}")
+                    # 过滤掉私有属性，只显示公共的
+                    public_attrs = [attr for attr in all_attrs if not attr.startswith('_')]
+                    print(f"调试: 公共属性/方法: {public_attrs[:20]}...")  # 只显示前20个
+                    
+                    # OCRResult继承自dict，直接查看所有键
+                    if isinstance(ocr_result_obj, dict):
+                        print(f"调试: OCRResult是字典，所有键: {list(ocr_result_obj.keys())}")
+                        # 查找可能包含文本的键
+                        text_keys = [k for k in ocr_result_obj.keys() if 'text' in k.lower() or 'rec' in k.lower() or 'ocr' in k.lower()]
+                        print(f"调试: 可能包含文本的键: {text_keys}")
+                        
+                        # 检查每个可能包含文本的键
+                        for key in text_keys:
+                            try:
+                                value = ocr_result_obj[key]
+                                print(f"调试: {key} 类型: {type(value)}")
+                                if isinstance(value, (list, tuple)) and len(value) > 0:
+                                    print(f"调试: {key} 长度: {len(value)}")
+                                    print(f"调试: {key} 第一个元素: {value[0] if len(value) > 0 else 'N/A'}")
+                                elif isinstance(value, str):
+                                    print(f"调试: {key} 内容前200字符: {value[:200]}")
+                                else:
+                                    print(f"调试: {key} 内容: {value}")
+                            except Exception as e:
+                                print(f"调试: 访问{key}失败: {e}")
+                        
+                        # 检查det_results和rec_results
+                        for key in ['det_results', 'rec_results', 'textline_results', 'text_results']:
+                            if key in ocr_result_obj:
+                                try:
+                                    value = ocr_result_obj[key]
+                                    print(f"调试: {key} 类型: {type(value)}")
+                                    if isinstance(value, (list, tuple)):
+                                        print(f"调试: {key} 长度: {len(value)}")
+                                        if len(value) > 0:
+                                            print(f"调试: {key} 第一个元素类型: {type(value[0])}")
+                                            print(f"调试: {key} 第一个元素: {value[0]}")
+                                    else:
+                                        print(f"调试: {key} 内容: {value}")
+                                except Exception as e:
+                                    print(f"调试: 访问{key}失败: {e}")
+                    
+                    # 尝试常见的方法
+                    if hasattr(ocr_result_obj, 'to_dict'):
+                        try:
+                            result_dict = ocr_result_obj.to_dict()
+                            print(f"调试: to_dict()结果类型: {type(result_dict)}")
+                            print(f"调试: to_dict()键: {list(result_dict.keys()) if isinstance(result_dict, dict) else 'N/A'}")
+                        except Exception as e:
+                            print(f"调试: to_dict()失败: {e}")
+                    
+                    if hasattr(ocr_result_obj, 'rec_texts'):
+                        print(f"调试: rec_texts存在")
+                        try:
+                            rec_texts = ocr_result_obj.rec_texts
+                            print(f"调试: rec_texts类型: {type(rec_texts)}")
+                            print(f"调试: rec_texts内容: {rec_texts}")
+                        except Exception as e:
+                            print(f"调试: 访问rec_texts失败: {e}")
             
-            # 解析OCR结果
-            text_lines = []
-            if result and result[0]:
-                for line in result[0]:
-                    if line and len(line) >= 2:
-                        text = line[1][0]  # 提取文本
-                        confidence = line[1][1]  # 提取置信度
-                        if confidence > 0.5:  # 过滤低置信度结果
-                            text_lines.append(text)
+            # 简化OCR结果解析 - 使用通用的处理方法
+            text_lines = self._parse_paddleocr_result(result)
+            
+            print(f"✓ OCR识别完成，识别到 {len(text_lines)} 行文本")
+            if text_lines:
+                print(f"前5行文本预览:")
+                for i, line in enumerate(text_lines[:5]):
+                    print(f"  [{i+1}] {line[:100]}...")
+            else:
+                print("⚠ 警告: 未识别到任何文本")
+                # 尝试输出原始结果结构以供调试
+                print(f"原始结果类型: {type(result)}")
+                if result:
+                    print(f"原始结果长度: {len(result)}")
+                    if len(result) > 0:
+                        print(f"第一个元素类型: {type(result[0])}")
+                        if hasattr(result[0], '__dict__'):
+                            print(f"对象属性: {list(result[0].__dict__.keys())}")
             
             # 构建Markdown内容
             markdown_content = "\n".join(text_lines)
@@ -417,7 +462,6 @@ class DocumentProcessor:
             with open(md_file, 'w', encoding='utf-8') as f:
                 f.write(markdown_content)
             
-            print(f"✓ OCR识别完成，识别到 {len(text_lines)} 行文本")
             print(f"✓ Markdown文件已保存: {md_file}")
             
             result_data = {
@@ -443,11 +487,114 @@ class DocumentProcessor:
             return result_data
             
         except Exception as e:
-            # #region agent log
-            _debug_log("ocr.py:393", "OCR识别异常", {"error": str(e), "error_type": type(e).__name__}, "G")
-            # #endregion agent log
+            error_msg = str(e)
             print(f"✗ OCR识别失败: {e}")
             raise
+    
+    def _parse_paddleocr_result(self, result):
+        """
+        通用的PaddleOCR结果解析方法
+        
+        Args:
+            result: PaddleOCR返回的结果
+            
+        Returns:
+            list: 文本行列表
+        """
+        text_lines = []
+        
+        if not result:
+            return text_lines
+        
+        try:
+            # 情况1: result是列表，第一个元素是OCR结果
+            ocr_result = result[0] if isinstance(result, (list, tuple)) else result
+            
+            # OCRResult对象继承自dict，直接作为字典处理
+            if isinstance(ocr_result, dict):
+                # 方式1: 直接访问rec_texts（识别文本列表）- 这是最直接的方式
+                if 'rec_texts' in ocr_result:
+                    rec_texts = ocr_result['rec_texts']
+                    if isinstance(rec_texts, (list, tuple)):
+                        # rec_texts直接是字符串列表
+                        for text in rec_texts:
+                            if text and str(text).strip():
+                                text_lines.append(str(text).strip())
+                    elif isinstance(rec_texts, str) and rec_texts.strip():
+                        text_lines.append(rec_texts.strip())
+                
+                # 方式2: 查找rec_results（识别结果）- 如果rec_texts不存在
+                if not text_lines and 'rec_results' in ocr_result:
+                    rec_results = ocr_result['rec_results']
+                    if isinstance(rec_results, (list, tuple)):
+                        for rec_item in rec_results:
+                            if isinstance(rec_item, dict):
+                                # 查找文本字段
+                                for text_key in ['text', 'rec_text', 'text_content']:
+                                    if text_key in rec_item:
+                                        text = rec_item[text_key]
+                                        if text and str(text).strip():
+                                            text_lines.append(str(text).strip())
+                                            break
+                            elif isinstance(rec_item, (list, tuple)) and len(rec_item) >= 2:
+                                # 标准格式: [[坐标], (文本, 置信度)]
+                                text_part = rec_item[1]
+                                if isinstance(text_part, (list, tuple)) and len(text_part) >= 1:
+                                    text = text_part[0]
+                                    if isinstance(text, (list, tuple)):
+                                        text = ''.join(str(t) for t in text)
+                                    if str(text).strip():
+                                        text_lines.append(str(text).strip())
+                                elif isinstance(text_part, str) and text_part.strip():
+                                    text_lines.append(text_part.strip())
+                
+                # 方式3: 查找textline_results（文本行结果）
+                if not text_lines and 'textline_results' in ocr_result:
+                    textline_results = ocr_result['textline_results']
+                    if isinstance(textline_results, (list, tuple)):
+                        for textline_item in textline_results:
+                            if isinstance(textline_item, dict):
+                                for text_key in ['text', 'text_content', 'content']:
+                                    if text_key in textline_item:
+                                        text = textline_item[text_key]
+                                        if text and str(text).strip():
+                                            text_lines.append(str(text).strip())
+                                            break
+            
+            # 方式4: 如果ocr_result不是dict，尝试其他方式
+            elif hasattr(ocr_result, 'rec_texts'):
+                try:
+                    rec_texts = ocr_result.rec_texts
+                    if rec_texts:
+                        if isinstance(rec_texts, str):
+                            text_lines.append(rec_texts.strip())
+                        elif isinstance(rec_texts, (list, tuple)):
+                            for text in rec_texts:
+                                if text and str(text).strip():
+                                    text_lines.append(str(text).strip())
+                except Exception as e:
+                    print(f"调试: 访问rec_texts失败: {e}")
+            
+            # 方式5: 处理标准列表格式 [[[坐标], (文本, 置信度)], ...]
+            elif isinstance(ocr_result, (list, tuple)):
+                for item in ocr_result:
+                    if isinstance(item, (list, tuple)) and len(item) >= 2:
+                        text_part = item[1]
+                        if isinstance(text_part, (list, tuple)) and len(text_part) >= 1:
+                            text = text_part[0]
+                            if isinstance(text, (list, tuple)):
+                                text = ''.join(str(t) for t in text)
+                            if str(text).strip():
+                                text_lines.append(str(text).strip())
+                        elif isinstance(text_part, str) and text_part.strip():
+                            text_lines.append(text_part.strip())
+        
+        except Exception as e:
+            print(f"解析OCR结果时出错: {e}")
+            import traceback
+            traceback.print_exc()
+        
+        return text_lines
     
     def process_csv(
         self,
@@ -466,22 +613,12 @@ class DocumentProcessor:
         Returns:
             处理结果字典
         """
-        # #region agent log
-        _debug_log("ocr.py:321", "process_csv函数入口", {"csv_path": str(csv_path), "PANDAS_AVAILABLE": PANDAS_AVAILABLE}, "C")
-        # #endregion agent log
-        
         csv_path = Path(csv_path)
         
         if not csv_path.exists():
-            # #region agent log
-            _debug_log("ocr.py:328", "CSV文件不存在", {"csv_path": str(csv_path)}, "C")
-            # #endregion agent log
             raise FileNotFoundError(f"CSV文件不存在: {csv_path}")
         
         if not PANDAS_AVAILABLE:
-            # #region agent log
-            _debug_log("ocr.py:333", "pandas不可用，无法处理CSV", {}, "A")
-            # #endregion agent log
             raise RuntimeError("pandas未安装，无法处理CSV文件。请运行: pip install pandas")
         
         # 确定输出目录
@@ -537,54 +674,24 @@ class DocumentProcessor:
         try:
             # 读取CSV文件
             print("正在读取CSV文件...")
-            # #region agent log
-            _debug_log("ocr.py:350", "开始读取CSV文件", {"csv_path": str(csv_path)}, "C")
-            # #endregion agent log
             # 尝试不同的编码
             try:
                 df = pd.read_csv(csv_path, encoding='utf-8')
-                # #region agent log
-                _debug_log("ocr.py:354", "CSV读取成功(UTF-8)", {"rows": len(df), "columns": len(df.columns)}, "C")
-                # #endregion agent log
-            except UnicodeDecodeError as e:
-                # #region agent log
-                _debug_log("ocr.py:357", "UTF-8编码失败，尝试GBK", {"error": str(e)}, "C")
-                # #endregion agent log
+            except UnicodeDecodeError:
                 try:
                     df = pd.read_csv(csv_path, encoding='gbk')
-                    # #region agent log
-                    _debug_log("ocr.py:361", "CSV读取成功(GBK)", {"rows": len(df), "columns": len(df.columns)}, "C")
-                    # #endregion agent log
-                except Exception as e2:
-                    # #region agent log
-                    _debug_log("ocr.py:364", "GBK编码失败，使用errors='ignore'", {"error": str(e2)}, "C")
-                    # #endregion agent log
+                except Exception:
                     df = pd.read_csv(csv_path, encoding='utf-8', errors='ignore')
             
             # 转换为Markdown表格
-            # #region agent log
-            _debug_log("ocr.py:369", "开始转换为Markdown表格", {}, "D")
-            # #endregion agent log
             try:
                 markdown_table = df.to_markdown(index=False)
-                # #region agent log
-                _debug_log("ocr.py:372", "使用pandas.to_markdown成功", {"table_length": len(markdown_table)}, "D")
-                # #endregion agent log
-            except Exception as e:
-                # #region agent log
-                _debug_log("ocr.py:375", "pandas.to_markdown失败，尝试tabulate", {"error": str(e)}, "D")
-                # #endregion agent log
+            except Exception:
                 # 如果to_markdown不可用，手动构建Markdown表格
                 try:
                     from tabulate import tabulate
                     markdown_table = tabulate(df, headers='keys', tablefmt='pipe', showindex=False)
-                    # #region agent log
-                    _debug_log("ocr.py:380", "使用tabulate成功", {"table_length": len(markdown_table)}, "D")
-                    # #endregion agent log
-                except ImportError as e2:
-                    # #region agent log
-                    _debug_log("ocr.py:382", "tabulate导入失败", {"error": str(e2)}, "D")
-                    # #endregion agent log
+                except ImportError:
                     raise RuntimeError("tabulate未安装，无法转换表格。请运行: pip install tabulate")
             
             # 添加标题
@@ -830,20 +937,12 @@ class DocumentProcessor:
         Returns:
             处理结果列表
         """
-        # #region agent log
-        _debug_log("ocr.py:770", "batch_process函数入口", {"input_dir": str(input_dir), "pattern": pattern, "overwrite": overwrite}, "H")
-        # #endregion agent log
-        
         input_dir = Path(input_dir)
         files = list(input_dir.glob(pattern))
         
         # 过滤出支持的文件类型
         supported_extensions = {'.pdf', '.jpg', '.jpeg', '.png', '.bmp', '.tiff', '.tif', '.csv'}
         files = [f for f in files if f.suffix.lower() in supported_extensions]
-        
-        # #region agent log
-        _debug_log("ocr.py:779", "文件列表过滤完成", {"total_files": len(files), "file_names": [f.name for f in files]}, "H")
-        # #endregion agent log
         
         if not files:
             print(f"在 {input_dir} 中没有找到支持的文件（PDF/图片/CSV）")
@@ -855,19 +954,10 @@ class DocumentProcessor:
         skipped = 0
         for i, file_path in enumerate(files, 1):
             print(f"\n处理 {i}/{len(files)}: {file_path.name}")
-            # #region agent log
-            _debug_log("ocr.py:792", "开始处理文件", {"file_index": i, "total_files": len(files), "file_name": file_path.name, "file_suffix": file_path.suffix}, "H")
-            # #endregion agent log
             try:
                 result = self.process_file(file_path, overwrite=overwrite)
-                # #region agent log
-                _debug_log("ocr.py:795", "文件处理成功", {"file_name": file_path.name, "file_type": result.get("file_type")}, "H")
-                # #endregion agent log
                 results.append(result)
             except Exception as e:
-                # #region agent log
-                _debug_log("ocr.py:799", "文件处理异常", {"file_name": file_path.name, "error": str(e), "error_type": type(e).__name__}, "H")
-                # #endregion agent log
                 # 检查是否是跳过已存在文件的提示
                 if "跳过处理" in str(e) or "已存在" in str(e):
                     skipped += 1

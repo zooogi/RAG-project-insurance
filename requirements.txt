@@ -12,7 +12,7 @@ ftfy                # MineRU所需的文本修复库
 paddleocr>=2.7.0    # PaddleOCR图片OCR识别（轻量模型，节省显存）
 pandas>=1.5.0       # CSV文件读取和处理
 tabulate>=0.9.0     # 表格转Markdown格式
-paddlepaddle-gpu>=2.7.0  # PaddleOCR所需的GPU支持
+paddlepaddle>=2.7.0  # PaddleOCR所需的GPU支持
 
 # 文本向量化
 sentence-transformers>=2.2.0  # 文本嵌入模型
