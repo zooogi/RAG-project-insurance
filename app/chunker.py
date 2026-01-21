@@ -5,7 +5,9 @@ import uuid
 import json
 from pathlib import Path
 from typing import List, Dict, Any, Optional, Tuple
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, asdict, field
+
+from app.text_cleaner import TextCleaner, SentenceInfo
 
 
 @dataclass
@@ -22,22 +24,58 @@ class ChunkMetadata:
     end_line: Optional[int] = None
     has_table: bool = False
     has_list: bool = False
+    skip_embedding: bool = False  # 整个chunk是否跳过embedding
+    skip_sentences: Optional[List[int]] = None  # 跳过embedding的句子索引列表（相对于chunk内的句子）
 
 
 @dataclass
 class Chunk:
     """统一的Chunk结构"""
     chunk_id: str
-    text: str
+    text: str  # 原始文本（包含所有句子，包括跳过embedding的）
     metadata: ChunkMetadata
+    sentence_infos: Optional[List[SentenceInfo]] = None  # 句子信息列表（用于标记跳过embedding）
+
+    def get_embedding_text(self) -> str:
+        """
+        获取用于embedding的文本（排除跳过embedding的句子）
+        
+        Returns:
+            用于embedding的文本
+        """
+        if self.metadata.skip_embedding:
+            return ""  # 整个chunk跳过embedding
+        
+        if not self.sentence_infos:
+            return self.text  # 没有句子信息，返回原始文本
+        
+        # 过滤掉跳过embedding的句子
+        embedding_sentences = [
+            info.text for info in self.sentence_infos 
+            if not info.skip_embedding
+        ]
+        
+        return '\n'.join(embedding_sentences)
 
     def to_dict(self) -> Dict[str, Any]:
         """转换为字典格式"""
-        return {
+        result = {
             "chunk_id": self.chunk_id,
             "text": self.text,
+            "embedding_text": self.get_embedding_text(),  # 添加embedding文本
             "metadata": asdict(self.metadata)
         }
+        # 添加句子信息（如果存在）
+        if self.sentence_infos:
+            result["sentence_infos"] = [
+                {
+                    "text": info.text,
+                    "skip_embedding": info.skip_embedding,
+                    "reason": info.reason
+                }
+                for info in self.sentence_infos
+            ]
+        return result
 
 
 class SemanticChunker:
@@ -59,7 +97,11 @@ class SemanticChunker:
         target_chunk_size: int = 800,
         max_chunk_size: int = 1500,
         min_chunk_size: int = 200,
-        overlap_size: int = 100
+        overlap_size: int = 100,
+        enable_text_cleaning: bool = True,
+        text_cleaner: Optional[TextCleaner] = None,
+        save_cleaned_text: bool = True,
+        cleaned_output_dir: Optional[Path] = None
     ):
         """
         初始化分块器
@@ -69,11 +111,30 @@ class SemanticChunker:
             max_chunk_size: 最大chunk大小
             min_chunk_size: 最小chunk大小
             overlap_size: chunk之间的重叠大小
+            enable_text_cleaning: 是否启用文本清洗
+            text_cleaner: 文本清洗器实例（如果为None且enable_text_cleaning=True，则创建默认实例）
+            save_cleaned_text: 是否保存清洗后的文本到文件
+            cleaned_output_dir: 清洗后文本的输出目录（默认：data/cleaned/，保持与processed相同的目录结构）
         """
         self.target_chunk_size = target_chunk_size
         self.max_chunk_size = max_chunk_size
         self.min_chunk_size = min_chunk_size
         self.overlap_size = overlap_size
+        self.enable_text_cleaning = enable_text_cleaning
+        self.save_cleaned_text = save_cleaned_text
+        
+        if enable_text_cleaning:
+            self.text_cleaner = text_cleaner or TextCleaner()
+        else:
+            self.text_cleaner = None
+        
+        # 设置清洗后文本的输出目录
+        if cleaned_output_dir is None:
+            # 默认使用项目根目录下的 data/cleaned/
+            project_root = Path(__file__).parent.parent
+            self.cleaned_output_dir = project_root / "data" / "cleaned"
+        else:
+            self.cleaned_output_dir = Path(cleaned_output_dir)
 
     def normalize_text(self, text: str) -> str:
         """
@@ -148,15 +209,25 @@ class SemanticChunker:
             return True
         return False
 
-    def parse_markdown(self, md_path: Path) -> List[Dict[str, Any]]:
+    def parse_markdown(self, md_path: Path) -> Tuple[List[Dict[str, Any]], Optional[str]]:
         """
         解析Markdown文件，提取结构化内容块
         
         Returns:
-            List of content blocks with metadata
+            (List of content blocks with metadata, cleaned_text)
+            cleaned_text: 清洗后的文本（如果启用了清洗），否则为None
         """
         with open(md_path, 'r', encoding='utf-8') as f:
-            content = f.read()
+            original_content = f.read()
+        
+        cleaned_text = None
+        
+        # 文本清洗（如果启用）
+        if self.enable_text_cleaning and self.text_cleaner:
+            content = self.text_cleaner.basic_clean(original_content)
+            cleaned_text = content  # 保存清洗后的文本
+        else:
+            content = original_content
         
         # 文本规范化
         content = self.normalize_text(content)
@@ -263,7 +334,7 @@ class SemanticChunker:
             # 跳过空行
             i += 1
         
-        return blocks
+        return blocks, cleaned_text
 
     def create_chunks_from_blocks(
         self,
@@ -278,7 +349,44 @@ class SemanticChunker:
         2. 列表尽量保持完整
         3. 段落在超过max_size时才拆分
         4. 相邻小块可以合并（在同一section下）
+        5. 在整个文档范围内进行语义降噪（识别重复话术）
         """
+        # 如果启用文本清洗，先收集所有文本内容进行全局语义降噪
+        global_sentence_map = {}  # (section_path, sentence_text) -> SentenceInfo
+        
+        if self.enable_text_cleaning and self.text_cleaner:
+            # 收集所有文本块的内容和章节路径
+            all_texts = []
+            all_section_paths = []
+            
+            for block in blocks:
+                if block['type'] != 'heading':  # 跳过标题
+                    all_texts.append(block['content'])
+                    all_section_paths.append(block.get('section_path', []))
+            
+            # 合并所有文本，进行全局语义降噪
+            # 为每个句子分配章节路径（简化处理：使用对应文本块的章节路径）
+            all_sentences = []
+            section_paths_for_sentences = []
+            for i, text in enumerate(all_texts):
+                sentences_in_text = self.text_cleaner.split_into_sentences(text)
+                for sentence in sentences_in_text:
+                    all_sentences.append(sentence)
+                    section_paths_for_sentences.append(all_section_paths[i])
+            
+            # 全局语义降噪
+            global_sentence_infos = self.text_cleaner.semantic_denoise(
+                all_sentences,
+                section_paths_for_sentences
+            )
+            
+            # 建立句子到SentenceInfo的映射（使用句子文本和章节路径作为key）
+            for sentence_info in global_sentence_infos:
+                # 简化：使用句子文本作为key（实际应该考虑章节路径）
+                key = sentence_info.text.strip()
+                if key not in global_sentence_map:
+                    global_sentence_map[key] = sentence_info
+        
         chunks = []
         buffer = []
         buffer_size = 0
@@ -315,6 +423,35 @@ class SemanticChunker:
             image_refs = self.extract_image_refs(chunk_text)
             image_refs.extend(accumulated_images)
             
+            # 语义降噪：识别应该跳过embedding的句子
+            sentence_infos = None
+            skip_embedding = False
+            
+            if self.enable_text_cleaning and self.text_cleaner:
+                # 对文本进行句级拆分
+                sentences = self.text_cleaner.split_into_sentences(chunk_text)
+                
+                # 从全局映射中获取句子信息，如果没有则创建新的
+                sentence_infos = []
+                for sentence in sentences:
+                    sentence_stripped = sentence.strip()
+                    if sentence_stripped in global_sentence_map:
+                        # 使用全局识别的信息
+                        sentence_infos.append(global_sentence_map[sentence_stripped])
+                    else:
+                        # 新句子，检查是否是兜底话术
+                        is_boilerplate = self.text_cleaner.is_boilerplate_sentence(sentence_stripped)
+                        from app.text_cleaner import SentenceInfo
+                        sentence_infos.append(SentenceInfo(
+                            text=sentence,
+                            skip_embedding=is_boilerplate,
+                            reason="boilerplate" if is_boilerplate else ""
+                        ))
+                
+                # 如果所有句子都跳过embedding，标记整个chunk跳过
+                if sentence_infos and all(info.skip_embedding for info in sentence_infos):
+                    skip_embedding = True
+            
             # 创建chunk
             chunk_id = str(uuid.uuid4())
             metadata = ChunkMetadata(
@@ -328,13 +465,16 @@ class SemanticChunker:
                 start_line=start_line,
                 end_line=end_line,
                 has_table=has_table,
-                has_list=has_list
+                has_list=has_list,
+                skip_embedding=skip_embedding,
+                skip_sentences=None  # 这个字段暂时不用，信息在sentence_infos中
             )
             
             chunk = Chunk(
                 chunk_id=chunk_id,
                 text=chunk_text,
-                metadata=metadata
+                metadata=metadata,
+                sentence_infos=sentence_infos
             )
             chunks.append(chunk)
             
@@ -451,6 +591,59 @@ class SemanticChunker:
         
         return chunks
 
+    def _save_cleaned_text(self, md_path: Path, cleaned_text: str) -> Optional[Path]:
+        """
+        保存清洗后的文本到文件
+        
+        Args:
+            md_path: 原始Markdown文件路径
+            cleaned_text: 清洗后的文本
+            
+        Returns:
+            保存的文件路径，如果未保存则返回None
+        """
+        if not self.save_cleaned_text or not cleaned_text:
+            return None
+        
+        try:
+            # 计算相对于processed目录的相对路径
+            md_path = Path(md_path).resolve()
+            
+            # 尝试找到processed目录
+            processed_dirs = [
+                Path(__file__).parent.parent / "data" / "processed",
+                md_path.parent.parent.parent / "processed",  # 假设结构是 processed/xxx/xxx.md
+            ]
+            
+            relative_path = None
+            for processed_dir in processed_dirs:
+                processed_dir = processed_dir.resolve()
+                try:
+                    relative_path = md_path.relative_to(processed_dir)
+                    break
+                except ValueError:
+                    continue
+            
+            # 如果找不到processed目录，使用文件名
+            if relative_path is None:
+                relative_path = Path(md_path.name)
+            
+            # 构建输出路径：data/cleaned/相对路径
+            output_path = self.cleaned_output_dir / relative_path
+            
+            # 创建目录
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+            
+            # 保存文件
+            with open(output_path, 'w', encoding='utf-8') as f:
+                f.write(cleaned_text)
+            
+            return output_path
+        except Exception as e:
+            # 如果保存失败，打印警告但不中断流程
+            print(f"⚠️  警告: 保存清洗后文本失败: {e}")
+            return None
+
     def chunk_markdown_file(self, md_path: Path) -> List[Chunk]:
         """
         对单个Markdown文件进行分块
@@ -462,7 +655,13 @@ class SemanticChunker:
             Chunk列表
         """
         # 解析Markdown结构
-        blocks = self.parse_markdown(md_path)
+        blocks, cleaned_text = self.parse_markdown(md_path)
+        
+        # 保存清洗后的文本（如果启用）
+        if cleaned_text:
+            saved_path = self._save_cleaned_text(md_path, cleaned_text)
+            if saved_path:
+                print(f"✓ 清洗后的文本已保存到: {saved_path}")
         
         # 创建chunks
         chunks = self.create_chunks_from_blocks(
