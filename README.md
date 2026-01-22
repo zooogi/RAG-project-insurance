@@ -15,14 +15,18 @@ RAG-保险项目/
 │   ├── config.py          # 配置文件
 │   └── main.py            # 主程序
 |
-├── data/                   # 数据目录
-│   ├── pdf/               # 原始PDF文件
-│   ├── processed/         # 处理后的文件
-│   └── chunks/            # 分块后的JSON文件
+├── data/                   # 数据目录（详见 docs/DATA_STRUCTURE.md）
+│   ├── raw_data/          # 原始数据（PDF/图片等）
+│   ├── processed/         # OCR处理后的Markdown文件
+│   ├── cleaned/           # 文本清洗后的Markdown文件（可选）
+│   └── chunks/            # 分块后的JSON文件（最终用于embedding）
 |
 ├── docs/                   # 文档
+│   ├── DATA_STRUCTURE.md  # 📋 数据目录结构说明（重要！）
 │   ├── OCR_USAGE.md       # OCR模块使用指南
 │   ├── CHUNKER_USAGE.md   # Chunker模块使用指南
+│   ├── TEXT_CLEANER_USAGE.md  # 文本清洗模块使用指南
+│   ├── SEMANTIC_CHUNKER_USAGE.md  # 语义切割和术语提取使用指南
 │   ├── EMBEDDER_USAGE.md  # Embedder使用指南
 │   └── RERANKER_USAGE.md  # Reranker使用指南
 ├── scripts/                # 工具脚本
@@ -45,11 +49,13 @@ RAG-保险项目/
 - 输出Markdown和纯文本格式
 
 ### 2. 文本分块 (Chunker模块)
-- 基于语义的智能分块
-- 保留文档结构上下文（标题层级）
-- 表格作为不可拆分的原子单元
-- 识别并记录图片引用
-- 统一的结构化输出格式
+- **基础分块**：基于语义的智能分块，保留文档结构上下文（标题层级）
+- **语义切割**：识别语义类型（给付、免责、条件、定义等），按语义原子拆分
+- **术语提取**：提取保险业务专业术语，写入chunk metadata
+- **语义降噪**：识别并跳过重复话术和兜底话术（不影响原始文本）
+- **表格处理**：表格作为不可拆分的原子单元
+- **图片处理**：识别并记录图片引用，不参与embedding
+- **统一输出**：结构化的JSON格式，包含丰富的metadata信息
 
 ### 3. 文本向量化 (Embedder模块)
 - 使用bge-large-zh-v1.5中文向量模型
@@ -135,3 +141,53 @@ python scripts/test_llm.py
   - Qwen2.5-1.5B：约3-4GB显存（显存不足时使用）
   - 如果显存不足，可以使用CPU模式或更小的模型
 - 模型会自动缓存到`~/.cache/huggingface/hub/`目录
+
+## 📋 数据目录说明
+
+**重要**：请先阅读 [数据目录结构说明文档](docs/DATA_STRUCTURE.md)，了解 `data/` 目录下所有文件的含义和用途。
+
+### 📂 目录快速参考
+
+| 目录 | 内容 | 用途 | 是否必需 |
+|------|------|------|---------|
+| `raw_data/` | PDF/图片/CSV | 原始输入数据（不会被修改） | ✅ 必需 |
+| `processed/` | `*.md` + 中间文件 | OCR处理后的Markdown（主要输出） | ✅ 必需 |
+| `cleaned/` | `*.md` | 文本清洗后的Markdown（查看效果用） | ⚠️ 可选 |
+| `chunks/` | `*_chunks.json` | 最终用于embedding的chunk数据 | ✅ 必需 |
+| `mineru_test/` | 测试文件 | MineRU测试输出 | ❌ 可删除 |
+
+### 🔄 数据流程
+
+```
+raw_data/*.pdf 
+  ↓ [OCR处理]
+processed/**/*.md (主要输出)
+  ↓ [文本清洗，可选]
+cleaned/**/*.md (查看清洗效果)
+  ↓ [Chunker分块]
+chunks/*_chunks.json ⭐ (最终用于embedding)
+```
+
+### 📝 重要文件说明
+
+- **`processed/**/*.md`**：OCR的主要输出，包含文本、表格、图片引用
+- **`chunks/*_chunks.json`**：最终用于embedding的数据，包含：
+  - `text`：原始文本
+  - `embedding_text`：用于embedding的文本（已过滤跳过embedding的句子）
+  - `metadata`：丰富的元数据（语义类型、术语、章节路径等）
+  - `sentence_infos`：句子级别的信息
+
+### 🧹 清理建议
+
+**可以删除**：
+- `cleaned/` 目录（如果不需要查看清洗效果）
+- `mineru_test/` 目录（测试文件）
+- `chunks/test_*.json`（测试数据）
+- `processed/**/*_*.json`、`*_layout.pdf` 等OCR中间文件
+
+**必须保留**：
+- `raw_data/`（原始数据备份）
+- `processed/**/*.md`（OCR输出）
+- `chunks/*_chunks.json`（生产数据，排除test_*.json）
+
+详细说明请查看：[docs/DATA_STRUCTURE.md](docs/DATA_STRUCTURE.md)

@@ -1,0 +1,181 @@
+[
+  {
+    "chunk_id": "8cb8d5bd-08ee-4ebc-9fb3-62c3ded328c5",
+    "text": "被保险人因意外伤害导致身故的，保险人按照合同约定给付保险金。",
+    "embedding_text": "被保险人因意外伤害导致身故的，保险人按照合同约定给付保险金。",
+    "metadata": {
+      "chunk_id": "8cb8d5bd-08ee-4ebc-9fb3-62c3ded328c5",
+      "chunk_type": "paragraph",
+      "section_path": [
+        "保险责任"
+      ],
+      "heading_level": 1,
+      "char_count": 30,
+      "image_refs": [],
+      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/test_semantic.md",
+      "start_line": 2,
+      "end_line": 8,
+      "has_table": false,
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "给付",
+      "clause_number": null,
+      "is_core_section": true,
+      "trigger_words": [
+        "按照合同约定给付",
+        "按照合同约定给付"
+      ],
+      "key_terms": [
+        "身故",
+        "给付",
+        "保险金",
+        "被保险人",
+        "意外伤害",
+        "保险人"
+      ]
+    },
+    "sentence_infos": [
+      {
+        "text": "被保险人因意外伤害导致身故的，保险人按照合同约定给付保险金。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "chunk_id": "7610420f-0e39-4de7-9521-da27d26fcafb",
+    "text": "但被保险人因自杀导致身故的，保险人不承担保险责任。",
+    "embedding_text": "但被保险人因自杀导致身故的，保险人不承担保险责任。",
+    "metadata": {
+      "chunk_id": "7610420f-0e39-4de7-9521-da27d26fcafb",
+      "chunk_type": "paragraph",
+      "section_path": [
+        "保险责任"
+      ],
+      "heading_level": 1,
+      "char_count": 25,
+      "image_refs": [],
+      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/test_semantic.md",
+      "start_line": 2,
+      "end_line": 8,
+      "has_table": false,
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "给付",
+      "clause_number": null,
+      "is_core_section": true,
+      "trigger_words": [
+        "承担保险责任",
+        "承担保险责任"
+      ],
+      "key_terms": [
+        "身故",
+        "免责",
+        "被保险人",
+        "保险人",
+        "保险责任"
+      ]
+    },
+    "sentence_infos": [
+      {
+        "text": "但被保险人因自杀导致身故的，保险人不承担保险责任。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "chunk_id": "41699456-7dc5-4b88-abc5-d09349f401ce",
+    "text": "在保险期间内，如果被保险人发生重大疾病，保险人将按照合同约定给付保险金。",
+    "embedding_text": "在保险期间内，如果被保险人发生重大疾病，保险人将按照合同约定给付保险金。",
+    "metadata": {
+      "chunk_id": "41699456-7dc5-4b88-abc5-d09349f401ce",
+      "chunk_type": "paragraph",
+      "section_path": [
+        "保险责任"
+      ],
+      "heading_level": 1,
+      "char_count": 36,
+      "image_refs": [],
+      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/test_semantic.md",
+      "start_line": 2,
+      "end_line": 8,
+      "has_table": false,
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "给付",
+      "clause_number": null,
+      "is_core_section": true,
+      "trigger_words": [
+        "按照合同约定给付",
+        "按照合同约定给付"
+      ],
+      "key_terms": [
+        "重大疾病",
+        "给付",
+        "保险金",
+        "被保险人",
+        "保险人",
+        "保险期间",
+        "疾病"
+      ]
+    },
+    "sentence_infos": [
+      {
+        "text": "在保险期间内，如果被保险人发生重大疾病，保险人将按照合同约定给付保险金。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "chunk_id": "3c84fab3-9a4b-4cb9-a08b-0a1b32b4d960",
+    "text": "保险费应在保险期间内按时缴纳。保险金额为人民币100万元。",
+    "embedding_text": "保险费应在保险期间内按时缴纳。\n保险金额为人民币100万元。",
+    "metadata": {
+      "chunk_id": "3c84fab3-9a4b-4cb9-a08b-0a1b32b4d960",
+      "chunk_type": "paragraph",
+      "section_path": [
+        "保险责任"
+      ],
+      "heading_level": 1,
+      "char_count": 29,
+      "image_refs": [],
+      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/test_semantic.md",
+      "start_line": 2,
+      "end_line": 8,
+      "has_table": false,
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "定义",
+      "clause_number": null,
+      "is_core_section": true,
+      "trigger_words": [
+        "保险金额为",
+        "保险金额为"
+      ],
+      "key_terms": [
+        "保险费",
+        "保险金",
+        "保险金额",
+        "保险期间"
+      ]
+    },
+    "sentence_infos": [
+      {
+        "text": "保险费应在保险期间内按时缴纳。",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "保险金额为人民币100万元。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
+  }
+]

@@ -4,6 +4,8 @@
 
 `SemanticChunker` 是一个基于语义的智能文档分块器，专门用于处理 OCR 产出的 Markdown 文件。它能够保留文档结构、识别表格和图片，并生成结构化的 chunk 输出。
 
+> 📋 **数据目录说明**：处理后的chunks会保存到 `data/chunks/` 目录，详细说明请查看 [数据目录结构说明文档](../docs/DATA_STRUCTURE.md)
+
 ## 核心特性
 
 ### 1. 仅以 OCR 产出的 Markdown 作为输入源
@@ -131,6 +133,36 @@ python app/chunker.py data/processed/保险基础知多少/保险基础知多少
 python app/chunker.py data/processed data/chunks
 ```
 
+## 输出文件说明
+
+### 输出位置
+
+Chunker处理后的结果会保存到 `data/chunks/` 目录：
+
+```
+data/chunks/
+├── 保险基础知多少_chunks.json          # 生产数据（用于embedding）
+├── 友邦保险-寿险说明书_chunks.json      # 生产数据（用于embedding）
+├── 保险图片_chunks.json                # 生产数据（用于embedding）
+└── test_semantic_chunks.json          # 测试数据（可删除）
+```
+
+### 文件命名规则
+
+- **生产数据**：`{原文件名}_chunks.json`
+- **测试数据**：`test_*.json`（可以删除）
+
+### 文件内容
+
+每个JSON文件包含一个数组，每个元素是一个chunk对象，包含：
+- `chunk_id`：唯一标识符
+- `text`：原始文本（包含所有句子）
+- `embedding_text`：用于embedding的文本（已过滤跳过embedding的句子）
+- `metadata`：丰富的元数据信息
+- `sentence_infos`：句子级别的信息（是否跳过embedding）
+
+> 📋 **详细说明**：关于data目录下所有文件的详细说明，请查看 [数据目录结构说明文档](DATA_STRUCTURE.md)
+
 ## Chunk 数据结构
 
 ### Chunk 对象
@@ -143,10 +175,51 @@ class Chunk:
     metadata: ChunkMetadata # 元数据
 ```
 
-### ChunkMetadata 对象
+### ChunkMetadata 对象（完整字段）
 
 ```python
 @dataclass
+class ChunkMetadata:
+    # 基础字段
+    chunk_id: str
+    chunk_type: str              # paragraph, table, list, mixed
+    section_path: List[str]      # 标题层级路径
+    heading_level: int           # 当前所属标题级别
+    char_count: int
+    image_refs: List[str]        # 图片引用路径
+    source_file: str
+    start_line: Optional[int]
+    end_line: Optional[int]
+    has_table: bool
+    has_list: bool
+    skip_embedding: bool         # 整个chunk是否跳过embedding
+    
+    # 语义切割相关字段（新增）
+    semantic_type: Optional[str]  # '给付', '免责', '条件', '定义', '其他'
+    clause_number: Optional[str] # 条款编号
+    is_core_section: bool        # 是否属于核心条款区
+    trigger_words: Optional[List[str]]  # 语义触发词列表
+    
+    # 术语相关字段（新增）
+    key_terms: Optional[List[str]]  # 规范术语列表
+```
+
+### 字段说明
+
+**基础字段**：
+- `chunk_type`：chunk类型（段落、表格、列表等）
+- `section_path`：章节路径，如 `["保险责任", "给付条件"]`
+- `image_refs`：图片引用路径列表
+
+**语义切割字段**：
+- `semantic_type`：语义类型，用于识别chunk的语义含义
+- `trigger_words`：触发语义类型的词汇
+- `is_core_section`：是否在核心条款区（影响重复话术的判断）
+
+**术语字段**：
+- `key_terms`：从chunk文本中提取的规范术语列表
+
+### ChunkMetadata 对象（旧版字段，向后兼容）
 class ChunkMetadata:
     chunk_id: str              # chunk ID
     chunk_type: str            # 类型: paragraph, table, list, mixed
@@ -161,27 +234,51 @@ class ChunkMetadata:
     has_list: bool             # 是否包含列表
 ```
 
-### JSON 输出格式
+### JSON 输出格式（完整示例）
 
 ```json
 {
   "chunk_id": "a254d929-30c7-4b7a-a483-a0cfab2dad76",
-  "text": "chunk 的完整文本内容...",
+  "text": "被保险人因意外伤害导致身故的，保险人按照合同约定给付保险金。",
+  "embedding_text": "被保险人因意外伤害导致身故的，保险人按照合同约定给付保险金。",
   "metadata": {
     "chunk_id": "a254d929-30c7-4b7a-a483-a0cfab2dad76",
     "chunk_type": "paragraph",
-    "section_path": ["科普词02：医疗险"],
+    "section_path": ["保险责任"],
     "heading_level": 1,
-    "char_count": 322,
+    "char_count": 30,
     "image_refs": [],
     "source_file": "data/processed/保险基础知多少.md",
     "start_line": 10,
     "end_line": 15,
     "has_table": false,
-    "has_list": false
-  }
+    "has_list": false,
+    "skip_embedding": false,
+    "skip_sentences": null,
+    "semantic_type": "给付",
+    "clause_number": null,
+    "is_core_section": true,
+    "trigger_words": ["按照合同约定给付"],
+    "key_terms": ["保险金", "保险人", "给付", "被保险人", "意外伤害", "身故"]
+  },
+  "sentence_infos": [
+    {
+      "text": "被保险人因意外伤害导致身故的，保险人按照合同约定给付保险金。",
+      "skip_embedding": false,
+      "reason": ""
+    }
+  ]
 }
 ```
+
+**字段说明**：
+- `text`：原始文本（包含所有句子，包括跳过embedding的）
+- `embedding_text`：用于embedding的文本（已过滤跳过embedding的句子）
+- `semantic_type`：语义类型（给付/免责/条件/定义/其他）
+- `trigger_words`：触发语义类型的词汇列表
+- `key_terms`：提取的规范术语列表
+- `is_core_section`：是否在核心条款区
+- `sentence_infos`：每个句子的详细信息（是否跳过embedding）
 
 ## 统计信息
 

@@ -1,192 +1,1696 @@
 [
   {
-    "chunk_id": "cae63a85-d144-4d77-8f32-0dd19723ac80",
-    "text": "“健康告知”到底有多重要？\n\n相信有很多人都怕买到不好的保险，其实保险产品没有好坏之分，只有买的合不合适。今天我们就来聊聊投保前最重要的一个环节：健康告知。\n\n健康告知是指在投保时，投保人要根据保险公司提供的健康告知书，对被保人的健康状况进行告知。不论是网上买保险，还是在线下代理人处投保，都需要秉承最大诚信原则进行健康告知。\n\n如果不确定是否符合健康告知要求，可以向保险公司提出核保申请，常见的核保结论有“正常承保、除外承保、延期承保、加费承保、拒保”五类。\n\n如果在投保时没有如实告知，将给后续理赔埋下隐患，很可能导致保险合同无效或无法获得赔付。所以在投保前，最好仔细回忆被保险人的既往病史和往常检查异常项目，根据实际情况去选择合适的保险。",
+    "chunk_id": "4d1a0370-7a71-4f75-9243-ee9959eb2be6",
+    "text": "“健康告知”到底有多重要？\n\n相信有很多人都怕买到不好的保险，其实保险产品没有好坏之分，只有买的合不合适。今天我们就来聊聊投保前最重要的一个环节：健康告知。\n\n健康告知是指在投保时，投保人要根据保险公司提供的健康告知书，对被保人的健康状况进行告知。",
+    "embedding_text": "“健康告知”到底有多重要？\n\n相信有很多人都怕买到不好的保险，其实保险产品没有好坏之分，只有买的合不合适。\n今天我们就来聊聊投保前最重要的一个环节：健康告知。\n\n健康告知是指在投保时，投保人要根据保险公司提供的健康告知书，对被保人的健康状况进行告知。",
     "metadata": {
-      "chunk_id": "cae63a85-d144-4d77-8f32-0dd19723ac80",
+      "chunk_id": "4d1a0370-7a71-4f75-9243-ee9959eb2be6",
       "chunk_type": "paragraph",
       "section_path": [
         "科普词02：医疗险"
       ],
       "heading_level": 1,
-      "char_count": 322,
+      "char_count": 124,
       "image_refs": [],
       "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
       "start_line": 4,
       "end_line": 12,
       "has_table": false,
-      "has_list": false
-    }
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "定义",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [
+        "健康告知是指",
+        "健康告知是指"
+      ],
+      "key_terms": [
+        "投保人",
+        "保险人",
+        "被保险人"
+      ]
+    },
+    "sentence_infos": [
+      {
+        "text": "“健康告知”到底有多重要？",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "相信有很多人都怕买到不好的保险，其实保险产品没有好坏之分，只有买的合不合适。",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "今天我们就来聊聊投保前最重要的一个环节：健康告知。",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "健康告知是指在投保时，投保人要根据保险公司提供的健康告知书，对被保人的健康状况进行告知。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
   },
   {
-    "chunk_id": "747c757c-1b0c-4071-b12b-27bcb5319db8",
-    "text": "医疗险是以发生保险合同约定的医疗行为为给付保险金条件的保险，也就是给大家按一定比例报销看病费用的保险。\n\n最常见的医疗险就是我们常说的医保（基础医疗保险），像新型农村合作医疗（简称“新农合”）、城镇职工医保、城镇居民医保均属此类。与之对应的是商业医疗险，像百万医疗险、门诊险、癌症医疗险都属于这个范畴。\n\n而商业医疗险一般分为报销型和赔偿型两类。报销型较为常见，在保障范围内按照一定比例和规定报销看病产生的医疗费用；而赔偿型一般以津贴形式出现，符合领取条件可以按日/按次领取津贴。\n\n商业医疗险普遍价格适中，在选购时，可以多留意产品的保障范围、免赔额、报销比例、报销上限等",
+    "chunk_id": "6d7ef8b3-7a3c-4816-bbd4-e3ff61bd23e4",
+    "text": "不论是网上买保险，还是在线下代理人处投保，都需要秉承最大诚信原则进行健康告知。\n\n如果不确定是否符合健康告知要求，可以向保险公司提出核保申请，常见的核保结论有“正常承保、除外承保、延期承保、加费承保、拒保”五类。",
+    "embedding_text": "不论是网上买保险，还是在线下代理人处投保，都需要秉承最大诚信原则进行健康告知。\n\n如果不确定是否符合健康告知要求，可以向保险公司提出核保申请，常见的核保结论有“正常承保、除外承保、延期承保、加费承保、拒保”五类。",
     "metadata": {
-      "chunk_id": "747c757c-1b0c-4071-b12b-27bcb5319db8",
+      "chunk_id": "6d7ef8b3-7a3c-4816-bbd4-e3ff61bd23e4",
+      "chunk_type": "paragraph",
+      "section_path": [
+        "科普词02：医疗险"
+      ],
+      "heading_level": 1,
+      "char_count": 106,
+      "image_refs": [],
+      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
+      "start_line": 4,
+      "end_line": 12,
+      "has_table": false,
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "免责",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [
+        "除外",
+        "除外"
+      ],
+      "key_terms": [
+        "保险人",
+        "免责"
+      ]
+    },
+    "sentence_infos": [
+      {
+        "text": "不论是网上买保险，还是在线下代理人处投保，都需要秉承最大诚信原则进行健康告知。",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "如果不确定是否符合健康告知要求，可以向保险公司提出核保申请，常见的核保结论有“正常承保、除外承保、延期承保、加费承保、拒保”五类。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "chunk_id": "58cb7f87-d56d-4d02-8b30-d473a8c56bae",
+    "text": "如果在投保时没有如实告知，将给后续理赔埋下隐患，很可能导致保险合同无效或无法获得赔付。",
+    "embedding_text": "如果在投保时没有如实告知，将给后续理赔埋下隐患，很可能导致保险合同无效或无法获得赔付。",
+    "metadata": {
+      "chunk_id": "58cb7f87-d56d-4d02-8b30-d473a8c56bae",
+      "chunk_type": "paragraph",
+      "section_path": [
+        "科普词02：医疗险"
+      ],
+      "heading_level": 1,
+      "char_count": 43,
+      "image_refs": [],
+      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
+      "start_line": 4,
+      "end_line": 12,
+      "has_table": false,
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "条件",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [
+        "如果在投保时没有如实告知，",
+        "如果在投保时没有如实告知，"
+      ],
+      "key_terms": [
+        "保单",
+        "理赔",
+        "给付"
+      ]
+    },
+    "sentence_infos": [
+      {
+        "text": "如果在投保时没有如实告知，将给后续理赔埋下隐患，很可能导致保险合同无效或无法获得赔付。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "chunk_id": "8eb26cec-e92a-44b6-a0cd-76857b117cc6",
+    "text": "所以在投保前，最好仔细回忆被保险人的既往病史和往常检查异常项目，根据实际情况去选择合适的保险。",
+    "embedding_text": "所以在投保前，最好仔细回忆被保险人的既往病史和往常检查异常项目，根据实际情况去选择合适的保险。",
+    "metadata": {
+      "chunk_id": "8eb26cec-e92a-44b6-a0cd-76857b117cc6",
+      "chunk_type": "paragraph",
+      "section_path": [
+        "科普词02：医疗险"
+      ],
+      "heading_level": 1,
+      "char_count": 47,
+      "image_refs": [],
+      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
+      "start_line": 4,
+      "end_line": 12,
+      "has_table": false,
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "其他",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [],
+      "key_terms": [
+        "保险人",
+        "被保险人"
+      ]
+    },
+    "sentence_infos": [
+      {
+        "text": "所以在投保前，最好仔细回忆被保险人的既往病史和往常检查异常项目，根据实际情况去选择合适的保险。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "chunk_id": "c8d4f474-22de-4e2a-99da-ae5f49457a40",
+    "text": "医疗险是以发生保险合同约定的医疗行为为给付保险金条件的保险，也就是给大家按一定比例报销看病费用的保险。",
+    "embedding_text": "医疗险是以发生保险合同约定的医疗行为为给付保险金条件的保险，也就是给大家按一定比例报销看病费用的保险。",
+    "metadata": {
+      "chunk_id": "c8d4f474-22de-4e2a-99da-ae5f49457a40",
       "chunk_type": "paragraph",
       "section_path": [
         "科普词03：重疾险"
       ],
       "heading_level": 1,
-      "char_count": 286,
+      "char_count": 51,
       "image_refs": [],
       "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
       "start_line": 18,
       "end_line": 24,
       "has_table": false,
-      "has_list": false
-    }
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "给付",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [
+        "给付保险金",
+        "给付保险金"
+      ],
+      "key_terms": [
+        "保单",
+        "保险金",
+        "给付"
+      ]
+    },
+    "sentence_infos": [
+      {
+        "text": "医疗险是以发生保险合同约定的医疗行为为给付保险金条件的保险，也就是给大家按一定比例报销看病费用的保险。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
   },
   {
-    "chunk_id": "59187b35-04f6-4203-ba5f-cd945122bee9",
-    "text": "你知道吗？重疾险两个用途！\n\n在选购保险过程中，你一定经常听到重疾险，但是你了解什么是重疾险吗？\n\n重疾险即重大疾病保险，是一种以保险合同约定的疾病的发生、疾病状态或重大手术的实施为给付保险金条件的保险，可以叠加购买。也就是说，当被保人不幸罹患大病如保险合同约定的恶性肿瘤（癌症）、急性心肌梗死时，保险公司会根据保险条款约定，当达到合同约定的给付条件时，一次性给付给被保险人合同约定的保险金额。这笔钱可以任意支配，可以用来支撑家庭的日常开支，也可以作为家属的陪护费和因病误工费、康复资金等。\n\n需要注意的是，重疾险中的 28 类高发疾病已经在中国保险行业协会与中国医师协会发布的《重大疾病保险的疾病定义使用规范（2020年修订版）》进行了明确定义，妥妥保障消费者的合法权益。\n\n目前市面上的重疾险产品种类繁多，价格不一，要记得按需选择。",
+    "chunk_id": "24169b87-e368-4f82-a608-5fcf46c2e60e",
+    "text": "最常见的医疗险就是我们常说的医保（基础医疗保险），像新型农村合作医疗（简称“新农合”）、城镇职工医保、城镇居民医保均属此类。与之对应的是商业医疗险，像百万医疗险、门诊险、癌症医疗险都属于这个范畴。\n\n而商业医疗险一般分为报销型和赔偿型两类。报销型较为常见，在保障范围内按照一定比例和规定报销看病产生的医疗费用；",
+    "embedding_text": "最常见的医疗险就是我们常说的医保（基础医疗保险），像新型农村合作医疗（简称“新农合”）、城镇职工医保、城镇居民医保均属此类。\n与之对应的是商业医疗险，像百万医疗险、门诊险、癌症医疗险都属于这个范畴。\n\n而商业医疗险一般分为报销型和赔偿型两类。\n报销型较为常见，在保障范围内按照一定比例和规定报销看病产生的医疗费用；",
     "metadata": {
-      "chunk_id": "59187b35-04f6-4203-ba5f-cd945122bee9",
+      "chunk_id": "24169b87-e368-4f82-a608-5fcf46c2e60e",
+      "chunk_type": "paragraph",
+      "section_path": [
+        "科普词03：重疾险"
+      ],
+      "heading_level": 1,
+      "char_count": 155,
+      "image_refs": [],
+      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
+      "start_line": 18,
+      "end_line": 24,
+      "has_table": false,
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "定义",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [
+        "而商业医疗险一般分为",
+        "而商业医疗险一般分为",
+        "报销型较为"
+      ],
+      "key_terms": [
+        "给付",
+        "保险责任"
+      ]
+    },
+    "sentence_infos": [
+      {
+        "text": "最常见的医疗险就是我们常说的医保（基础医疗保险），像新型农村合作医疗（简称“新农合”）、城镇职工医保、城镇居民医保均属此类。",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "与之对应的是商业医疗险，像百万医疗险、门诊险、癌症医疗险都属于这个范畴。",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "而商业医疗险一般分为报销型和赔偿型两类。",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "报销型较为常见，在保障范围内按照一定比例和规定报销看病产生的医疗费用；",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "chunk_id": "1e5d2045-7c1c-4b24-af18-8b16535fc1c2",
+    "text": "而赔偿型一般以津贴形式出现，符合领取条件可以按日/按次领取津贴。\n\n商业医疗险普遍价格适中，在选购时，可以多留意产品的保障范围、免赔额、报销比例、报销上限等",
+    "embedding_text": "而赔偿型一般以津贴形式出现，符合领取条件可以按日/按次领取津贴。\n\n商业医疗险普遍价格适中，在选购时，可以多留意产品的保障范围、免赔额、报销比例、报销上限等",
+    "metadata": {
+      "chunk_id": "1e5d2045-7c1c-4b24-af18-8b16535fc1c2",
+      "chunk_type": "paragraph",
+      "section_path": [
+        "科普词03：重疾险"
+      ],
+      "heading_level": 1,
+      "char_count": 78,
+      "image_refs": [],
+      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
+      "start_line": 18,
+      "end_line": 24,
+      "has_table": false,
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "其他",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [],
+      "key_terms": [
+        "给付",
+        "保险责任",
+        "免赔额"
+      ]
+    },
+    "sentence_infos": [
+      {
+        "text": "而赔偿型一般以津贴形式出现，符合领取条件可以按日/按次领取津贴。",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "商业医疗险普遍价格适中，在选购时，可以多留意产品的保障范围、免赔额、报销比例、报销上限等",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "chunk_id": "267574f9-9e78-4212-b128-f09612c889e1",
+    "text": "你知道吗？重疾险两个用途！\n\n在选购保险过程中，你一定经常听到重疾险，但是你了解什么是重疾险吗？",
+    "embedding_text": "你知道吗？\n重疾险两个用途！\n\n在选购保险过程中，你一定经常听到重疾险，但是你了解什么是重疾险吗？",
+    "metadata": {
+      "chunk_id": "267574f9-9e78-4212-b128-f09612c889e1",
       "chunk_type": "paragraph",
       "section_path": [
         "科普词04：防癌险"
       ],
       "heading_level": 1,
-      "char_count": 368,
+      "char_count": 48,
       "image_refs": [],
       "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
       "start_line": 28,
       "end_line": 36,
       "has_table": false,
-      "has_list": false
-    }
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "免责",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [
+        "但是",
+        "但是"
+      ],
+      "key_terms": [
+        "重大疾病"
+      ]
+    },
+    "sentence_infos": [
+      {
+        "text": "你知道吗？",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "重疾险两个用途！",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "在选购保险过程中，你一定经常听到重疾险，但是你了解什么是重疾险吗？",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
   },
   {
-    "chunk_id": "a6396555-11fd-4a02-99da-e8e73b5deca4",
-    "text": "防癌险，是专门保障恶性肿瘤的一种保险，专注重疾中发病率较高的癌症保障。和重疾险相比，防癌险的保费普遍会低一点，可以花更少的保费换取更高的保额。\n\n目前市场上的防癌险主要有两大类型：\n\n1.报销型防癌险。这种产品多数都是属于百万医疗险的分支，产品核心责任形态与百万医疗险极为相似，但是报销范围仅限于恶性肿瘤医疗费，算是责任缩小版的特定责任百万医疗险。目前市面上的报销型防癌险（也称癌症医疗险），对身体健康以及投保年龄要求要比百万医疗险宽松。\n\n2. 给付型防癌险。这种产品属于重疾险的一个分支，即以确诊恶性肿瘤为理赔条件的一次性给付约定保额的保险。\n\n\n如果正打算为父母选购健康保险，防癌险是个不错的选择。",
+    "chunk_id": "d6ee3e8a-6798-47d2-92b5-d1ba981ef10a",
+    "text": "重疾险即重大疾病保险，是一种以保险合同约定的疾病的发生、疾病状态或重大手术的实施为给付保险金条件的保险，可以叠加购买。",
+    "embedding_text": "重疾险即重大疾病保险，是一种以保险合同约定的疾病的发生、疾病状态或重大手术的实施为给付保险金条件的保险，可以叠加购买。",
     "metadata": {
-      "chunk_id": "a6396555-11fd-4a02-99da-e8e73b5deca4",
+      "chunk_id": "d6ee3e8a-6798-47d2-92b5-d1ba981ef10a",
+      "chunk_type": "paragraph",
+      "section_path": [
+        "科普词04：防癌险"
+      ],
+      "heading_level": 1,
+      "char_count": 59,
+      "image_refs": [],
+      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
+      "start_line": 28,
+      "end_line": 36,
+      "has_table": false,
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "给付",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [
+        "给付保险金",
+        "给付保险金"
+      ],
+      "key_terms": [
+        "保单",
+        "重大疾病",
+        "给付",
+        "保险金",
+        "疾病"
+      ]
+    },
+    "sentence_infos": [
+      {
+        "text": "重疾险即重大疾病保险，是一种以保险合同约定的疾病的发生、疾病状态或重大手术的实施为给付保险金条件的保险，可以叠加购买。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "chunk_id": "af2e302a-2ee9-48f5-9acf-546229e053d3",
+    "text": "也就是说，当被保人不幸罹患大病如保险合同约定的恶性肿瘤（癌症）、急性心肌梗死时，保险公司会根据保险条款约定，当达到合同约定的给付条件时，一次性给付给被保险人合同约定的保险金额。",
+    "embedding_text": "也就是说，当被保人不幸罹患大病如保险合同约定的恶性肿瘤（癌症）、急性心肌梗死时，保险公司会根据保险条款约定，当达到合同约定的给付条件时，一次性给付给被保险人合同约定的保险金额。",
+    "metadata": {
+      "chunk_id": "af2e302a-2ee9-48f5-9acf-546229e053d3",
+      "chunk_type": "paragraph",
+      "section_path": [
+        "科普词04：防癌险"
+      ],
+      "heading_level": 1,
+      "char_count": 88,
+      "image_refs": [],
+      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
+      "start_line": 28,
+      "end_line": 36,
+      "has_table": false,
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "条件",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [
+        "当被保人不幸罹患大病如保险合同约定的恶性肿瘤（癌症）、急性心肌梗死时",
+        "当达到合同约定的给付条件时"
+      ],
+      "key_terms": [
+        "保单",
+        "条款",
+        "给付",
+        "保险金",
+        "保险金额",
+        "被保险人",
+        "保险人"
+      ]
+    },
+    "sentence_infos": [
+      {
+        "text": "也就是说，当被保人不幸罹患大病如保险合同约定的恶性肿瘤（癌症）、急性心肌梗死时，保险公司会根据保险条款约定，当达到合同约定的给付条件时，一次性给付给被保险人合同约定的保险金额。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "chunk_id": "dacdb568-09f9-43cb-b4de-2d1f74942fea",
+    "text": "这笔钱可以任意支配，可以用来支撑家庭的日常开支，也可以作为家属的陪护费和因病误工费、康复资金等。",
+    "embedding_text": "这笔钱可以任意支配，可以用来支撑家庭的日常开支，也可以作为家属的陪护费和因病误工费、康复资金等。",
+    "metadata": {
+      "chunk_id": "dacdb568-09f9-43cb-b4de-2d1f74942fea",
+      "chunk_type": "paragraph",
+      "section_path": [
+        "科普词04：防癌险"
+      ],
+      "heading_level": 1,
+      "char_count": 48,
+      "image_refs": [],
+      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
+      "start_line": 28,
+      "end_line": 36,
+      "has_table": false,
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "定义",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [
+        "也可以作为"
+      ],
+      "key_terms": null
+    },
+    "sentence_infos": [
+      {
+        "text": "这笔钱可以任意支配，可以用来支撑家庭的日常开支，也可以作为家属的陪护费和因病误工费、康复资金等。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "chunk_id": "19fad51b-9438-4513-ad50-32253a250275",
+    "text": "需要注意的是，重疾险中的 28 类高发疾病已经在中国保险行业协会与中国医师协会发布的《重大疾病保险的疾病定义使用规范（2020年修订版）》进行了明确定义，妥妥保障消费者的合法权益。\n\n目前市面上的重疾险产品种类繁多，价格不一，要记得按需选择。",
+    "embedding_text": "需要注意的是，重疾险中的 28 类高发疾病已经在中国保险行业协会与中国医师协会发布的《重大疾病保险的疾病定义使用规范（2020年修订版）》进行了明确定义，妥妥保障消费者的合法权益。\n\n目前市面上的重疾险产品种类繁多，价格不一，要记得按需选择。",
+    "metadata": {
+      "chunk_id": "19fad51b-9438-4513-ad50-32253a250275",
+      "chunk_type": "paragraph",
+      "section_path": [
+        "科普词04：防癌险"
+      ],
+      "heading_level": 1,
+      "char_count": 121,
+      "image_refs": [],
+      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
+      "start_line": 28,
+      "end_line": 36,
+      "has_table": false,
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "其他",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [],
+      "key_terms": [
+        "疾病",
+        "重大疾病"
+      ]
+    },
+    "sentence_infos": [
+      {
+        "text": "需要注意的是，重疾险中的 28 类高发疾病已经在中国保险行业协会与中国医师协会发布的《重大疾病保险的疾病定义使用规范（2020年修订版）》进行了明确定义，妥妥保障消费者的合法权益。",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "目前市面上的重疾险产品种类繁多，价格不一，要记得按需选择。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "chunk_id": "99f76778-32f4-4753-9582-9aa1c6e5ccbf",
+    "text": "防癌险，是专门保障恶性肿瘤的一种保险，专注重疾中发病率较高的癌症保障。和重疾险相比，防癌险的保费普遍会低一点，可以花更少的保费换取更高的保额。\n\n目前市场上的防癌险主要有两大类型：\n\n1.报销型防癌险。这种产品多数都是属于百万医疗险的分支，产品核心责任形态与百万医疗险极为相似，但是报销范围仅限于恶性肿瘤医疗费，算是责任缩小版的特定责任百万医疗险。",
+    "embedding_text": "防癌险，是专门保障恶性肿瘤的一种保险，专注重疾中发病率较高的癌症保障。\n和重疾险相比，防癌险的保费普遍会低一点，可以花更少的保费换取更高的保额。\n\n目前市场上的防癌险主要有两大类型：\n\n1.报销型防癌险。\n这种产品多数都是属于百万医疗险的分支，产品核心责任形态与百万医疗险极为相似，但是报销范围仅限于恶性肿瘤医疗费，算是责任缩小版的特定责任百万医疗险。",
+    "metadata": {
+      "chunk_id": "99f76778-32f4-4753-9582-9aa1c6e5ccbf",
       "chunk_type": "list",
       "section_path": [
         "科普词05：意外险"
       ],
       "heading_level": 1,
-      "char_count": 302,
+      "char_count": 174,
       "image_refs": [],
       "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
       "start_line": 42,
       "end_line": 49,
       "has_table": false,
-      "has_list": true
-    }
+      "has_list": true,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "免责",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [
+        "但是",
+        "但是"
+      ],
+      "key_terms": [
+        "保险金额",
+        "保险费",
+        "重大疾病"
+      ]
+    },
+    "sentence_infos": [
+      {
+        "text": "防癌险，是专门保障恶性肿瘤的一种保险，专注重疾中发病率较高的癌症保障。",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "和重疾险相比，防癌险的保费普遍会低一点，可以花更少的保费换取更高的保额。",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "目前市场上的防癌险主要有两大类型：",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "1.报销型防癌险。",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "这种产品多数都是属于百万医疗险的分支，产品核心责任形态与百万医疗险极为相似，但是报销范围仅限于恶性肿瘤医疗费，算是责任缩小版的特定责任百万医疗险。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
   },
   {
-    "chunk_id": "dcac6e12-a2d2-495e-900a-459785ca31bb",
-    "text": "虽然意外这个词我们并不陌生，但在保险里它可不是一个简单的名词。\n\n意外险，全称意外伤害保险，其对意外的定义包含四要素: $\\textcircled{1}$ 外来的、 $\\textcircled{2}$ 突发的（不可预见的）、 $\\textcircled{3}$ 非本意的、 $\\textcircled{4}$ 非疾病的。像猫狗咬伤、踩到香蕉皮摔伤等都属于意外情况。\n\n一般意外险的理赔分为意外身故，意外伤残两种情况，也就是说被保人失去了生命或行动能力，受益人才能得到保险金。\n\n但毕竟不是每一次的意外都会造成这么严重的后果，所以保险公司就推出了意外医疗保险，专门用于报销被保人因为意外事故导致的门诊或者住院费用。\n\n目前市面上的意外险一般会和意外医疗保险一起组合销售。",
+    "chunk_id": "8b40bce1-c507-4fac-8b12-45d73b6aa9be",
+    "text": "目前市面上的报销型防癌险（也称癌症医疗险），对身体健康以及投保年龄要求要比百万医疗险宽松。\n\n2. 给付型防癌险。这种产品属于重疾险的一个分支，即以确诊恶性肿瘤为理赔条件的一次性给付约定保额的保险。",
+    "embedding_text": "目前市面上的报销型防癌险（也称癌症医疗险），对身体健康以及投保年龄要求要比百万医疗险宽松。\n\n2. 给付型防癌险。\n这种产品属于重疾险的一个分支，即以确诊恶性肿瘤为理赔条件的一次性给付约定保额的保险。",
     "metadata": {
-      "chunk_id": "dcac6e12-a2d2-495e-900a-459785ca31bb",
+      "chunk_id": "8b40bce1-c507-4fac-8b12-45d73b6aa9be",
+      "chunk_type": "list",
+      "section_path": [
+        "科普词05：意外险"
+      ],
+      "heading_level": 1,
+      "char_count": 99,
+      "image_refs": [],
+      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
+      "start_line": 42,
+      "end_line": 49,
+      "has_table": false,
+      "has_list": true,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "定义",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [
+        "即",
+        "以确诊恶性肿瘤为",
+        "即",
+        "以确诊恶性肿瘤为"
+      ],
+      "key_terms": [
+        "保险金额",
+        "给付",
+        "重大疾病",
+        "理赔"
+      ]
+    },
+    "sentence_infos": [
+      {
+        "text": "目前市面上的报销型防癌险（也称癌症医疗险），对身体健康以及投保年龄要求要比百万医疗险宽松。",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "2. 给付型防癌险。",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "这种产品属于重疾险的一个分支，即以确诊恶性肿瘤为理赔条件的一次性给付约定保额的保险。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "chunk_id": "c0537031-f17a-4f49-9575-4847b49d9ea3",
+    "text": "如果正打算为父母选购健康保险，防癌险是个不错的选择。",
+    "embedding_text": "如果正打算为父母选购健康保险，防癌险是个不错的选择。",
+    "metadata": {
+      "chunk_id": "c0537031-f17a-4f49-9575-4847b49d9ea3",
+      "chunk_type": "list",
+      "section_path": [
+        "科普词05：意外险"
+      ],
+      "heading_level": 1,
+      "char_count": 26,
+      "image_refs": [],
+      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
+      "start_line": 42,
+      "end_line": 49,
+      "has_table": false,
+      "has_list": true,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "条件",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [
+        "如果正打算为父母选购健康保险，",
+        "如果正打算为父母选购健康保险，"
+      ],
+      "key_terms": null
+    },
+    "sentence_infos": [
+      {
+        "text": "如果正打算为父母选购健康保险，防癌险是个不错的选择。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "chunk_id": "6cab65cd-2ec4-4c94-a7b4-b70383811198",
+    "text": "虽然意外这个词我们并不陌生，但在保险里它可不是一个简单的名词。",
+    "embedding_text": "虽然意外这个词我们并不陌生，但在保险里它可不是一个简单的名词。",
+    "metadata": {
+      "chunk_id": "6cab65cd-2ec4-4c94-a7b4-b70383811198",
       "chunk_type": "paragraph",
       "section_path": [
         "科普词 06：定期寿险"
       ],
       "heading_level": 1,
-      "char_count": 334,
+      "char_count": 31,
       "image_refs": [],
       "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
       "start_line": 55,
       "end_line": 63,
       "has_table": false,
-      "has_list": false
-    }
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "免责",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [
+        "但在",
+        "但在"
+      ],
+      "key_terms": [
+        "意外伤害"
+      ]
+    },
+    "sentence_infos": [
+      {
+        "text": "虽然意外这个词我们并不陌生，但在保险里它可不是一个简单的名词。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
   },
   {
-    "chunk_id": "3a1538c1-adb6-4483-8349-88d381e1a769",
-    "text": "定期寿险，是指在保险合同约定期限内，如果被保险人身故 （部分产品包含全残责任），则保险公司按照约定的保险金额给付保险金，反之则保障终止，是一种消费型保险。\n\n从保障期限看，定期寿险的保险期限有 10 年、15 年、20 年，或到被保险人 50岁、60 岁等约定年龄等多项选择。\n\n那定期寿险适合哪些人？\n\n家庭的经济支柱\n\n$\\bullet$ 有房贷的人\n\n事业刚起步的年轻人\n\n当处于人生责任最重的时候，万一发生意外，房贷、孩子教育、老人赡养等压力，都会让整个家庭不堪重负，在预算范围内选择合适保额的定期寿险，提前给家加个保护伞。",
+    "chunk_id": "e777a93f-af33-4072-ab81-2440b9a8ad56",
+    "text": "意外险，全称意外伤害保险，其对意外的定义包含四要素: $\\textcircled{1}$ 外来的、 $\\textcircled{2}$ 突发的（不可预见的）、 $\\textcircled{3}$ 非本意的、 $\\textcircled{4}$ 非疾病的。",
+    "embedding_text": "意外险，全称意外伤害保险，其对意外的定义包含四要素: $\\textcircled{1}$ 外来的、 $\\textcircled{2}$ 突发的（不可预见的）、 $\\textcircled{3}$ 非本意的、 $\\textcircled{4}$ 非疾病的。",
     "metadata": {
-      "chunk_id": "3a1538c1-adb6-4483-8349-88d381e1a769",
-      "chunk_type": "list",
+      "chunk_id": "e777a93f-af33-4072-ab81-2440b9a8ad56",
+      "chunk_type": "paragraph",
+      "section_path": [
+        "科普词 06：定期寿险"
+      ],
+      "heading_level": 1,
+      "char_count": 127,
+      "image_refs": [],
+      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
+      "start_line": 55,
+      "end_line": 63,
+      "has_table": false,
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "定义",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [
+        "其对意外的定义包含",
+        "其对意外的定义包含"
+      ],
+      "key_terms": [
+        "意外伤害",
+        "疾病"
+      ]
+    },
+    "sentence_infos": [
+      {
+        "text": "意外险，全称意外伤害保险，其对意外的定义包含四要素: $\\textcircled{1}$ 外来的、 $\\textcircled{2}$ 突发的（不可预见的）、 $\\textcircled{3}$ 非本意的、 $\\textcircled{4}$ 非疾病的。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "chunk_id": "8b2bec02-6669-44bf-8b35-ad316228e273",
+    "text": "像猫狗咬伤、踩到香蕉皮摔伤等都属于意外情况。\n\n一般意外险的理赔分为意外身故，意外伤残两种情况，也就是说被保人失去了生命或行动能力，受益人才能得到保险金。",
+    "embedding_text": "像猫狗咬伤、踩到香蕉皮摔伤等都属于意外情况。\n\n一般意外险的理赔分为意外身故，意外伤残两种情况，也就是说被保人失去了生命或行动能力，受益人才能得到保险金。",
+    "metadata": {
+      "chunk_id": "8b2bec02-6669-44bf-8b35-ad316228e273",
+      "chunk_type": "paragraph",
+      "section_path": [
+        "科普词 06：定期寿险"
+      ],
+      "heading_level": 1,
+      "char_count": 77,
+      "image_refs": [],
+      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
+      "start_line": 55,
+      "end_line": 63,
+      "has_table": false,
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "定义",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [
+        "一般意外险的理赔分为",
+        "一般意外险的理赔分为"
+      ],
+      "key_terms": [
+        "理赔",
+        "受益人",
+        "身故",
+        "保险金",
+        "被保险人",
+        "意外伤害",
+        "伤残"
+      ]
+    },
+    "sentence_infos": [
+      {
+        "text": "像猫狗咬伤、踩到香蕉皮摔伤等都属于意外情况。",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "一般意外险的理赔分为意外身故，意外伤残两种情况，也就是说被保人失去了生命或行动能力，受益人才能得到保险金。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "chunk_id": "4a3cba86-b2f3-4baf-ac23-e4f366994e27",
+    "text": "但毕竟不是每一次的意外都会造成这么严重的后果，所以保险公司就推出了意外医疗保险，专门用于报销被保人因为意外事故导致的门诊或者住院费用。",
+    "embedding_text": "但毕竟不是每一次的意外都会造成这么严重的后果，所以保险公司就推出了意外医疗保险，专门用于报销被保人因为意外事故导致的门诊或者住院费用。",
+    "metadata": {
+      "chunk_id": "4a3cba86-b2f3-4baf-ac23-e4f366994e27",
+      "chunk_type": "paragraph",
+      "section_path": [
+        "科普词 06：定期寿险"
+      ],
+      "heading_level": 1,
+      "char_count": 67,
+      "image_refs": [],
+      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
+      "start_line": 55,
+      "end_line": 63,
+      "has_table": false,
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "条件",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [
+        "因为意外事故导致",
+        "因为意外事故导致"
+      ],
+      "key_terms": [
+        "意外伤害",
+        "保险人",
+        "被保险人"
+      ]
+    },
+    "sentence_infos": [
+      {
+        "text": "但毕竟不是每一次的意外都会造成这么严重的后果，所以保险公司就推出了意外医疗保险，专门用于报销被保人因为意外事故导致的门诊或者住院费用。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "chunk_id": "950351ae-e5bc-4bb8-8c95-1dce3be4a3a2",
+    "text": "目前市面上的意外险一般会和意外医疗保险一起组合销售。",
+    "embedding_text": "目前市面上的意外险一般会和意外医疗保险一起组合销售。",
+    "metadata": {
+      "chunk_id": "950351ae-e5bc-4bb8-8c95-1dce3be4a3a2",
+      "chunk_type": "paragraph",
+      "section_path": [
+        "科普词 06：定期寿险"
+      ],
+      "heading_level": 1,
+      "char_count": 26,
+      "image_refs": [],
+      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
+      "start_line": 55,
+      "end_line": 63,
+      "has_table": false,
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "其他",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [],
+      "key_terms": [
+        "意外伤害"
+      ]
+    },
+    "sentence_infos": [
+      {
+        "text": "目前市面上的意外险一般会和意外医疗保险一起组合销售。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "chunk_id": "0690b016-e3ab-4e84-b582-26969e39182e",
+    "text": "定期寿险，是指在保险合同约定期限内，如果被保险人身故 （部分产品包含全残责任），则保险公司按照约定的保险金额给付保险金，反之则保障终止，是一种消费型保险。",
+    "embedding_text": "定期寿险，是指在保险合同约定期限内，如果被保险人身故 （部分产品包含全残责任），则保险公司按照约定的保险金额给付保险金，反之则保障终止，是一种消费型保险。",
+    "metadata": {
+      "chunk_id": "0690b016-e3ab-4e84-b582-26969e39182e",
+      "chunk_type": "paragraph",
       "section_path": [
         "科普词07：终身寿险"
       ],
       "heading_level": 1,
-      "char_count": 266,
+      "char_count": 77,
       "image_refs": [],
       "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
       "start_line": 69,
-      "end_line": 79,
+      "end_line": 78,
       "has_table": false,
-      "has_list": true
-    }
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "给付",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [
+        "给付保险金",
+        "给付保险金"
+      ],
+      "key_terms": [
+        "保单",
+        "身故",
+        "给付",
+        "保险金",
+        "保险金额",
+        "被保险人",
+        "保险人"
+      ]
+    },
+    "sentence_infos": [
+      {
+        "text": "定期寿险，是指在保险合同约定期限内，如果被保险人身故 （部分产品包含全残责任），则保险公司按照约定的保险金额给付保险金，反之则保障终止，是一种消费型保险。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
   },
   {
-    "chunk_id": "63693e5f-5554-4ca2-b4bf-dcbf5b0eb300",
-    "text": "终身寿险是指按照保险合同约定，以被保人身故为给付保险金条件，且保险期间为终身的人寿保险。与定期寿险最大的区别就是保障时间的不同，终身寿险是保一辈子的保障，正因为这一差别，同等保额下，终身寿险的保费也会远高于定期寿险。\n\n哪些人适合买终身寿险呢？\n\n能负担较高保费预算的人\n\n$\\bullet$ 有储蓄和保障双重需求的人\n\n有财富传承需求的人\n\n购买终身寿险的主要作用，可以分为投保前期和投保后期两个阶段，投保前期由于保费保额的杠杆比，是具备一定的保障功能的；而在投保后期的作用主要是通\n\n过其储蓄功能来让资金增值，给自己的子孙留一笔确定性的遗产，这也是选择终身寿险来进行财富传承的一个优势。",
+    "chunk_id": "10a27de6-5dfd-43d7-8238-ccdbef540a0f",
+    "text": "从保障期限看，定期寿险的保险期限有 10 年、15 年、20 年，或到被保险人 50岁、60 岁等约定年龄等多项选择。\n\n那定期寿险适合哪些人？\n\n家庭的经济支柱 $\\bullet$ 有房贷的人\n事业刚起步的年轻人\n\n当处于人生责任最重的时候，万一发生意外，房贷、孩子教育、老人赡养等压力，都会让整个家庭不堪重负，在预算范围内选择合适保额的定期寿险，提前给家加个保护伞。",
+    "embedding_text": "从保障期限看，定期寿险的保险期限有 10 年、15 年、20 年，或到被保险人 50岁、60 岁等约定年龄等多项选择。\n\n那定期寿险适合哪些人？\n\n家庭的经济支柱 $\\bullet$ 有房贷的人\n事业刚起步的年轻人\n\n当处于人生责任最重的时候，万一发生意外，房贷、孩子教育、老人赡养等压力，都会让整个家庭不堪重负，在预算范围内选择合适保额的定期寿险，提前给家加个保护伞。",
     "metadata": {
-      "chunk_id": "63693e5f-5554-4ca2-b4bf-dcbf5b0eb300",
-      "chunk_type": "list",
+      "chunk_id": "10a27de6-5dfd-43d7-8238-ccdbef540a0f",
+      "chunk_type": "paragraph",
+      "section_path": [
+        "科普词07：终身寿险"
+      ],
+      "heading_level": 1,
+      "char_count": 185,
+      "image_refs": [],
+      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
+      "start_line": 69,
+      "end_line": 78,
+      "has_table": false,
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "条件",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [
+        "当处于人生责任最重的时",
+        "当处于人生责任最重的时"
+      ],
+      "key_terms": [
+        "保险金额",
+        "被保险人",
+        "意外伤害",
+        "保险人",
+        "保险期间"
+      ]
+    },
+    "sentence_infos": [
+      {
+        "text": "从保障期限看，定期寿险的保险期限有 10 年、15 年、20 年，或到被保险人 50岁、60 岁等约定年龄等多项选择。",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "那定期寿险适合哪些人？",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "家庭的经济支柱 $\\bullet$ 有房贷的人",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "事业刚起步的年轻人",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "当处于人生责任最重的时候，万一发生意外，房贷、孩子教育、老人赡养等压力，都会让整个家庭不堪重负，在预算范围内选择合适保额的定期寿险，提前给家加个保护伞。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "chunk_id": "2ec96b46-f190-4a1e-9ede-b48868d9ff9b",
+    "text": "终身寿险是指按照保险合同约定，以被保人身故为给付保险金条件，且保险期间为终身的人寿保险。",
+    "embedding_text": "终身寿险是指按照保险合同约定，以被保人身故为给付保险金条件，且保险期间为终身的人寿保险。",
+    "metadata": {
+      "chunk_id": "2ec96b46-f190-4a1e-9ede-b48868d9ff9b",
+      "chunk_type": "paragraph",
       "section_path": [
         "科普词 8：防范非法集资"
       ],
       "heading_level": 1,
-      "char_count": 295,
+      "char_count": 44,
       "image_refs": [],
       "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
-      "start_line": 85,
-      "end_line": 95,
+      "start_line": 84,
+      "end_line": 93,
       "has_table": false,
-      "has_list": true
-    }
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "给付",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [
+        "给付保险金",
+        "给付保险金"
+      ],
+      "key_terms": [
+        "保单",
+        "身故",
+        "给付",
+        "保险金",
+        "被保险人",
+        "保险期间"
+      ]
+    },
+    "sentence_infos": [
+      {
+        "text": "终身寿险是指按照保险合同约定，以被保人身故为给付保险金条件，且保险期间为终身的人寿保险。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
   },
   {
-    "chunk_id": "befd6d28-3e59-4c53-8244-245bddfd7af8",
-    "text": "最近“防范非法集资”几个字经常出现在大街小巷，我们今天就来聊聊什么是非法集资。\n\n非法集资是指违反国家金融管理法律规定，向社会公众（包括单位和个人）吸收资金的行为。根据我国相关法律法规的规定，非法集资不受法律保护，参与非法集资风险自担。\n\n那么购买保险时，如何识别和防范非法集资？主要有以下两点：\n\n1、 通过银行业金融机构、保险机构的官方网站、客户服务电话等正规服务渠道,是获取保单服务的正确途径；\n2、注意保护个人信息，关注正规机构发布的银行、保险广告信息和非法集资风险提示，遇到涉嫌非法集资的行为及时举报投诉。",
+    "chunk_id": "e649d270-b544-428a-92b4-03ea568b9884",
+    "text": "与定期寿险最大的区别就是保障时间的不同，终身寿险是保一辈子的保障，正因为这一差别，同等保额下，终身寿险的保费也会远高于定期寿险。",
+    "embedding_text": "与定期寿险最大的区别就是保障时间的不同，终身寿险是保一辈子的保障，正因为这一差别，同等保额下，终身寿险的保费也会远高于定期寿险。",
     "metadata": {
-      "chunk_id": "befd6d28-3e59-4c53-8244-245bddfd7af8",
+      "chunk_id": "e649d270-b544-428a-92b4-03ea568b9884",
+      "chunk_type": "paragraph",
+      "section_path": [
+        "科普词 8：防范非法集资"
+      ],
+      "heading_level": 1,
+      "char_count": 64,
+      "image_refs": [],
+      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
+      "start_line": 84,
+      "end_line": 93,
+      "has_table": false,
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "定义",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [
+        "正因为"
+      ],
+      "key_terms": [
+        "保险费",
+        "保险金额"
+      ]
+    },
+    "sentence_infos": [
+      {
+        "text": "与定期寿险最大的区别就是保障时间的不同，终身寿险是保一辈子的保障，正因为这一差别，同等保额下，终身寿险的保费也会远高于定期寿险。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "chunk_id": "7774c78e-f13e-4cfe-80c0-aee0c4caaa2f",
+    "text": "哪些人适合买终身寿险呢？\n\n能负担较高保费预算的人 $\\bullet$ 有储蓄和保障双重需求的人\n有财富传承需求的人\n\n购买终身寿险的主要作用，可以分为投保前期和投保后期两个阶段，投保前期由于保费保额的杠杆比，是具备一定的保障功能的；",
+    "embedding_text": "哪些人适合买终身寿险呢？\n\n能负担较高保费预算的人 $\\bullet$ 有储蓄和保障双重需求的人\n有财富传承需求的人\n\n购买终身寿险的主要作用，可以分为投保前期和投保后期两个阶段，投保前期由于保费保额的杠杆比，是具备一定的保障功能的；",
+    "metadata": {
+      "chunk_id": "7774c78e-f13e-4cfe-80c0-aee0c4caaa2f",
+      "chunk_type": "paragraph",
+      "section_path": [
+        "科普词 8：防范非法集资"
+      ],
+      "heading_level": 1,
+      "char_count": 117,
+      "image_refs": [],
+      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
+      "start_line": 84,
+      "end_line": 93,
+      "has_table": false,
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "定义",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [
+        "可以分为",
+        "可以分为"
+      ],
+      "key_terms": [
+        "保险费",
+        "保险金额"
+      ]
+    },
+    "sentence_infos": [
+      {
+        "text": "哪些人适合买终身寿险呢？",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "能负担较高保费预算的人 $\\bullet$ 有储蓄和保障双重需求的人",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "有财富传承需求的人",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "购买终身寿险的主要作用，可以分为投保前期和投保后期两个阶段，投保前期由于保费保额的杠杆比，是具备一定的保障功能的；",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "chunk_id": "a0c80637-f0e0-4962-a625-81b03f43dafb",
+    "text": "而在投保后期的作用主要是通\n\n过其储蓄功能来让资金增值，给自己的子孙留一笔确定性的遗产，这也是选择终身寿险来进行财富传承的一个优势。",
+    "embedding_text": "而在投保后期的作用主要是通\n\n过其储蓄功能来让资金增值，给自己的子孙留一笔确定性的遗产，这也是选择终身寿险来进行财富传承的一个优势。",
+    "metadata": {
+      "chunk_id": "a0c80637-f0e0-4962-a625-81b03f43dafb",
+      "chunk_type": "paragraph",
+      "section_path": [
+        "科普词 8：防范非法集资"
+      ],
+      "heading_level": 1,
+      "char_count": 66,
+      "image_refs": [],
+      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
+      "start_line": 84,
+      "end_line": 93,
+      "has_table": false,
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "其他",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [],
+      "key_terms": null
+    },
+    "sentence_infos": [
+      {
+        "text": "而在投保后期的作用主要是通",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "过其储蓄功能来让资金增值，给自己的子孙留一笔确定性的遗产，这也是选择终身寿险来进行财富传承的一个优势。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "chunk_id": "ed491c76-9c68-4337-9a2a-10c1d6857582",
+    "text": "最近“防范非法集资”几个字经常出现在大街小巷，我们今天就来聊聊什么是非法集资。\n\n非法集资是指违反国家金融管理法律规定，向社会公众（包括单位和个人）吸收资金的行为。",
+    "embedding_text": "最近“防范非法集资”几个字经常出现在大街小巷，我们今天就来聊聊什么是非法集资。\n\n非法集资是指违反国家金融管理法律规定，向社会公众（包括单位和个人）吸收资金的行为。",
+    "metadata": {
+      "chunk_id": "ed491c76-9c68-4337-9a2a-10c1d6857582",
       "chunk_type": "paragraph",
       "section_path": [
         "科普词9：反保险欺诈"
       ],
       "heading_level": 1,
-      "char_count": 258,
+      "char_count": 82,
       "image_refs": [],
       "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
-      "start_line": 101,
-      "end_line": 107,
+      "start_line": 99,
+      "end_line": 105,
       "has_table": false,
-      "has_list": false
-    }
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "定义",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [
+        "非法集资是指",
+        "向社会公众（包括单位和个人）吸收资金的行为",
+        "非法集资是指",
+        "向社会公众（包括单位和个人）吸收资金的行为"
+      ],
+      "key_terms": null
+    },
+    "sentence_infos": [
+      {
+        "text": "最近“防范非法集资”几个字经常出现在大街小巷，我们今天就来聊聊什么是非法集资。",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "非法集资是指违反国家金融管理法律规定，向社会公众（包括单位和个人）吸收资金的行为。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
   },
   {
-    "chunk_id": "45d460a9-6018-49a9-9cb8-68d9d0f345e1",
-    "text": "根据监管部门《反保险欺诈指引》的规定，保险欺诈是指假借保险名义或利用保险合同牟取非法利益的行为，主要包括保险金诈骗类欺诈行为、非法经营保险业务类欺诈行为和保险合同诈骗类欺诈行为等。\n\n那么，保险欺诈要承担哪些法律后果？\n\n1、谎称发生保险事故向保险人提出索赔的，保险人有权解除保险合同，结束保险合同关系，并且不退还保险费。\n2、制造保险事故的，保险人有权解除保险合同，不承担赔偿或者给付保险金的责任。\n3、虚报事故原因，夸大损失程度的，保险人对其虚报部分不承担赔偿或者给付保险金的责任。",
+    "chunk_id": "d9e4cacd-7e30-49fb-a84d-7bcae85f3c99",
+    "text": "根据我国相关法律法规的规定，非法集资不受法律保护，参与非法集资风险自担。\n\n那么购买保险时，如何识别和防范非法集资？主要有以下两点：\n\n1、 通过银行业金融机构、保险机构的官方网站、客户服务电话等正规服务渠道,是获取保单服务的正确途径；\n2、注意保护个人信息，关注正规机构发布的银行、保险广告信息和非法集资风险提示，遇到涉嫌非法集资的行为及时举报投诉。",
+    "embedding_text": "根据我国相关法律法规的规定，非法集资不受法律保护，参与非法集资风险自担。\n\n那么购买保险时，如何识别和防范非法集资？\n主要有以下两点：\n\n1、 通过银行业金融机构、保险机构的官方网站、客户服务电话等正规服务渠道,是获取保单服务的正确途径；\n2、注意保护个人信息，关注正规机构发布的银行、保险广告信息和非法集资风险提示，遇到涉嫌非法集资的行为及时举报投诉。",
     "metadata": {
-      "chunk_id": "45d460a9-6018-49a9-9cb8-68d9d0f345e1",
+      "chunk_id": "d9e4cacd-7e30-49fb-a84d-7bcae85f3c99",
+      "chunk_type": "paragraph",
+      "section_path": [
+        "科普词9：反保险欺诈"
+      ],
+      "heading_level": 1,
+      "char_count": 176,
+      "image_refs": [],
+      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
+      "start_line": 99,
+      "end_line": 105,
+      "has_table": false,
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "定义",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [
+        "遇到涉嫌非法集资的行为",
+        "遇到涉嫌非法集资的行为"
+      ],
+      "key_terms": [
+        "保单"
+      ]
+    },
+    "sentence_infos": [
+      {
+        "text": "根据我国相关法律法规的规定，非法集资不受法律保护，参与非法集资风险自担。",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "那么购买保险时，如何识别和防范非法集资？",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "主要有以下两点：",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "1、 通过银行业金融机构、保险机构的官方网站、客户服务电话等正规服务渠道,是获取保单服务的正确途径；",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "2、注意保护个人信息，关注正规机构发布的银行、保险广告信息和非法集资风险提示，遇到涉嫌非法集资的行为及时举报投诉。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "chunk_id": "47641771-18ca-41fc-9324-bf1a9e72aa1d",
+    "text": "根据监管部门《反保险欺诈指引》的规定，保险欺诈是指假借保险名义或利用保险合同牟取非法利益的行为，主要包括保险金诈骗类欺诈行为、非法经营保险业务类欺诈行为和保险合同诈骗类欺诈行为等。",
+    "embedding_text": "根据监管部门《反保险欺诈指引》的规定，保险欺诈是指假借保险名义或利用保险合同牟取非法利益的行为，主要包括保险金诈骗类欺诈行为、非法经营保险业务类欺诈行为和保险合同诈骗类欺诈行为等。",
+    "metadata": {
+      "chunk_id": "47641771-18ca-41fc-9324-bf1a9e72aa1d",
       "chunk_type": "paragraph",
       "section_path": [
         "科普词10：反洗钱"
       ],
       "heading_level": 1,
-      "char_count": 243,
+      "char_count": 90,
       "image_refs": [],
       "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
-      "start_line": 114,
-      "end_line": 118,
+      "start_line": 112,
+      "end_line": 116,
       "has_table": false,
-      "has_list": false
-    }
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "定义",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [
+        "根据监管部门《反保险欺诈指",
+        "保险欺诈是指",
+        "假借保险名义或利用保险合同牟取非法利益的行为",
+        "主要包括保险金诈骗类欺诈行为",
+        "、非法经营保险业务类欺诈行为",
+        "和保险合同诈骗类欺诈行为",
+        "根据监管部门《反保险欺诈指",
+        "保险欺诈是指",
+        "假借保险名义或利用保险合同牟取非法利益的行为",
+        "主要包括保险金诈骗类欺诈行为",
+        "、非法经营保险业务类欺诈行为",
+        "和保险合同诈骗类欺诈行为"
+      ],
+      "key_terms": [
+        "保单",
+        "保险金"
+      ]
+    },
+    "sentence_infos": [
+      {
+        "text": "根据监管部门《反保险欺诈指引》的规定，保险欺诈是指假借保险名义或利用保险合同牟取非法利益的行为，主要包括保险金诈骗类欺诈行为、非法经营保险业务类欺诈行为和保险合同诈骗类欺诈行为等。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
   },
   {
-    "chunk_id": "27140a8f-67e2-419e-8573-07f21b35d48d",
-    "text": "保险反洗钱知识你了解多少？\n\n洗钱就是指不法分子将犯罪违法所得及其产生的收益，通过各种手段隐瞒、掩饰其来源和性质，使其在形式上合法化的行为。\n\n作为守法公民，我们能为反洗钱建设做些什么呢？\n\n选择安全可靠的金融机构\n主动配合金融机构进行身份识别\n\n$\\bullet$ 不要出租或出借自己的身份证件，不要泄露个人信息。\n$\\bullet$ 妥善保管证件、账户和交易信息。\n$\\bullet$ 不要用自己的账户替他人提现。\n\n远离网络洗钱。对于网络信息要仔细甄别，不要轻易通过网上银行、电话等方式向陌生账户汇款或转账。\n支持国家反洗钱工作、勇于举报洗钱活动，维护社会公平。",
+    "chunk_id": "136a7fd1-4254-4aeb-b4fd-671d7d45f253",
+    "text": "那么，保险欺诈要承担哪些法律后果？\n\n1、谎称发生保险事故向保险人提出索赔的，保险人有权解除保险合同，结束保险合同关系，并且不退还保险费。\n2、制造保险事故的，保险人有权解除保险合同，不承担赔偿或者给付保险金的责任。",
+    "embedding_text": "那么，保险欺诈要承担哪些法律后果？\n\n1、谎称发生保险事故向保险人提出索赔的，保险人有权解除保险合同，结束保险合同关系，并且不退还保险费。\n2、制造保险事故的，保险人有权解除保险合同，不承担赔偿或者给付保险金的责任。",
     "metadata": {
-      "chunk_id": "27140a8f-67e2-419e-8573-07f21b35d48d",
+      "chunk_id": "136a7fd1-4254-4aeb-b4fd-671d7d45f253",
+      "chunk_type": "paragraph",
+      "section_path": [
+        "科普词10：反洗钱"
+      ],
+      "heading_level": 1,
+      "char_count": 108,
+      "image_refs": [],
+      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
+      "start_line": 112,
+      "end_line": 116,
+      "has_table": false,
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "给付",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [
+        "给付保险金",
+        "给付保险金"
+      ],
+      "key_terms": [
+        "保单",
+        "理赔",
+        "保险费",
+        "给付",
+        "保险金",
+        "免责",
+        "保险人"
+      ]
+    },
+    "sentence_infos": [
+      {
+        "text": "那么，保险欺诈要承担哪些法律后果？",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "1、谎称发生保险事故向保险人提出索赔的，保险人有权解除保险合同，结束保险合同关系，并且不退还保险费。",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "2、制造保险事故的，保险人有权解除保险合同，不承担赔偿或者给付保险金的责任。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "chunk_id": "ba891011-cf1f-4406-8f94-e5addfbcb1e3",
+    "text": "3、虚报事故原因，夸大损失程度的，保险人对其虚报部分不承担赔偿或者给付保险金的责任。",
+    "embedding_text": "3、虚报事故原因，夸大损失程度的，保险人对其虚报部分不承担赔偿或者给付保险金的责任。",
+    "metadata": {
+      "chunk_id": "ba891011-cf1f-4406-8f94-e5addfbcb1e3",
+      "chunk_type": "paragraph",
+      "section_path": [
+        "科普词10：反洗钱"
+      ],
+      "heading_level": 1,
+      "char_count": 42,
+      "image_refs": [],
+      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
+      "start_line": 112,
+      "end_line": 116,
+      "has_table": false,
+      "has_list": false,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "给付",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [
+        "给付保险金",
+        "给付保险金"
+      ],
+      "key_terms": [
+        "保险人",
+        "给付",
+        "保险金",
+        "免责"
+      ]
+    },
+    "sentence_infos": [
+      {
+        "text": "3、虚报事故原因，夸大损失程度的，保险人对其虚报部分不承担赔偿或者给付保险金的责任。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "chunk_id": "ddd3ba45-ea1b-4db5-a452-eb13e15c0df0",
+    "text": "保险反洗钱知识你了解多少？\n\n洗钱就是指不法分子将犯罪违法所得及其产生的收益，通过各种手段隐瞒、掩饰其来源和性质，使其在形式上合法化的行为。",
+    "embedding_text": "保险反洗钱知识你了解多少？\n\n洗钱就是指不法分子将犯罪违法所得及其产生的收益，通过各种手段隐瞒、掩饰其来源和性质，使其在形式上合法化的行为。",
+    "metadata": {
+      "chunk_id": "ddd3ba45-ea1b-4db5-a452-eb13e15c0df0",
       "chunk_type": "list",
       "section_path": [
         "科普词10：反洗钱"
       ],
       "heading_level": 1,
-      "char_count": 284,
+      "char_count": 70,
       "image_refs": [],
       "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
-      "start_line": 124,
-      "end_line": 135,
+      "start_line": 122,
+      "end_line": 132,
       "has_table": false,
-      "has_list": true
-    }
+      "has_list": true,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "定义",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [
+        "洗钱就是指",
+        "使其在形式上合法化的行为",
+        "洗钱就是指",
+        "使其在形式上合法化的行为"
+      ],
+      "key_terms": null
+    },
+    "sentence_infos": [
+      {
+        "text": "保险反洗钱知识你了解多少？",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "洗钱就是指不法分子将犯罪违法所得及其产生的收益，通过各种手段隐瞒、掩饰其来源和性质，使其在形式上合法化的行为。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "chunk_id": "4aa062df-1b07-456e-8ce9-3c2f59c107fe",
+    "text": "作为守法公民，我们能为反洗钱建设做些什么呢？",
+    "embedding_text": "作为守法公民，我们能为反洗钱建设做些什么呢？",
+    "metadata": {
+      "chunk_id": "4aa062df-1b07-456e-8ce9-3c2f59c107fe",
+      "chunk_type": "list",
+      "section_path": [
+        "科普词10：反洗钱"
+      ],
+      "heading_level": 1,
+      "char_count": 22,
+      "image_refs": [],
+      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
+      "start_line": 122,
+      "end_line": 132,
+      "has_table": false,
+      "has_list": true,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "定义",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [
+        "作为",
+        "我们能为",
+        "作为",
+        "我们能为"
+      ],
+      "key_terms": null
+    },
+    "sentence_infos": [
+      {
+        "text": "作为守法公民，我们能为反洗钱建设做些什么呢？",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "chunk_id": "78c310f4-87a7-4b79-a705-361f511e464b",
+    "text": "选择安全可靠的金融机构 主动配合金融机构进行身份识别\n\n$\\bullet$ 不要出租或出借自己的身份证件，不要泄露个人信息。\n$\\bullet$ 妥善保管证件、账户和交易信息。\n$\\bullet$ 不要用自己的账户替他人提现。\n\n远离网络洗钱。对于网络信息要仔细甄别，不要轻易通过网上银行、电话等方式向陌生账户汇款或转账。\n支持国家反洗钱工作、勇于举报洗钱活动，维护社会公平。",
+    "embedding_text": "选择安全可靠的金融机构 主动配合金融机构进行身份识别\n\n$\\bullet$ 不要出租或出借自己的身份证件，不要泄露个人信息。\n$\\bullet$ 妥善保管证件、账户和交易信息。\n$\\bullet$ 不要用自己的账户替他人提现。\n\n远离网络洗钱。\n对于网络信息要仔细甄别，不要轻易通过网上银行、电话等方式向陌生账户汇款或转账。\n支持国家反洗钱工作、勇于举报洗钱活动，维护社会公平。",
+    "metadata": {
+      "chunk_id": "78c310f4-87a7-4b79-a705-361f511e464b",
+      "chunk_type": "list",
+      "section_path": [
+        "科普词10：反洗钱"
+      ],
+      "heading_level": 1,
+      "char_count": 188,
+      "image_refs": [],
+      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险基础知多少/保险基础知多少/hybrid_auto/保险基础知多少.md",
+      "start_line": 122,
+      "end_line": 132,
+      "has_table": false,
+      "has_list": true,
+      "skip_embedding": false,
+      "skip_sentences": null,
+      "semantic_type": "其他",
+      "clause_number": null,
+      "is_core_section": false,
+      "trigger_words": [],
+      "key_terms": null
+    },
+    "sentence_infos": [
+      {
+        "text": "选择安全可靠的金融机构 主动配合金融机构进行身份识别",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "$\\bullet$ 不要出租或出借自己的身份证件，不要泄露个人信息。",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "$\\bullet$ 妥善保管证件、账户和交易信息。",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "$\\bullet$ 不要用自己的账户替他人提现。",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "远离网络洗钱。",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "对于网络信息要仔细甄别，不要轻易通过网上银行、电话等方式向陌生账户汇款或转账。",
+        "skip_embedding": false,
+        "reason": ""
+      },
+      {
+        "text": "支持国家反洗钱工作、勇于举报洗钱活动，维护社会公平。",
+        "skip_embedding": false,
+        "reason": ""
+      }
+    ]
   }
 ]

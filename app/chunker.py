@@ -4,10 +4,495 @@ import re
 import uuid
 import json
 from pathlib import Path
-from typing import List, Dict, Any, Optional, Tuple
+from typing import List, Dict, Any, Optional, Tuple, Set
 from dataclasses import dataclass, asdict, field
 
 from app.text_cleaner import TextCleaner, SentenceInfo
+
+
+# ============================================================================
+# 语义切割相关类和函数
+# ============================================================================
+
+@dataclass
+class SemanticAtom:
+    """语义原子"""
+    text: str
+    semantic_type: str  # '给付', '免责', '条件', '定义', '其他'
+    start_pos: int  # 在原文本中的起始位置
+    end_pos: int  # 在原文本中的结束位置
+    trigger_words: List[str] = field(default_factory=list)  # 触发词列表
+
+
+class SemanticSplitter:
+    """
+    语义切割器 - 基于规则识别语义触发词并拆成语义原子
+    """
+    
+    def __init__(self):
+        """初始化语义切割器"""
+        # 给付词汇模式
+        self.payment_patterns = [
+            r'保险人\s*(?:给付|赔付|支付|承担|负责)',
+            r'按照\s*(?:合同|本条款|本协议)\s*(?:约定|规定)\s*(?:给付|赔付|支付)',
+            r'给付\s*(?:保险金|赔偿金|金额)',
+            r'赔付\s*(?:保险金|赔偿金|金额)',
+            r'承担\s*(?:保险责任|赔偿责任)',
+            r'负责\s*(?:给付|赔付|支付)',
+        ]
+        
+        # 免责词汇模式
+        self.exclusion_patterns = [
+            r'但\s*(?:是|为|在|如|若|当)',
+            r'除外',
+            r'不\s*(?:承担|负责|给付|赔付|支付|予赔付)',
+            r'不予\s*(?:赔付|给付|支付)',
+            r'免除\s*(?:责任|赔偿责任)',
+            r'不\s*(?:在|属于)\s*(?:保险责任|保障范围)',
+            r'不在\s*(?:保险责任|保障范围)\s*(?:内|之内)',
+        ]
+        
+        # 条件结构模式
+        self.condition_patterns = [
+            r'因\s*[^，。；]*?\s*导致',
+            r'在\s*[^，。；]*?\s*情况下',
+            r'当\s*[^，。；]*?\s*时',
+            r'若\s*[^，。；]*?[，。；]',
+            r'如\s*[^，。；]*?[，。；]',
+            r'如果\s*[^，。；]*?[，。；]',
+            r'倘若\s*[^，。；]*?[，。；]',
+            r'只要\s*[^，。；]*?[，。；]',
+            r'除非\s*[^，。；]*?[，。；]',
+        ]
+        
+        # 定义模式（用于识别术语定义）
+        self.definition_patterns = [
+            r'[^，。；]*?\s*(?:指|是指|为|是指|系指|即)',
+            r'[^，。；]*?\s*(?:包括|包含|涵盖|涉及)',
+        ]
+        
+        # 编译正则表达式
+        self.payment_regexes = [re.compile(pattern) for pattern in self.payment_patterns]
+        self.exclusion_regexes = [re.compile(pattern) for pattern in self.exclusion_patterns]
+        self.condition_regexes = [re.compile(pattern) for pattern in self.condition_patterns]
+        self.definition_regexes = [re.compile(pattern) for pattern in self.definition_patterns]
+    
+    def identify_semantic_type(self, text: str) -> Tuple[str, List[str]]:
+        """
+        识别文本的语义类型
+        
+        Args:
+            text: 文本内容
+            
+        Returns:
+            (语义类型, 触发词列表)
+        """
+        trigger_words = []
+        
+        # 检查给付词汇
+        for regex in self.payment_regexes:
+            matches = regex.findall(text)
+            if matches:
+                trigger_words.extend(matches)
+                return ('给付', trigger_words)
+        
+        # 检查免责词汇
+        for regex in self.exclusion_regexes:
+            matches = regex.findall(text)
+            if matches:
+                trigger_words.extend(matches)
+                return ('免责', trigger_words)
+        
+        # 检查条件结构
+        for regex in self.condition_regexes:
+            matches = regex.findall(text)
+            if matches:
+                trigger_words.extend(matches)
+                return ('条件', trigger_words)
+        
+        # 检查定义
+        for regex in self.definition_regexes:
+            matches = regex.findall(text)
+            if matches:
+                trigger_words.extend(matches)
+                return ('定义', trigger_words)
+        
+        return ('其他', [])
+    
+    def split_into_semantic_atoms(self, text: str) -> List[SemanticAtom]:
+        """
+        将文本拆分成语义原子
+        
+        Args:
+            text: 原始文本
+            
+        Returns:
+            语义原子列表
+        """
+        atoms = []
+        
+        # 按句号、分号、换行等分割成句子
+        sentences = re.split(r'([。；\n])', text)
+        
+        current_atom_text = ""
+        current_atom_type = None
+        current_trigger_words = []
+        start_pos = 0
+        
+        i = 0
+        while i < len(sentences):
+            sentence = sentences[i]
+            
+            # 跳过分隔符
+            if sentence in ['。', '；', '\n']:
+                if current_atom_text:
+                    current_atom_text += sentence
+                i += 1
+                continue
+            
+            # 识别当前句子的语义类型
+            semantic_type, trigger_words = self.identify_semantic_type(sentence)
+            
+            # 如果语义类型改变，保存当前原子并开始新原子
+            if current_atom_type and semantic_type != current_atom_type and current_atom_type != '其他':
+                # 保存当前原子
+                atom_text = current_atom_text.strip()
+                if atom_text:
+                    atoms.append(SemanticAtom(
+                        text=atom_text,
+                        semantic_type=current_atom_type,
+                        start_pos=start_pos,
+                        end_pos=start_pos + len(atom_text),
+                        trigger_words=current_trigger_words.copy()
+                    ))
+                
+                # 开始新原子
+                current_atom_text = sentence
+                current_atom_type = semantic_type
+                current_trigger_words = trigger_words
+                start_pos = start_pos + len(atom_text) if atom_text else start_pos
+            else:
+                # 继续当前原子
+                if not current_atom_type or current_atom_type == '其他':
+                    current_atom_type = semantic_type
+                    current_trigger_words = trigger_words
+                    start_pos = start_pos if current_atom_text else start_pos
+                
+                current_atom_text += sentence
+                if trigger_words:
+                    current_trigger_words.extend(trigger_words)
+            
+            i += 1
+        
+        # 保存最后一个原子
+        if current_atom_text.strip():
+            atoms.append(SemanticAtom(
+                text=current_atom_text.strip(),
+                semantic_type=current_atom_type or '其他',
+                start_pos=start_pos,
+                end_pos=start_pos + len(current_atom_text.strip()),
+                trigger_words=current_trigger_words
+            ))
+        
+        # 如果没有识别到语义原子，返回整个文本作为一个原子
+        if not atoms:
+            atoms.append(SemanticAtom(
+                text=text,
+                semantic_type='其他',
+                start_pos=0,
+                end_pos=len(text),
+                trigger_words=[]
+            ))
+        
+        return atoms
+    
+    def split_long_atom(self, atom: SemanticAtom, max_length: int = 500) -> List[SemanticAtom]:
+        """
+        如果语义原子过长，按结构/长度切分（不跨语义）
+        
+        Args:
+            atom: 语义原子
+            max_length: 最大长度
+            
+        Returns:
+            切分后的语义原子列表
+        """
+        if len(atom.text) <= max_length:
+            return [atom]
+        
+        # 尝试按编号切分（如：1. 2. 3. 或 一、二、三、）
+        numbered_pattern = r'[（(]?\s*[一二三四五六七八九十\d]+[、.)）]\s*'
+        splits = re.split(numbered_pattern, atom.text)
+        
+        if len(splits) > 1:
+            # 找到所有编号位置
+            matches = list(re.finditer(numbered_pattern, atom.text))
+            sub_atoms = []
+            current_pos = 0
+            
+            for i, match in enumerate(matches):
+                # 添加编号之前的内容
+                if match.start() > current_pos:
+                    prev_text = atom.text[current_pos:match.start()]
+                    if prev_text.strip():
+                        sub_atoms.append(SemanticAtom(
+                            text=prev_text.strip(),
+                            semantic_type=atom.semantic_type,
+                            start_pos=atom.start_pos + current_pos,
+                            end_pos=atom.start_pos + match.start(),
+                            trigger_words=atom.trigger_words.copy() if i == 0 else []
+                        ))
+                
+                # 添加编号和后续内容
+                next_match = matches[i + 1] if i + 1 < len(matches) else None
+                end_pos = next_match.start() if next_match else len(atom.text)
+                numbered_text = atom.text[match.start():end_pos]
+                
+                if numbered_text.strip():
+                    sub_atoms.append(SemanticAtom(
+                        text=numbered_text.strip(),
+                        semantic_type=atom.semantic_type,
+                        start_pos=atom.start_pos + match.start(),
+                        end_pos=atom.start_pos + end_pos,
+                        trigger_words=atom.trigger_words.copy() if i == 0 else []
+                    ))
+                
+                current_pos = end_pos
+            
+            # 添加最后剩余的内容
+            if current_pos < len(atom.text):
+                remaining_text = atom.text[current_pos:]
+                if remaining_text.strip():
+                    sub_atoms.append(SemanticAtom(
+                        text=remaining_text.strip(),
+                        semantic_type=atom.semantic_type,
+                        start_pos=atom.start_pos + current_pos,
+                        end_pos=atom.end_pos,
+                        trigger_words=[]
+                    ))
+            
+            # 递归处理仍然过长的子原子
+            final_atoms = []
+            for sub_atom in sub_atoms:
+                if len(sub_atom.text) > max_length:
+                    final_atoms.extend(self.split_long_atom(sub_atom, max_length))
+                else:
+                    final_atoms.append(sub_atom)
+            
+            return final_atoms
+        
+        # 如果没有编号，按标点符号切分
+        punctuation_pattern = r'[，。；：]\s*'
+        splits = re.split(punctuation_pattern, atom.text)
+        
+        if len(splits) > 1:
+            sub_atoms = []
+            current_text = ""
+            current_pos = 0
+            
+            for split in splits:
+                if len(current_text + split) <= max_length:
+                    current_text += split
+                else:
+                    if current_text.strip():
+                        sub_atoms.append(SemanticAtom(
+                            text=current_text.strip(),
+                            semantic_type=atom.semantic_type,
+                            start_pos=atom.start_pos + current_pos,
+                            end_pos=atom.start_pos + current_pos + len(current_text),
+                            trigger_words=atom.trigger_words.copy() if len(sub_atoms) == 0 else []
+                        ))
+                    current_pos += len(current_text)
+                    current_text = split
+            
+            if current_text.strip():
+                sub_atoms.append(SemanticAtom(
+                    text=current_text.strip(),
+                    semantic_type=atom.semantic_type,
+                    start_pos=atom.start_pos + current_pos,
+                    end_pos=atom.end_pos,
+                    trigger_words=[]
+                ))
+            
+            return sub_atoms if sub_atoms else [atom]
+        
+        # 如果都无法切分，按固定长度切分（保留语义类型）
+        sub_atoms = []
+        for i in range(0, len(atom.text), max_length):
+            sub_text = atom.text[i:i + max_length]
+            sub_atoms.append(SemanticAtom(
+                text=sub_text,
+                semantic_type=atom.semantic_type,
+                start_pos=atom.start_pos + i,
+                end_pos=min(atom.start_pos + i + max_length, atom.end_pos),
+                trigger_words=atom.trigger_words.copy() if i == 0 else []
+            ))
+        
+        return sub_atoms
+
+
+# ============================================================================
+# 术语表相关类和函数
+# ============================================================================
+
+class InsuranceTerminology:
+    """
+    保险业务专业术语表
+    """
+    
+    def __init__(self, terminology_file: Optional[Path] = None):
+        """
+        初始化术语表
+        
+        Args:
+            terminology_file: 术语表文件路径（JSON格式），如果为None则使用默认术语表
+        """
+        if terminology_file and Path(terminology_file).exists():
+            self.load_from_file(terminology_file)
+        else:
+            self.load_default_terminology()
+    
+    def load_default_terminology(self):
+        """加载默认术语表"""
+        # 格式：{规范术语: [变体1, 变体2, ...]}
+        self.terminology = {
+            "保险金": ["保险金", "保险金额", "保险给付", "保险赔付", "保险赔偿", "保险赔款"],
+            "保险责任": ["保险责任", "保障责任", "保障范围", "保险保障", "保险范围"],
+            "保险费": ["保险费", "保费", "保险费用", "保险费率"],
+            "保险期间": ["保险期间", "保障期间", "保险期限", "保障期限", "保险有效期"],
+            "等待期": ["等待期", "观察期", "免责期", "等待期间"],
+            "犹豫期": ["犹豫期", "冷静期", "撤销期", "退保期"],
+            "免赔额": ["免赔额", "免赔", "免赔金额", "免赔额度"],
+            "保险金额": ["保险金额", "保额", "保险额度", "保障金额"],
+            "现金价值": ["现金价值", "退保价值", "保单价值", "解约金"],
+            "受益人": ["受益人", "保险受益人", "受益方"],
+            "被保险人": ["被保险人", "被保人", "受保人"],
+            "投保人": ["投保人", "要保人", "保单持有人"],
+            "保险人": ["保险人", "保险公司", "承保公司", "承保方"],
+            "意外伤害": ["意外伤害", "意外事故", "意外", "意外事件"],
+            "疾病": ["疾病", "疾病状态", "患病", "罹患疾病"],
+            "身故": ["身故", "死亡", "身死", "去世"],
+            "伤残": ["伤残", "残疾", "失能", "丧失劳动能力"],
+            "重大疾病": ["重大疾病", "重疾", "重大疾病保险", "重疾险"],
+            "轻症": ["轻症", "轻度疾病", "轻症疾病"],
+            "中症": ["中症", "中度疾病", "中症疾病"],
+            "理赔": ["理赔", "索赔", "申请理赔", "申请索赔"],
+            "给付": ["给付", "支付", "赔付", "赔偿", "支付保险金"],
+            "免责": ["免责", "除外", "不承担", "不予赔付", "免除责任"],
+            "续保": ["续保", "续期", "续保保费", "续保申请"],
+            "退保": ["退保", "解除合同", "终止合同", "取消保险"],
+            "保单": ["保单", "保险合同", "保险单", "保险凭证"],
+            "条款": ["条款", "保险条款", "合同条款", "约定条款"],
+        }
+        
+        # 构建反向索引：变体 -> 规范术语
+        self.variant_to_standard = {}
+        for standard_term, variants in self.terminology.items():
+            for variant in variants:
+                self.variant_to_standard[variant] = standard_term
+    
+    def load_from_file(self, file_path: Path):
+        """
+        从文件加载术语表
+        
+        Args:
+            file_path: JSON文件路径
+        """
+        with open(file_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            self.terminology = data
+            # 构建反向索引
+            self.variant_to_standard = {}
+            for standard_term, variants in self.terminology.items():
+                for variant in variants:
+                    self.variant_to_standard[variant] = standard_term
+    
+    def save_to_file(self, file_path: Path):
+        """
+        保存术语表到文件
+        
+        Args:
+            file_path: JSON文件路径
+        """
+        with open(file_path, 'w', encoding='utf-8') as f:
+            json.dump(self.terminology, f, ensure_ascii=False, indent=2)
+    
+    def extract_terms(self, text: str) -> Set[str]:
+        """
+        从文本中提取匹配的规范术语
+        
+        Args:
+            text: 文本内容
+            
+        Returns:
+            匹配到的规范术语集合
+        """
+        found_terms = set()
+        
+        # 按长度降序排序变体，优先匹配长变体
+        sorted_variants = sorted(
+            self.variant_to_standard.items(),
+            key=lambda x: len(x[0]),
+            reverse=True
+        )
+        
+        for variant, standard_term in sorted_variants:
+            # 对于中文，直接搜索（因为中文没有明确的词边界）
+            if variant in text:
+                found_terms.add(standard_term)
+        
+        return found_terms
+    
+    def match_query_terms(self, query: str) -> Set[str]:
+        """
+        匹配用户查询中的术语
+        
+        Args:
+            query: 用户查询文本
+            
+        Returns:
+            匹配到的规范术语集合
+        """
+        return self.extract_terms(query)
+    
+    def get_all_standard_terms(self) -> List[str]:
+        """
+        获取所有规范术语列表
+        
+        Returns:
+            规范术语列表
+        """
+        return list(self.terminology.keys())
+    
+    def add_term(self, standard_term: str, variants: List[str]):
+        """
+        添加新术语
+        
+        Args:
+            standard_term: 规范术语
+            variants: 变体列表
+        """
+        self.terminology[standard_term] = variants
+        for variant in variants:
+            self.variant_to_standard[variant] = standard_term
+    
+    def remove_term(self, standard_term: str):
+        """
+        删除术语
+        
+        Args:
+            standard_term: 规范术语
+        """
+        if standard_term in self.terminology:
+            variants = self.terminology.pop(standard_term)
+            for variant in variants:
+                if variant in self.variant_to_standard:
+                    del self.variant_to_standard[variant]
+
+
+# ============================================================================
+# Chunk相关数据结构
+# ============================================================================
 
 
 @dataclass
@@ -26,6 +511,13 @@ class ChunkMetadata:
     has_list: bool = False
     skip_embedding: bool = False  # 整个chunk是否跳过embedding
     skip_sentences: Optional[List[int]] = None  # 跳过embedding的句子索引列表（相对于chunk内的句子）
+    # 新增字段：语义切割相关
+    semantic_type: Optional[str] = None  # 语义类型：'给付', '免责', '条件', '定义', '其他'
+    clause_number: Optional[str] = None  # 条款编号
+    is_core_section: bool = False  # 是否属于核心条款区
+    trigger_words: Optional[List[str]] = None  # 语义触发词列表
+    # 新增字段：术语相关
+    key_terms: Optional[List[str]] = None  # 规范术语列表
 
 
 @dataclass
@@ -101,7 +593,12 @@ class SemanticChunker:
         enable_text_cleaning: bool = True,
         text_cleaner: Optional[TextCleaner] = None,
         save_cleaned_text: bool = True,
-        cleaned_output_dir: Optional[Path] = None
+        cleaned_output_dir: Optional[Path] = None,
+        enable_semantic_splitting: bool = True,
+        semantic_splitter: Optional[SemanticSplitter] = None,
+        enable_terminology: bool = True,
+        terminology: Optional[InsuranceTerminology] = None,
+        terminology_file: Optional[Path] = None
     ):
         """
         初始化分块器
@@ -115,6 +612,11 @@ class SemanticChunker:
             text_cleaner: 文本清洗器实例（如果为None且enable_text_cleaning=True，则创建默认实例）
             save_cleaned_text: 是否保存清洗后的文本到文件
             cleaned_output_dir: 清洗后文本的输出目录（默认：data/cleaned/，保持与processed相同的目录结构）
+            enable_semantic_splitting: 是否启用语义切割
+            semantic_splitter: 语义切割器实例（如果为None且enable_semantic_splitting=True，则创建默认实例）
+            enable_terminology: 是否启用术语提取
+            terminology: 术语表实例（如果为None且enable_terminology=True，则创建默认实例）
+            terminology_file: 术语表文件路径（可选）
         """
         self.target_chunk_size = target_chunk_size
         self.max_chunk_size = max_chunk_size
@@ -122,11 +624,23 @@ class SemanticChunker:
         self.overlap_size = overlap_size
         self.enable_text_cleaning = enable_text_cleaning
         self.save_cleaned_text = save_cleaned_text
+        self.enable_semantic_splitting = enable_semantic_splitting
+        self.enable_terminology = enable_terminology
         
         if enable_text_cleaning:
             self.text_cleaner = text_cleaner or TextCleaner()
         else:
             self.text_cleaner = None
+        
+        if enable_semantic_splitting:
+            self.semantic_splitter = semantic_splitter or SemanticSplitter()
+        else:
+            self.semantic_splitter = None
+        
+        if enable_terminology:
+            self.terminology = terminology or InsuranceTerminology(terminology_file)
+        else:
+            self.terminology = None
         
         # 设置清洗后文本的输出目录
         if cleaned_output_dir is None:
@@ -476,31 +990,110 @@ class SemanticChunker:
                 if sentence_infos and all(info.skip_embedding for info in sentence_infos):
                     skip_embedding = True
             
-            # 创建chunk
-            chunk_id = str(uuid.uuid4())
-            metadata = ChunkMetadata(
-                chunk_id=chunk_id,
-                chunk_type='table' if has_table else ('list' if has_list else 'paragraph'),
-                section_path=current_section_path.copy(),
-                heading_level=current_heading_level,
-                char_count=len(chunk_text),
-                image_refs=list(set(image_refs)),  # 去重
-                source_file=source_file,
-                start_line=start_line,
-                end_line=end_line,
-                has_table=has_table,
-                has_list=has_list,
-                skip_embedding=skip_embedding,
-                skip_sentences=None  # 这个字段暂时不用，信息在sentence_infos中
-            )
+            # Step1: 语义切割（如果启用且不是表格）
+            semantic_atoms = []
+            if self.enable_semantic_splitting and self.semantic_splitter and not has_table:
+                # 对文本进行语义切割
+                atoms = self.semantic_splitter.split_into_semantic_atoms(chunk_text)
+                
+                # Step2: 长度控制 - 如果单个语义原子过长，进一步切分
+                for atom in atoms:
+                    if len(atom.text) > self.max_chunk_size:
+                        sub_atoms = self.semantic_splitter.split_long_atom(atom, self.max_chunk_size)
+                        semantic_atoms.extend(sub_atoms)
+                    else:
+                        semantic_atoms.append(atom)
+            else:
+                # 如果没有启用语义切割，将整个文本作为一个原子
+                semantic_atoms = [SemanticAtom(
+                    text=chunk_text,
+                    semantic_type='其他',
+                    start_pos=0,
+                    end_pos=len(chunk_text),
+                    trigger_words=[]
+                )]
             
-            chunk = Chunk(
-                chunk_id=chunk_id,
-                text=chunk_text,
-                metadata=metadata,
-                sentence_infos=sentence_infos
-            )
-            chunks.append(chunk)
+            # 为每个语义原子创建chunk
+            for atom in semantic_atoms:
+                atom_text = atom.text
+                
+                # 重新处理语义降噪（针对单个原子）
+                atom_sentence_infos = None
+                atom_skip_embedding = False
+                
+                if self.enable_text_cleaning and self.text_cleaner:
+                    # 对原子文本进行句级拆分
+                    sentences = self.text_cleaner.split_into_sentences(atom_text)
+                    
+                    # 从全局映射中获取句子信息
+                    atom_sentence_infos = []
+                    for sentence in sentences:
+                        sentence_stripped = sentence.strip()
+                        if sentence_stripped in global_sentence_map:
+                            atom_sentence_infos.append(global_sentence_map[sentence_stripped])
+                        else:
+                            is_boilerplate = self.text_cleaner.is_boilerplate_sentence(sentence_stripped)
+                            from app.text_cleaner import SentenceInfo
+                            atom_sentence_infos.append(SentenceInfo(
+                                text=sentence,
+                                skip_embedding=is_boilerplate,
+                                reason="boilerplate" if is_boilerplate else ""
+                            ))
+                    
+                    if atom_sentence_infos and all(info.skip_embedding for info in atom_sentence_infos):
+                        atom_skip_embedding = True
+                else:
+                    atom_sentence_infos = sentence_infos
+                    atom_skip_embedding = skip_embedding
+                
+                # Step3: 术语提取
+                key_terms = []
+                if self.enable_terminology and self.terminology:
+                    key_terms = list(self.terminology.extract_terms(atom_text))
+                
+                # 判断是否在核心条款区
+                is_core_section = False
+                if self.text_cleaner:
+                    is_core_section = self.text_cleaner.is_core_section(current_section_path)
+                
+                # 提取条款编号（如果有）
+                clause_number = None
+                clause_pattern = r'第\s*[一二三四五六七八九十\d]+\s*[条条款项]'
+                clause_match = re.search(clause_pattern, atom_text)
+                if clause_match:
+                    clause_number = clause_match.group(0)
+                
+                # 创建chunk
+                chunk_id = str(uuid.uuid4())
+                metadata = ChunkMetadata(
+                    chunk_id=chunk_id,
+                    chunk_type='table' if has_table else ('list' if has_list else 'paragraph'),
+                    section_path=current_section_path.copy(),
+                    heading_level=current_heading_level,
+                    char_count=len(atom_text),
+                    image_refs=list(set(image_refs)),  # 去重
+                    source_file=source_file,
+                    start_line=start_line,
+                    end_line=end_line,
+                    has_table=has_table,
+                    has_list=has_list,
+                    skip_embedding=atom_skip_embedding,
+                    skip_sentences=None,  # 这个字段暂时不用，信息在sentence_infos中
+                    # 新增字段
+                    semantic_type=atom.semantic_type,
+                    clause_number=clause_number,
+                    is_core_section=is_core_section,
+                    trigger_words=atom.trigger_words,
+                    key_terms=key_terms if key_terms else None
+                )
+                
+                chunk = Chunk(
+                    chunk_id=chunk_id,
+                    text=atom_text,
+                    metadata=metadata,
+                    sentence_infos=atom_sentence_infos
+                )
+                chunks.append(chunk)
             
             # 重置buffer
             buffer = []
@@ -526,7 +1119,7 @@ class SemanticChunker:
                     flush_buffer()
                 continue
             
-            # 表格作为独立chunk
+            # 表格作为独立chunk（不参与语义切割，但添加metadata）
             if block_type == 'table':
                 # 先flush现有buffer
                 if buffer:
@@ -731,25 +1324,37 @@ class SemanticChunker:
                 results[str(md_file)] = chunks
                 print(f"  生成 {len(chunks)} 个chunks")
                 
-                # 如果指定了输出目录，保存结果
+                # 如果提供了输出目录，保存JSON文件
                 if output_dir:
-                    output_dir = Path(output_dir)
-                    output_dir.mkdir(parents=True, exist_ok=True)
-                    
-                    # 生成输出文件名
-                    relative_path = md_file.relative_to(input_dir)
-                    output_file = output_dir / f"{relative_path.stem}_chunks.json"
-                    output_file.parent.mkdir(parents=True, exist_ok=True)
-                    
-                    # 保存为JSON
-                    with open(output_file, 'w', encoding='utf-8') as f:
-                        json.dump(
-                            [chunk.to_dict() for chunk in chunks],
-                            f,
-                            ensure_ascii=False,
-                            indent=2
-                        )
-                    print(f"  保存到: {output_file}")
+                    # 计算相对于input_dir的相对路径
+                    try:
+                        relative_path = md_file.relative_to(input_dir)
+                        # 将.md扩展名改为_chunks.json
+                        output_file = output_dir / relative_path.with_suffix('_chunks.json')
+                        # 确保输出目录存在
+                        output_file.parent.mkdir(parents=True, exist_ok=True)
+                        
+                        # 保存JSON文件
+                        with open(output_file, 'w', encoding='utf-8') as f:
+                            json.dump(
+                                [chunk.to_dict() for chunk in chunks],
+                                f,
+                                ensure_ascii=False,
+                                indent=2
+                            )
+                        print(f"  已保存到: {output_file}")
+                    except ValueError:
+                        # 如果无法计算相对路径，使用文件名
+                        output_file = output_dir / f"{md_file.stem}_chunks.json"
+                        output_file.parent.mkdir(parents=True, exist_ok=True)
+                        with open(output_file, 'w', encoding='utf-8') as f:
+                            json.dump(
+                                [chunk.to_dict() for chunk in chunks],
+                                f,
+                                ensure_ascii=False,
+                                indent=2
+                            )
+                        print(f"  已保存到: {output_file}")
                     
             except Exception as e:
                 print(f"  错误: {e}")
