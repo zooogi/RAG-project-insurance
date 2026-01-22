@@ -336,23 +336,20 @@ class SemanticChunker:
         
         return blocks, cleaned_text
 
-    def create_chunks_from_blocks(
+    def _perform_sentence_splitting_and_denoising(
         self,
-        blocks: List[Dict[str, Any]],
-        source_file: str
-    ) -> List[Chunk]:
+        blocks: List[Dict[str, Any]]
+    ) -> Dict[str, Any]:
         """
-        从内容块创建chunks，保证语义完整性
+        执行句级拆分和语义降噪（在chunking之前）
         
-        策略：
-        1. 表格作为独立chunk，不拆分
-        2. 列表尽量保持完整
-        3. 段落在超过max_size时才拆分
-        4. 相邻小块可以合并（在同一section下）
-        5. 在整个文档范围内进行语义降噪（识别重复话术）
+        Args:
+            blocks: 内容块列表
+            
+        Returns:
+            global_sentence_map: 句子到SentenceInfo的映射字典
         """
-        # 如果启用文本清洗，先收集所有文本内容进行全局语义降噪
-        global_sentence_map = {}  # (section_path, sentence_text) -> SentenceInfo
+        global_sentence_map = {}  # sentence_text -> SentenceInfo
         
         if self.enable_text_cleaning and self.text_cleaner:
             # 收集所有文本块的内容和章节路径
@@ -380,12 +377,39 @@ class SemanticChunker:
                 section_paths_for_sentences
             )
             
-            # 建立句子到SentenceInfo的映射（使用句子文本和章节路径作为key）
+            # 建立句子到SentenceInfo的映射（使用句子文本作为key）
             for sentence_info in global_sentence_infos:
                 # 简化：使用句子文本作为key（实际应该考虑章节路径）
                 key = sentence_info.text.strip()
                 if key not in global_sentence_map:
                     global_sentence_map[key] = sentence_info
+        
+        return global_sentence_map
+
+    def create_chunks_from_blocks(
+        self,
+        blocks: List[Dict[str, Any]],
+        source_file: str,
+        global_sentence_map: Optional[Dict[str, Any]] = None
+    ) -> List[Chunk]:
+        """
+        从内容块创建chunks，保证语义完整性
+        
+        策略：
+        1. 表格作为独立chunk，不拆分
+        2. 列表尽量保持完整
+        3. 段落在超过max_size时才拆分
+        4. 相邻小块可以合并（在同一section下）
+        5. 使用预先计算的语义降噪结果（如果提供）
+        
+        Args:
+            blocks: 内容块列表
+            source_file: 源文件路径
+            global_sentence_map: 预先计算的句子到SentenceInfo的映射（可选）
+        """
+        # 如果没有提供global_sentence_map，则自己计算（向后兼容）
+        if global_sentence_map is None:
+            global_sentence_map = self._perform_sentence_splitting_and_denoising(blocks)
         
         chunks = []
         buffer = []
@@ -663,10 +687,14 @@ class SemanticChunker:
             if saved_path:
                 print(f"✓ 清洗后的文本已保存到: {saved_path}")
         
-        # 创建chunks
+        # 在chunking之前执行句级拆分和语义降噪
+        global_sentence_map = self._perform_sentence_splitting_and_denoising(blocks)
+        
+        # 创建chunks（传入预先计算的语义降噪结果）
         chunks = self.create_chunks_from_blocks(
             blocks,
-            source_file=str(md_path)
+            source_file=str(md_path),
+            global_sentence_map=global_sentence_map
         )
         
         return chunks
