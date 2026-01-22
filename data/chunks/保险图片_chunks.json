@@ -1,16 +1,16 @@
 [
   {
-    "chunk_id": "344db869-59ee-4b50-bc03-7c3628991bd7",
+    "chunk_id": "a30587cc-6db5-48af-aa55-c78386936dd0",
     "text": "本附加合同的保险期间为一年，且应与主合同的保险期间保持一致。",
     "embedding_text": "本附加合同的保险期间为一年，且应与主合同的保险期间保持一致。",
     "metadata": {
-      "chunk_id": "344db869-59ee-4b50-bc03-7c3628991bd7",
+      "chunk_id": "a30587cc-6db5-48af-aa55-c78386936dd0",
       "chunk_type": "paragraph",
       "section_path": [],
       "heading_level": 0,
       "char_count": 30,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险图片/保险图片.md",
+      "source_file": "data/processed/保险图片/保险图片.md",
       "start_line": 0,
       "end_line": 0,
       "has_table": false,
@@ -37,17 +37,17 @@
     ]
   },
   {
-    "chunk_id": "2d94abc2-90df-43cd-87cc-f6da748f6f21",
+    "chunk_id": "cc3fa8eb-ac88-4738-947b-d6d5be6695ee",
     "text": "第六条连续投保 本附加合同保险期间届满时，投保人可向保险人申请连续投保本附加合同，如投保人\n的连续投保申请经保险人审核同意，连续投保保险合同和上年度保险合同的保险期间在时 间上不间断。\n本附加合同为非保证续保合同，连续投保时保险人有权对费率进行调整。在投保人接 受费率调整的前提下，保险人方可为投保人办理连续投保手续。",
     "embedding_text": "第六条连续投保 本附加合同保险期间届满时，投保人可向保险人申请连续投保本附加合同，如投保人\n的连续投保申请经保险人审核同意，连续投保保险合同和上年度保险合同的保险期间在时 间上不间断。\n本附加合同为非保证续保合同，连续投保时保险人有权对费率进行调整。\n在投保人接 受费率调整的前提下，保险人方可为投保人办理连续投保手续。",
     "metadata": {
-      "chunk_id": "2d94abc2-90df-43cd-87cc-f6da748f6f21",
+      "chunk_id": "cc3fa8eb-ac88-4738-947b-d6d5be6695ee",
       "chunk_type": "paragraph",
       "section_path": [],
       "heading_level": 0,
       "char_count": 159,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险图片/保险图片.md",
+      "source_file": "data/processed/保险图片/保险图片.md",
       "start_line": 0,
       "end_line": 0,
       "has_table": false,
@@ -63,11 +63,11 @@
         "保险人方可为"
       ],
       "key_terms": [
-        "保单",
-        "保险人",
         "保险期间",
+        "保险人",
+        "投保人",
         "续保",
-        "投保人"
+        "保单"
       ]
     },
     "sentence_infos": [
@@ -94,17 +94,17 @@
     ]
   },
   {
-    "chunk_id": "66b16efb-dd78-4402-b580-89215fd5343b",
+    "chunk_id": "98516165-ce13-43e5-a7c1-5560dc950c47",
     "text": "第三部分保险金申请与给付 第七条保险金的申请\n保险金申请人（见释义十四）向保险人申请给付保险金时，应提交以下材料。",
     "embedding_text": "第三部分保险金申请与给付 第七条保险金的申请\n保险金申请人（见释义十四）向保险人申请给付保险金时，应提交以下材料。",
     "metadata": {
-      "chunk_id": "66b16efb-dd78-4402-b580-89215fd5343b",
+      "chunk_id": "98516165-ce13-43e5-a7c1-5560dc950c47",
       "chunk_type": "paragraph",
       "section_path": [],
       "heading_level": 0,
       "char_count": 57,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险图片/保险图片.md",
+      "source_file": "data/processed/保险图片/保险图片.md",
       "start_line": 0,
       "end_line": 0,
       "has_table": false,
@@ -119,9 +119,9 @@
         "给付保险金"
       ],
       "key_terms": [
-        "保险人",
+        "保险金",
         "给付",
-        "保险金"
+        "保险人"
       ]
     },
     "sentence_infos": [
@@ -138,17 +138,17 @@
     ]
   },
   {
-    "chunk_id": "253c1397-2bbc-44d9-b1be-abb77a83807f",
+    "chunk_id": "414042bd-7516-47e5-8061-4e1789909c28",
     "text": "保险金 申请人因特殊原因不能提供以下材料的，应提供其他合法有效的材料。保险金申请人未能\n提供有关材料，导致保险人无法核实该申请的真实性的，保险人对无法核实部分不承担给 付保险金的责任。",
     "embedding_text": "保险金 申请人因特殊原因不能提供以下材料的，应提供其他合法有效的材料。\n保险金申请人未能\n提供有关材料，导致保险人无法核实该申请的真实性的，保险人对无法核实部分不承担给 付保险金的责任。",
     "metadata": {
-      "chunk_id": "253c1397-2bbc-44d9-b1be-abb77a83807f",
+      "chunk_id": "414042bd-7516-47e5-8061-4e1789909c28",
       "chunk_type": "paragraph",
       "section_path": [],
       "heading_level": 0,
       "char_count": 92,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险图片/保险图片.md",
+      "source_file": "data/processed/保险图片/保险图片.md",
       "start_line": 0,
       "end_line": 0,
       "has_table": false,
@@ -163,9 +163,9 @@
         "不承担"
       ],
       "key_terms": [
-        "保险人",
         "保险金",
-        "免责"
+        "免责",
+        "保险人"
       ]
     },
     "sentence_infos": [
@@ -187,17 +187,17 @@
     ]
   },
   {
-    "chunk_id": "d23481b8-f3bb-4994-8646-b97b71075453",
+    "chunk_id": "dd58acbd-f3d4-4d64-abe3-7de784649976",
     "text": "（一）保险金给付申请书；\n（二）保险合同凭据；\n（三）保险金申请人及被保险人的有效身份证件；\n（四）符合本附加合同定义的医院出具的附有病理显微镜检查、血液检验及其它科学 方法检验报告的疾病诊断报告书；\n（五）保险金申请人所能提供的与确认保险事故的性质、原因、损失程度等有关的其 他证明和资料；\n（六）若保险金申请人委托他人申请的，还应提供授权委托书原件、委托人和受托人 的身份证明等相关证明文件。",
     "embedding_text": "（一）保险金给付申请书；\n（二）保险合同凭据；\n（三）保险金申请人及被保险人的有效身份证件；\n（四）符合本附加合同定义的医院出具的附有病理显微镜检查、血液检验及其它科学 方法检验报告的疾病诊断报告书；\n（五）保险金申请人所能提供的与确认保险事故的性质、原因、损失程度等有关的其 他证明和资料；\n（六）若保险金申请人委托他人申请的，还应提供授权委托书原件、委托人和受托人 的身份证明等相关证明文件。",
     "metadata": {
-      "chunk_id": "d23481b8-f3bb-4994-8646-b97b71075453",
+      "chunk_id": "dd58acbd-f3d4-4d64-abe3-7de784649976",
       "chunk_type": "paragraph",
       "section_path": [],
       "heading_level": 0,
       "char_count": 198,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险图片/保险图片.md",
+      "source_file": "data/processed/保险图片/保险图片.md",
       "start_line": 0,
       "end_line": 0,
       "has_table": false,
@@ -212,12 +212,12 @@
         "若保险金申请人委托他人申请的，"
       ],
       "key_terms": [
-        "保单",
-        "给付",
+        "保险人",
         "保险金",
         "被保险人",
-        "保险人",
-        "疾病"
+        "保单",
+        "疾病",
+        "给付"
       ]
     },
     "sentence_infos": [
@@ -254,17 +254,17 @@
     ]
   },
   {
-    "chunk_id": "66d19178-0f11-438e-afc9-6731252c9d30",
+    "chunk_id": "3f2fdf43-32f6-47ec-a328-d66dea4eab60",
     "text": "在保险人的理赔审核过程中，保险人有权在合理的范围内对索赔的被保险人进行医疗 检查。在拒赔的情形下，保险人将承担因保险金申请人提供索赔要求所必需的证明、收\n据、信息和证据而产生的费用。\n第八条保险金的给付 保险人收到保险金申请人的给付保险金的请求后，应当及时作出是否属于保险责任的",
     "embedding_text": "在保险人的理赔审核过程中，保险人有权在合理的范围内对索赔的被保险人进行医疗 检查。\n在拒赔的情形下，保险人将承担因保险金申请人提供索赔要求所必需的证明、收\n据、信息和证据而产生的费用。\n第八条保险金的给付 保险人收到保险金申请人的给付保险金的请求后，应当及时作出是否属于保险责任的",
     "metadata": {
-      "chunk_id": "66d19178-0f11-438e-afc9-6731252c9d30",
+      "chunk_id": "3f2fdf43-32f6-47ec-a328-d66dea4eab60",
       "chunk_type": "paragraph",
       "section_path": [],
       "heading_level": 0,
       "char_count": 139,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险图片/保险图片.md",
+      "source_file": "data/processed/保险图片/保险图片.md",
       "start_line": 0,
       "end_line": 0,
       "has_table": false,
@@ -280,11 +280,11 @@
       ],
       "key_terms": [
         "理赔",
-        "给付",
-        "保险金",
-        "被保险人",
         "保险人",
-        "保险责任"
+        "保险金",
+        "保险责任",
+        "被保险人",
+        "给付"
       ]
     },
     "sentence_infos": [
@@ -311,17 +311,17 @@
     ]
   },
   {
-    "chunk_id": "fb40c3d3-5783-48e8-bea6-a3536fd4f867",
+    "chunk_id": "9d2b8bf4-5cc0-42f0-ae3c-d14751416062",
     "text": "核定；情形复杂的，应当在三十日内作出核定，但保险合同另有约定的除外。",
     "embedding_text": "核定；\n情形复杂的，应当在三十日内作出核定，但保险合同另有约定的除外。",
     "metadata": {
-      "chunk_id": "fb40c3d3-5783-48e8-bea6-a3536fd4f867",
+      "chunk_id": "9d2b8bf4-5cc0-42f0-ae3c-d14751416062",
       "chunk_type": "paragraph",
       "section_path": [],
       "heading_level": 0,
       "char_count": 34,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险图片/保险图片.md",
+      "source_file": "data/processed/保险图片/保险图片.md",
       "start_line": 0,
       "end_line": 0,
       "has_table": false,
@@ -336,8 +336,8 @@
         "除外"
       ],
       "key_terms": [
-        "保单",
-        "免责"
+        "免责",
+        "保单"
       ]
     },
     "sentence_infos": [
@@ -354,17 +354,17 @@
     ]
   },
   {
-    "chunk_id": "44949c74-49c5-422b-8455-42dd4f3ce0be",
+    "chunk_id": "c64442b0-fc1c-4e0d-9483-15c0204c92a3",
     "text": "保险人将核定结果通知保险金申请人；对属于保险责任的，在与保险金申请人达成给 付保险金的协议后十日内，履行赔偿保险金义务。保险合同对给付保险金的期限有约定\n的，保险人应当按照约定履行给付保险金的义务。保险人依照前款约定作出核定后，对不 属于保险责任的，应当自作出核定之日起三日内向保险金申请人发出拒绝给付保险金通知",
     "embedding_text": "保险人将核定结果通知保险金申请人；\n对属于保险责任的，在与保险金申请人达成给 付保险金的协议后十日内，履行赔偿保险金义务。\n保险合同对给付保险金的期限有约定\n的，保险人应当按照约定履行给付保险金的义务。\n保险人依照前款约定作出核定后，对不 属于保险责任的，应当自作出核定之日起三日内向保险金申请人发出拒绝给付保险金通知",
     "metadata": {
-      "chunk_id": "44949c74-49c5-422b-8455-42dd4f3ce0be",
+      "chunk_id": "c64442b0-fc1c-4e0d-9483-15c0204c92a3",
       "chunk_type": "paragraph",
       "section_path": [],
       "heading_level": 0,
       "char_count": 156,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险图片/保险图片.md",
+      "source_file": "data/processed/保险图片/保险图片.md",
       "start_line": 0,
       "end_line": 0,
       "has_table": false,
@@ -381,11 +381,11 @@
         "给付保险金"
       ],
       "key_terms": [
-        "保单",
-        "给付",
-        "保险金",
         "保险人",
-        "保险责任"
+        "保险金",
+        "保险责任",
+        "保单",
+        "给付"
       ]
     },
     "sentence_infos": [
@@ -417,17 +417,17 @@
     ]
   },
   {
-    "chunk_id": "ff934208-664a-4cee-88e0-d743462110d0",
+    "chunk_id": "744795da-f922-4157-9c5e-ff9f96fc1f69",
     "text": "书，并说明理由。\n保险人自收到给付保险金的请求和有关证明、资料之日起六十日内，对其给付的数额 不能确定的，应当根据已有证明和资料可以确定的数额先予支付；",
     "embedding_text": "书，并说明理由。\n保险人自收到给付保险金的请求和有关证明、资料之日起六十日内，对其给付的数额 不能确定的，应当根据已有证明和资料可以确定的数额先予支付；",
     "metadata": {
-      "chunk_id": "ff934208-664a-4cee-88e0-d743462110d0",
+      "chunk_id": "744795da-f922-4157-9c5e-ff9f96fc1f69",
       "chunk_type": "paragraph",
       "section_path": [],
       "heading_level": 0,
       "char_count": 76,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险图片/保险图片.md",
+      "source_file": "data/processed/保险图片/保险图片.md",
       "start_line": 0,
       "end_line": 0,
       "has_table": false,
@@ -442,9 +442,9 @@
         "给付保险金"
       ],
       "key_terms": [
-        "保险人",
+        "保险金",
         "给付",
-        "保险金"
+        "保险人"
       ]
     },
     "sentence_infos": [
@@ -461,17 +461,17 @@
     ]
   },
   {
-    "chunk_id": "7f01d257-e0cf-4d7d-ba1e-1fc5c9e56c5d",
+    "chunk_id": "f675c367-58aa-42b8-ad7c-c9e22291abf8",
     "text": "保险人最终确定给付的\n数额后，支付相应的差额。\n保险人认为保险金申请人提供的有关索赔的证明和资料不完整的，应当及时一次性通 知保险金申请人补充提供。",
     "embedding_text": "保险人最终确定给付的\n数额后，支付相应的差额。\n保险人认为保险金申请人提供的有关索赔的证明和资料不完整的，应当及时一次性通 知保险金申请人补充提供。",
     "metadata": {
-      "chunk_id": "7f01d257-e0cf-4d7d-ba1e-1fc5c9e56c5d",
+      "chunk_id": "f675c367-58aa-42b8-ad7c-c9e22291abf8",
       "chunk_type": "paragraph",
       "section_path": [],
       "heading_level": 0,
       "char_count": 74,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险图片/保险图片.md",
+      "source_file": "data/processed/保险图片/保险图片.md",
       "start_line": 0,
       "end_line": 0,
       "has_table": false,
@@ -486,10 +486,10 @@
         "当及时"
       ],
       "key_terms": [
-        "保险人",
-        "给付",
         "保险金",
-        "理赔"
+        "给付",
+        "理赔",
+        "保险人"
       ]
     },
     "sentence_infos": [
@@ -511,17 +511,17 @@
     ]
   },
   {
-    "chunk_id": "5dc4ecdf-06ff-4d80-b1f5-03b4d8505e03",
+    "chunk_id": "14c1d6d5-8cce-409c-9b42-8c33429f183f",
     "text": "第四部分 释义\n一、等待期：",
     "embedding_text": "第四部分 释义\n一、等待期：",
     "metadata": {
-      "chunk_id": "5dc4ecdf-06ff-4d80-b1f5-03b4d8505e03",
+      "chunk_id": "14c1d6d5-8cce-409c-9b42-8c33429f183f",
       "chunk_type": "paragraph",
       "section_path": [],
       "heading_level": 0,
       "char_count": 14,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/保险图片/保险图片.md",
+      "source_file": "data/processed/保险图片/保险图片.md",
       "start_line": 0,
       "end_line": 0,
       "has_table": false,

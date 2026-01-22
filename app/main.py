@@ -454,7 +454,62 @@ if __name__ == "__main__":
         # 处理文档
         input_path = Path(args.input) if args.input else None
         result = pipeline.process_documents(input_path)
-        print(f"\n✓ 处理完成！共生成 {len(result['chunks'])} 个chunks")
+        
+        print("\n" + "=" * 70)
+        print("📊 处理结果汇总")
+        print("=" * 70)
+        print(f"\n✓ 处理完成！")
+        print(f"  - OCR处理文件数: {len(result['ocr_results'])}")
+        print(f"  - 生成chunks数: {len(result['chunks'])}")
+        print(f"  - 索引已构建: {result['index_built']}")
+        
+        if result['chunk_files']:
+            print(f"\n📁 结果文件位置:")
+            
+            # OCR处理后的Markdown文件
+            print(f"\n  【OCR处理后的Markdown文件】")
+            print(f"    目录: data/processed/")
+            md_files_shown = 0
+            for ocr_result in result['ocr_results']:
+                if 'files' in ocr_result and 'markdown' in ocr_result['files']:
+                    md_path = ocr_result['files']['markdown']
+                    # 显示相对路径
+                    rel_path = Path(md_path).relative_to(Path.cwd()) if Path(md_path).is_absolute() else md_path
+                    print(f"    - {rel_path}")
+                    md_files_shown += 1
+                    if md_files_shown >= 3:  # 最多显示3个
+                        break
+            if len(result['ocr_results']) > md_files_shown:
+                print(f"    ... 还有 {len(result['ocr_results']) - md_files_shown} 个文件")
+            
+            # 清洗后的Markdown文件（如果存在）
+            cleaned_dir = Path("data/cleaned")
+            if cleaned_dir.exists():
+                cleaned_files = list(cleaned_dir.rglob("*.md"))
+                if cleaned_files:
+                    print(f"\n  【清洗后的Markdown文件】")
+                    print(f"    目录: data/cleaned/")
+                    for cleaned_file in cleaned_files[:3]:
+                        rel_path = cleaned_file.relative_to(Path.cwd())
+                        print(f"    - {rel_path}")
+                    if len(cleaned_files) > 3:
+                        print(f"    ... 还有 {len(cleaned_files) - 3} 个文件")
+            
+            # Chunks JSON文件
+            print(f"\n  【Chunks JSON文件】（最终用于embedding）")
+            print(f"    目录: data/chunks/")
+            for chunk_file in result['chunk_files'][:5]:  # 显示前5个
+                rel_path = chunk_file.relative_to(Path.cwd()) if chunk_file.is_absolute() else chunk_file
+                file_size = chunk_file.stat().st_size / 1024  # KB
+                print(f"    - {chunk_file.name} ({file_size:.1f} KB)")
+            if len(result['chunk_files']) > 5:
+                print(f"    ... 还有 {len(result['chunk_files']) - 5} 个文件")
+            
+            print(f"\n💡 查看结果的方法:")
+            print("  - 查看chunks内容: cat data/chunks/*_chunks.json | head -100")
+            print("  - 查看处理后的Markdown: find data/processed -name '*.md' -exec head -50 {} \\;")
+            print("  - 查看清洗后的Markdown: find data/cleaned -name '*.md' -exec head -50 {} \\;")
+            print("  - 用Python查看chunk: python3 -c \"import json; data=json.load(open('data/chunks/保险基础知多少_chunks.json')); print('共' + str(len(data)) + '个chunks'); print(json.dumps(data[0], ensure_ascii=False, indent=2))\"")
     
     elif args.mode == "load":
         # 加载chunks

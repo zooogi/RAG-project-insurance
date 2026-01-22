@@ -1,10 +1,10 @@
 [
   {
-    "chunk_id": "b24c1f6e-2127-4e40-8f0f-c7225ee7bc75",
+    "chunk_id": "6ee43350-0bad-4635-8ac3-a4542b32dc0c",
     "text": "《友邦传世经典优享版终身寿险（分红型）》是一款提供高额生命保障并具备资产传承功能的分红型终身寿险产品。",
     "embedding_text": "《友邦传世经典优享版终身寿险（分红型）》是一款提供高额生命保障并具备资产传承功能的分红型终身寿险产品。",
     "metadata": {
-      "chunk_id": "b24c1f6e-2127-4e40-8f0f-c7225ee7bc75",
+      "chunk_id": "6ee43350-0bad-4635-8ac3-a4542b32dc0c",
       "chunk_type": "paragraph",
       "section_path": [
         "风险提示"
@@ -12,7 +12,7 @@
       "heading_level": 1,
       "char_count": 51,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
+      "source_file": "data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
       "start_line": 4,
       "end_line": 4,
       "has_table": false,
@@ -34,11 +34,11 @@
     ]
   },
   {
-    "chunk_id": "29ce318a-4f43-4fb1-8e38-62c6649102f9",
+    "chunk_id": "9576fdb7-89f8-4486-af7f-a810cb3a3dc4",
     "text": "本产品为分红保险，其红利分配是不确定的。",
     "embedding_text": "本产品为分红保险，其红利分配是不确定的。",
     "metadata": {
-      "chunk_id": "29ce318a-4f43-4fb1-8e38-62c6649102f9",
+      "chunk_id": "9576fdb7-89f8-4486-af7f-a810cb3a3dc4",
       "chunk_type": "paragraph",
       "section_path": [
         "产品基本特征"
@@ -46,7 +46,7 @@
       "heading_level": 1,
       "char_count": 20,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
+      "source_file": "data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
       "start_line": 8,
       "end_line": 14,
       "has_table": false,
@@ -71,11 +71,11 @@
     ]
   },
   {
-    "chunk_id": "03d6d8dd-6a5b-4397-b4bd-423b906afd8c",
+    "chunk_id": "2e3ef65a-72c0-4a51-be66-3a493ffe2df0",
     "text": "本合同采用增值红利的分配方式。\n\n增值红利将根据下列二种情况之一予以给付：\n\n（1）在被保险人身故时给付予健在的身故保险金受益人；\n\n本说明书仅供参考，具体保险责任及保险合同的内容以保险合同的保险条款为准。",
     "embedding_text": "本合同采用增值红利的分配方式。\n\n增值红利将根据下列二种情况之一予以给付：\n\n\n本说明书仅供参考，具体保险责任及保险合同的内容以保险合同的保险条款为准。",
     "metadata": {
-      "chunk_id": "03d6d8dd-6a5b-4397-b4bd-423b906afd8c",
+      "chunk_id": "2e3ef65a-72c0-4a51-be66-3a493ffe2df0",
       "chunk_type": "paragraph",
       "section_path": [
         "产品基本特征"
@@ -83,7 +83,7 @@
       "heading_level": 1,
       "char_count": 103,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
+      "source_file": "data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
       "start_line": 8,
       "end_line": 14,
       "has_table": false,
@@ -98,15 +98,15 @@
         "具体保险责任及保险合同的内容以保险合同的保险条款为"
       ],
       "key_terms": [
-        "保单",
-        "条款",
         "受益人",
-        "身故",
-        "给付",
-        "保险金",
-        "被保险人",
         "保险人",
-        "保险责任"
+        "保险金",
+        "保险责任",
+        "被保险人",
+        "保单",
+        "身故",
+        "条款",
+        "给付"
       ]
     },
     "sentence_infos": [
@@ -148,11 +148,11 @@
     ]
   },
   {
-    "chunk_id": "d38e8e03-b66c-4379-b562-21391ef143c8",
+    "chunk_id": "b0d23a74-7a1c-4b36-a465-a2a6e011e016",
     "text": "分红保险是客户享有本公司分红保险业务红利分配权的一类保险产品。本公司将根据上一法定会计年度本合同所属的分红保险产品组业务的实际经营状况决定各保单年度的红利分配金额，尚未分配的红利是不保证的。本公司一般每年宣布一次红利分配方案，并将以《红利通知书》的方式通知客户每张保单的红利分配金额。\n\n投保年龄、保险期间和付费年限",
     "embedding_text": "分红保险是客户享有本公司分红保险业务红利分配权的一类保险产品。\n本公司将根据上一法定会计年度本合同所属的分红保险产品组业务的实际经营状况决定各保单年度的红利分配金额，尚未分配的红利是不保证的。\n本公司一般每年宣布一次红利分配方案，并将以《红利通知书》的方式通知客户每张保单的红利分配金额。\n\n投保年龄、保险期间和付费年限",
     "metadata": {
-      "chunk_id": "d38e8e03-b66c-4379-b562-21391ef143c8",
+      "chunk_id": "b0d23a74-7a1c-4b36-a465-a2a6e011e016",
       "chunk_type": "paragraph",
       "section_path": [
         "产品基本特征"
@@ -160,7 +160,7 @@
       "heading_level": 1,
       "char_count": 158,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
+      "source_file": "data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
       "start_line": 18,
       "end_line": 20,
       "has_table": false,
@@ -172,8 +172,8 @@
       "is_core_section": false,
       "trigger_words": [],
       "key_terms": [
-        "保单",
-        "保险期间"
+        "保险期间",
+        "保单"
       ]
     },
     "sentence_infos": [
@@ -205,11 +205,11 @@
     ]
   },
   {
-    "chunk_id": "eb6beb41-9691-4e67-965f-c447bd1384a6",
+    "chunk_id": "e125bc37-444e-4df5-92d4-01d035fe3fdb",
     "text": "<table><tr><td>付费年限</td><td>投保年龄</td><td>保险期间</td></tr><tr><td>趸交、5年交</td><td>18-60岁</td><td rowspan=\"3\">终身</td></tr><tr><td>10年交</td><td>18-55岁</td></tr><tr><td>20年交</td><td>18-50岁</td></tr></table>",
     "embedding_text": "<table><tr><td>付费年限</td><td>投保年龄</td><td>保险期间</td></tr><tr><td>趸交、5年交</td><td>18-60岁</td><td rowspan=\"3\">终身</td></tr><tr><td>10年交</td><td>18-55岁</td></tr><tr><td>20年交</td><td>18-50岁</td></tr></table>",
     "metadata": {
-      "chunk_id": "eb6beb41-9691-4e67-965f-c447bd1384a6",
+      "chunk_id": "e125bc37-444e-4df5-92d4-01d035fe3fdb",
       "chunk_type": "table",
       "section_path": [
         "产品基本特征"
@@ -217,7 +217,7 @@
       "heading_level": 1,
       "char_count": 199,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
+      "source_file": "data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
       "start_line": 22,
       "end_line": 22,
       "has_table": true,
@@ -241,11 +241,11 @@
     ]
   },
   {
-    "chunk_id": "30741151-2c11-40d6-8cfb-17c9c69b5d33",
+    "chunk_id": "098bc5c0-b6ba-4e6e-bccd-ebd93e43bfb7",
     "text": "对于本合同的身故保险金、全残保险金和疾病终末期阶段保险金，本公司仅给付一项，并以一次为限，且以最先发生者予以给付，最先发生时日以下列约定为准。",
     "embedding_text": "对于本合同的身故保险金、全残保险金和疾病终末期阶段保险金，本公司仅给付一项，并以一次为限，且以最先发生者予以给付，最先发生时日以下列约定为准。",
     "metadata": {
-      "chunk_id": "30741151-2c11-40d6-8cfb-17c9c69b5d33",
+      "chunk_id": "098bc5c0-b6ba-4e6e-bccd-ebd93e43bfb7",
       "chunk_type": "paragraph",
       "section_path": [
         "一、身故保险金"
@@ -253,7 +253,7 @@
       "heading_level": 1,
       "char_count": 71,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
+      "source_file": "data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
       "start_line": 28,
       "end_line": 28,
       "has_table": false,
@@ -270,10 +270,10 @@
         "最先发生时日以下列约定为"
       ],
       "key_terms": [
-        "身故",
-        "给付",
         "保险金",
-        "疾病"
+        "给付",
+        "疾病",
+        "身故"
       ]
     },
     "sentence_infos": [
@@ -285,11 +285,11 @@
     ]
   },
   {
-    "chunk_id": "7c541446-d8ed-4106-bdb1-acb3632bf626",
+    "chunk_id": "4e9f2735-ff3a-4a38-81eb-e91c983625d6",
     "text": "在本合同有效期内，若被保险人身故，则本公司将给付身故保险金予健在的身故保险金受益人，其金额等于被保险人身故时本合同的保险金额。",
     "embedding_text": "在本合同有效期内，若被保险人身故，则本公司将给付身故保险金予健在的身故保险金受益人，其金额等于被保险人身故时本合同的保险金额。",
     "metadata": {
-      "chunk_id": "7c541446-d8ed-4106-bdb1-acb3632bf626",
+      "chunk_id": "4e9f2735-ff3a-4a38-81eb-e91c983625d6",
       "chunk_type": "paragraph",
       "section_path": [
         "二、全残保险金"
@@ -297,7 +297,7 @@
       "heading_level": 1,
       "char_count": 63,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
+      "source_file": "data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
       "start_line": 32,
       "end_line": 32,
       "has_table": false,
@@ -313,12 +313,12 @@
       ],
       "key_terms": [
         "受益人",
-        "身故",
-        "给付",
+        "保险人",
         "保险金",
         "保险金额",
         "被保险人",
-        "保险人"
+        "身故",
+        "给付"
       ]
     },
     "sentence_infos": [
@@ -330,11 +330,11 @@
     ]
   },
   {
-    "chunk_id": "f1612842-9486-419b-8cb5-bfbe81e766ca",
+    "chunk_id": "4bf55e61-6ee4-45e8-9da3-e62f5533e084",
     "text": "在本合同有效期内，若被保险人全残，则本公司在确认其属于保险责任后，给付全残保险金予被保险人，其金额等于被保险人全残发生时本合同的保险金额。",
     "embedding_text": "在本合同有效期内，若被保险人全残，则本公司在确认其属于保险责任后，给付全残保险金予被保险人，其金额等于被保险人全残发生时本合同的保险金额。",
     "metadata": {
-      "chunk_id": "f1612842-9486-419b-8cb5-bfbe81e766ca",
+      "chunk_id": "4bf55e61-6ee4-45e8-9da3-e62f5533e084",
       "chunk_type": "paragraph",
       "section_path": [
         "三、疾病终末期阶段保险金"
@@ -342,7 +342,7 @@
       "heading_level": 1,
       "char_count": 69,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
+      "source_file": "data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
       "start_line": 36,
       "end_line": 36,
       "has_table": false,
@@ -357,12 +357,12 @@
         "若被保险人全残，"
       ],
       "key_terms": [
-        "给付",
+        "保险人",
         "保险金",
+        "保险责任",
         "保险金额",
         "被保险人",
-        "保险人",
-        "保险责任"
+        "给付"
       ]
     },
     "sentence_infos": [
@@ -374,11 +374,11 @@
     ]
   },
   {
-    "chunk_id": "004d378e-fd44-4ed8-8610-286af51f7301",
+    "chunk_id": "505bfe52-21e8-42b0-a498-a1b2dca7995f",
     "text": "在本合同有效期内，若被保险人于等待期后被认定达到疾病终末期阶段的，则本公司将给付疾病终末期阶段保险金予被保险人，其金额等于被保险人被认定达到该疾病终末期阶段时本合同的保险金额。",
     "embedding_text": "在本合同有效期内，若被保险人于等待期后被认定达到疾病终末期阶段的，则本公司将给付疾病终末期阶段保险金予被保险人，其金额等于被保险人被认定达到该疾病终末期阶段时本合同的保险金额。",
     "metadata": {
-      "chunk_id": "004d378e-fd44-4ed8-8610-286af51f7301",
+      "chunk_id": "505bfe52-21e8-42b0-a498-a1b2dca7995f",
       "chunk_type": "paragraph",
       "section_path": [
         "保单红利及红利分配"
@@ -386,7 +386,7 @@
       "heading_level": 1,
       "char_count": 88,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
+      "source_file": "data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
       "start_line": 40,
       "end_line": 40,
       "has_table": false,
@@ -401,13 +401,13 @@
         "若被保险人于等待期后被认定达到疾病终末期阶段的，"
       ],
       "key_terms": [
-        "给付",
+        "保险人",
         "保险金",
         "等待期",
         "保险金额",
         "被保险人",
-        "保险人",
-        "疾病"
+        "疾病",
+        "给付"
       ]
     },
     "sentence_infos": [
@@ -419,11 +419,11 @@
     ]
   },
   {
-    "chunk_id": "c532f959-d107-41e5-b8e0-2e38c4ff99a8",
+    "chunk_id": "e12576e7-af75-44a3-8245-6560bb759840",
     "text": "红利主要来源于三差，即死差、费差和利差。",
     "embedding_text": "红利主要来源于三差，即死差、费差和利差。",
     "metadata": {
-      "chunk_id": "c532f959-d107-41e5-b8e0-2e38c4ff99a8",
+      "chunk_id": "e12576e7-af75-44a3-8245-6560bb759840",
       "chunk_type": "paragraph",
       "section_path": [
         "红利分配"
@@ -431,7 +431,7 @@
       "heading_level": 1,
       "char_count": 20,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
+      "source_file": "data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
       "start_line": 46,
       "end_line": 46,
       "has_table": false,
@@ -456,11 +456,11 @@
     ]
   },
   {
-    "chunk_id": "fac593ea-57a9-41cc-bfa6-6809f633e68a",
+    "chunk_id": "c5f76cb6-79fa-45f6-977f-f30771cc99f1",
     "text": "利差是本公司预定投资收益率和实际投资收益率的差额导致的收益或者亏损；死差是预定死亡率和实际死亡率的差额导致的收益或者亏损；费差是本公司预定费用率和实际费用率的差额导致的收益或者亏损。",
     "embedding_text": "利差是本公司预定投资收益率和实际投资收益率的差额导致的收益或者亏损；\n死差是预定死亡率和实际死亡率的差额导致的收益或者亏损；\n费差是本公司预定费用率和实际费用率的差额导致的收益或者亏损。",
     "metadata": {
-      "chunk_id": "fac593ea-57a9-41cc-bfa6-6809f633e68a",
+      "chunk_id": "c5f76cb6-79fa-45f6-977f-f30771cc99f1",
       "chunk_type": "paragraph",
       "section_path": [
         "红利分配"
@@ -468,7 +468,7 @@
       "heading_level": 1,
       "char_count": 91,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
+      "source_file": "data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
       "start_line": 46,
       "end_line": 46,
       "has_table": false,
@@ -502,11 +502,11 @@
     ]
   },
   {
-    "chunk_id": "8ed79b7b-60c9-4a2a-bdd6-a8cd7d8d5cc9",
+    "chunk_id": "99c81093-d805-4944-9d9e-4e6c4512f6f3",
     "text": "本产品的红利分配方式为增值红利。",
     "embedding_text": "本产品的红利分配方式为增值红利。",
     "metadata": {
-      "chunk_id": "8ed79b7b-60c9-4a2a-bdd6-a8cd7d8d5cc9",
+      "chunk_id": "99c81093-d805-4944-9d9e-4e6c4512f6f3",
       "chunk_type": "paragraph",
       "section_path": [
         "分红险的主要投资策略"
@@ -514,7 +514,7 @@
       "heading_level": 1,
       "char_count": 16,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
+      "source_file": "data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
       "start_line": 50,
       "end_line": 56,
       "has_table": false,
@@ -539,11 +539,11 @@
     ]
   },
   {
-    "chunk_id": "8f8be60d-df01-432c-8c08-a8df02a16b17",
+    "chunk_id": "b8e978ce-b61f-4bbd-b71b-ced9e04619fb",
     "text": "在本合同有效期内，红利是非保证的。\n\n在本合同有效期内，自第一个保险单周年日后首个法定会计年度起，本公司每年将根据上一法定会计年度本合同所属的分红保险产品组业务的实际经营状况决定红利的分配，尚未分配的红利是不保证的。若本公司决定该会计年度本合同有红利分配，则该红利将根据下列二种情况之一予以给付：",
     "embedding_text": "在本合同有效期内，红利是非保证的。\n\n在本合同有效期内，自第一个保险单周年日后首个法定会计年度起，本公司每年将根据上一法定会计年度本合同所属的分红保险产品组业务的实际经营状况决定红利的分配，尚未分配的红利是不保证的。\n若本公司决定该会计年度本合同有红利分配，则该红利将根据下列二种情况之一予以给付：",
     "metadata": {
-      "chunk_id": "8f8be60d-df01-432c-8c08-a8df02a16b17",
+      "chunk_id": "b8e978ce-b61f-4bbd-b71b-ced9e04619fb",
       "chunk_type": "paragraph",
       "section_path": [
         "分红险的主要投资策略"
@@ -551,7 +551,7 @@
       "heading_level": 1,
       "char_count": 148,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
+      "source_file": "data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
       "start_line": 50,
       "end_line": 56,
       "has_table": false,
@@ -594,11 +594,11 @@
     ]
   },
   {
-    "chunk_id": "6e325a60-6e58-448b-a2d7-2fa176b09fd5",
+    "chunk_id": "3ba51282-2e51-4807-b67e-4f1fd1d7dbaa",
     "text": "（1）在被保险人身故时给付予健在的身故保险金受益人；\n\n本公司每年将向投保人邮寄红利通知书。",
     "embedding_text": "\n本公司每年将向投保人邮寄红利通知书。",
     "metadata": {
-      "chunk_id": "6e325a60-6e58-448b-a2d7-2fa176b09fd5",
+      "chunk_id": "3ba51282-2e51-4807-b67e-4f1fd1d7dbaa",
       "chunk_type": "paragraph",
       "section_path": [
         "分红险的主要投资策略"
@@ -606,7 +606,7 @@
       "heading_level": 1,
       "char_count": 46,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
+      "source_file": "data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
       "start_line": 50,
       "end_line": 56,
       "has_table": false,
@@ -619,12 +619,12 @@
       "trigger_words": [],
       "key_terms": [
         "受益人",
-        "身故",
-        "给付",
-        "保险金",
-        "被保险人",
         "保险人",
-        "投保人"
+        "保险金",
+        "投保人",
+        "被保险人",
+        "身故",
+        "给付"
       ]
     },
     "sentence_infos": [
@@ -646,11 +646,11 @@
     ]
   },
   {
-    "chunk_id": "11f86b92-4c93-4ff4-9c71-38b1ad176a91",
+    "chunk_id": "0f7a42f4-9b68-4048-9b3a-8dbc4f0cd2c2",
     "text": "分红险的投资遵循安全与收益并重的原则。一方面，本公司通过合理配置资产确保保险资金能够产生长期、充足、持续稳定的收益，用于支付本公司承诺给客户的各种保险利益；另一方面，我们还遵循投资分散化的原则，密切关注投资环境以控制和分散投资风险，充分保证资金的流动性和安全性。分红保险资金投资范围包括：银行和金融机构存款、债券回购、政府债券、金融债券、企业债券、短期商业票据、证券投资基金、上市公司股票、间接投资基础设施项目和境外投资。",
     "embedding_text": "分红险的投资遵循安全与收益并重的原则。\n一方面，本公司通过合理配置资产确保保险资金能够产生长期、充足、持续稳定的收益，用于支付本公司承诺给客户的各种保险利益；\n另一方面，我们还遵循投资分散化的原则，密切关注投资环境以控制和分散投资风险，充分保证资金的流动性和安全性。\n分红保险资金投资范围包括：银行和金融机构存款、债券回购、政府债券、金融债券、企业债券、短期商业票据、证券投资基金、上市公司股票、间接投资基础设施项目和境外投资。",
     "metadata": {
-      "chunk_id": "11f86b92-4c93-4ff4-9c71-38b1ad176a91",
+      "chunk_id": "0f7a42f4-9b68-4048-9b3a-8dbc4f0cd2c2",
       "chunk_type": "paragraph",
       "section_path": [
         "红利分配政策及确定保单红利水平的影响因素"
@@ -658,7 +658,7 @@
       "heading_level": 1,
       "char_count": 211,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
+      "source_file": "data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
       "start_line": 60,
       "end_line": 60,
       "has_table": false,
@@ -700,11 +700,11 @@
     ]
   },
   {
-    "chunk_id": "ef73fecb-895b-469d-a6c9-eae1b506168c",
+    "chunk_id": "8f9e6246-380e-47b1-a06b-b4f04a864f16",
     "text": "影响红利水平的因素可能包括分红保险业务的投资表现、赔付情况、分红保险业务所产生或分摊的费用等。",
     "embedding_text": "影响红利水平的因素可能包括分红保险业务的投资表现、赔付情况、分红保险业务所产生或分摊的费用等。",
     "metadata": {
-      "chunk_id": "ef73fecb-895b-469d-a6c9-eae1b506168c",
+      "chunk_id": "8f9e6246-380e-47b1-a06b-b4f04a864f16",
       "chunk_type": "paragraph",
       "section_path": [
         "责任免除"
@@ -712,7 +712,7 @@
       "heading_level": 1,
       "char_count": 47,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
+      "source_file": "data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
       "start_line": 64,
       "end_line": 64,
       "has_table": false,
@@ -739,11 +739,11 @@
     ]
   },
   {
-    "chunk_id": "f2dc35e4-8dac-44e9-a4cc-6998c1503d1f",
+    "chunk_id": "5b4c0bbd-f8f6-4c4e-b913-46b84b48ae28",
     "text": "本公司在决定红利分配时还会综合考虑分红账户未来长期的盈利情况等，以维持红利的稳定性和可持续性，避免各年度红利因市场的变化而发生较大的起伏。根据中国保险监督管理委员会的规定，本公司每年向客户实际分配红利额度的比例不低于当年可分配红利额度的 $7 0 \\%$ 。",
     "embedding_text": "本公司在决定红利分配时还会综合考虑分红账户未来长期的盈利情况等，以维持红利的稳定性和可持续性，避免各年度红利因市场的变化而发生较大的起伏。\n根据中国保险监督管理委员会的规定，本公司每年向客户实际分配红利额度的比例不低于当年可分配红利额度的 $7 0 \\%$ 。",
     "metadata": {
-      "chunk_id": "f2dc35e4-8dac-44e9-a4cc-6998c1503d1f",
+      "chunk_id": "5b4c0bbd-f8f6-4c4e-b913-46b84b48ae28",
       "chunk_type": "paragraph",
       "section_path": [
         "责任免除"
@@ -751,7 +751,7 @@
       "heading_level": 1,
       "char_count": 129,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
+      "source_file": "data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
       "start_line": 64,
       "end_line": 64,
       "has_table": false,
@@ -778,11 +778,11 @@
     ]
   },
   {
-    "chunk_id": "7eaca291-d4f9-4ed9-beb6-fad8052080d4",
+    "chunk_id": "99492966-c540-46fa-a28e-4fd801344353",
     "text": "一、因下列情形之一导致被保险人身故的，本公司不承担给付身故保险金的责任：",
     "embedding_text": "一、因下列情形之一导致被保险人身故的，本公司不承担给付身故保险金的责任：",
     "metadata": {
-      "chunk_id": "7eaca291-d4f9-4ed9-beb6-fad8052080d4",
+      "chunk_id": "99492966-c540-46fa-a28e-4fd801344353",
       "chunk_type": "paragraph",
       "section_path": [
         "犹豫期及解除合同（退保）"
@@ -790,7 +790,7 @@
       "heading_level": 1,
       "char_count": 36,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
+      "source_file": "data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
       "start_line": 68,
       "end_line": 80,
       "has_table": false,
@@ -805,12 +805,12 @@
         "不承担"
       ],
       "key_terms": [
-        "身故",
-        "给付",
-        "保险金",
         "免责",
+        "保险人",
+        "保险金",
         "被保险人",
-        "保险人"
+        "身故",
+        "给付"
       ]
     },
     "sentence_infos": [
@@ -822,11 +822,11 @@
     ]
   },
   {
-    "chunk_id": "c0b430dc-7d83-49b5-bc1d-c4ddb8deeeb7",
+    "chunk_id": "c329c4cb-4fb7-42ab-9b5e-28c25881bfaf",
     "text": "（1）投保人对被保险人的故意杀害、故意伤害；\n（2）被保险人故意犯罪或者抗拒依法采取的刑事强制措施；\n（3）被保险人自本合同成立或者合同效力恢复之日起二年内自杀，但被保险人自杀时为无民事行为能力人的除外。",
     "embedding_text": "（1）投保人对被保险人的故意杀害、故意伤害；\n（2）被保险人故意犯罪或者抗拒依法采取的刑事强制措施；\n（3）被保险人自本合同成立或者合同效力恢复之日起二年内自杀，但被保险人自杀时为无民事行为能力人的除外。",
     "metadata": {
-      "chunk_id": "c0b430dc-7d83-49b5-bc1d-c4ddb8deeeb7",
+      "chunk_id": "c329c4cb-4fb7-42ab-9b5e-28c25881bfaf",
       "chunk_type": "paragraph",
       "section_path": [
         "犹豫期及解除合同（退保）"
@@ -834,7 +834,7 @@
       "heading_level": 1,
       "char_count": 102,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
+      "source_file": "data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
       "start_line": 68,
       "end_line": 80,
       "has_table": false,
@@ -850,9 +850,9 @@
       ],
       "key_terms": [
         "保险人",
-        "投保人",
+        "被保险人",
         "免责",
-        "被保险人"
+        "投保人"
       ]
     },
     "sentence_infos": [
@@ -874,11 +874,11 @@
     ]
   },
   {
-    "chunk_id": "4cb5845e-fece-4f9a-bcc4-bb28014afd81",
+    "chunk_id": "5082a305-ab47-4401-ad4e-255d8023a9a3",
     "text": "发生上述第（1）项情形导致被保险人身故的，本合同终止，投保人已交足二年以上保险费的，本公司向受益人退还保险单的现金价值若无受益人或受益人丧失受益权的，本公司向被保险人的继承人退还保险单的现金价值。",
     "embedding_text": "发生上述第（1）项情形导致被保险人身故的，本合同终止，投保人已交足二年以上保险费的，本公司向受益人退还保险单的现金价值若无受益人或受益人丧失受益权的，本公司向被保险人的继承人退还保险单的现金价值。",
     "metadata": {
-      "chunk_id": "4cb5845e-fece-4f9a-bcc4-bb28014afd81",
+      "chunk_id": "5082a305-ab47-4401-ad4e-255d8023a9a3",
       "chunk_type": "paragraph",
       "section_path": [
         "犹豫期及解除合同（退保）"
@@ -886,7 +886,7 @@
       "heading_level": 1,
       "char_count": 98,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
+      "source_file": "data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
       "start_line": 68,
       "end_line": 80,
       "has_table": false,
@@ -901,14 +901,14 @@
         "若无受益人或受益人丧失受益权的，"
       ],
       "key_terms": [
-        "保单",
-        "受益人",
-        "保险费",
-        "身故",
-        "被保险人",
-        "保险人",
         "现金价值",
-        "投保人"
+        "受益人",
+        "保险人",
+        "投保人",
+        "被保险人",
+        "保单",
+        "身故",
+        "保险费"
       ]
     },
     "sentence_infos": [
@@ -920,11 +920,11 @@
     ]
   },
   {
-    "chunk_id": "e548542d-f41d-4f58-b188-7e9929be4dad",
+    "chunk_id": "5d85fc10-cb9c-4c15-9120-c4e82b903789",
     "text": "发生上述其他情形导致被保险人身故的，本合同终止，本公司向投保人退还保险单的现金价值。\n\n二、因下列情形之一导致被保险人全残或被认定达到疾病终末期阶段的，本公司不承担给付全残保险金和疾病终末期阶段保险金的责任：",
     "embedding_text": "发生上述其他情形导致被保险人身故的，本合同终止，本公司向投保人退还保险单的现金价值。\n\n二、因下列情形之一导致被保险人全残或被认定达到疾病终末期阶段的，本公司不承担给付全残保险金和疾病终末期阶段保险金的责任：",
     "metadata": {
-      "chunk_id": "e548542d-f41d-4f58-b188-7e9929be4dad",
+      "chunk_id": "5d85fc10-cb9c-4c15-9120-c4e82b903789",
       "chunk_type": "paragraph",
       "section_path": [
         "犹豫期及解除合同（退保）"
@@ -932,7 +932,7 @@
       "heading_level": 1,
       "char_count": 104,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
+      "source_file": "data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
       "start_line": 68,
       "end_line": 80,
       "has_table": false,
@@ -947,16 +947,16 @@
         "不承担"
       ],
       "key_terms": [
-        "保单",
-        "疾病",
-        "身故",
-        "给付",
-        "保险金",
         "免责",
-        "被保险人",
-        "保险人",
         "现金价值",
-        "投保人"
+        "保险人",
+        "保险金",
+        "投保人",
+        "被保险人",
+        "保单",
+        "身故",
+        "疾病",
+        "给付"
       ]
     },
     "sentence_infos": [
@@ -978,11 +978,11 @@
     ]
   },
   {
-    "chunk_id": "1e480d14-fc84-452d-8c00-808637d6a283",
+    "chunk_id": "ed5f62cd-67f4-4e8d-8db2-410f29a8e690",
     "text": "（1）投保人对被保险人的故意杀害、故意伤害；\n（2）被保险人故意犯罪或者抗拒依法采取的刑事强制措施；\n（3）被保险人故意自伤。",
     "embedding_text": "（1）投保人对被保险人的故意杀害、故意伤害；\n（2）被保险人故意犯罪或者抗拒依法采取的刑事强制措施；\n（3）被保险人故意自伤。",
     "metadata": {
-      "chunk_id": "1e480d14-fc84-452d-8c00-808637d6a283",
+      "chunk_id": "ed5f62cd-67f4-4e8d-8db2-410f29a8e690",
       "chunk_type": "paragraph",
       "section_path": [
         "犹豫期及解除合同（退保）"
@@ -990,7 +990,7 @@
       "heading_level": 1,
       "char_count": 63,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
+      "source_file": "data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
       "start_line": 68,
       "end_line": 80,
       "has_table": false,
@@ -1003,8 +1003,8 @@
       "trigger_words": [],
       "key_terms": [
         "保险人",
-        "投保人",
-        "被保险人"
+        "被保险人",
+        "投保人"
       ]
     },
     "sentence_infos": [
@@ -1026,11 +1026,11 @@
     ]
   },
   {
-    "chunk_id": "b48c6224-8a12-4be0-92e6-22395b048458",
+    "chunk_id": "0f5f2602-0e89-4fee-8b93-0d60824e0390",
     "text": "犹豫期指从投保人收到保险合同并书面签收之日起 15日内的一段时期。",
     "embedding_text": "犹豫期指从投保人收到保险合同并书面签收之日起 15日内的一段时期。",
     "metadata": {
-      "chunk_id": "b48c6224-8a12-4be0-92e6-22395b048458",
+      "chunk_id": "0f5f2602-0e89-4fee-8b93-0d60824e0390",
       "chunk_type": "paragraph",
       "section_path": [
         "投保示例"
@@ -1038,7 +1038,7 @@
       "heading_level": 1,
       "char_count": 33,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
+      "source_file": "data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
       "start_line": 86,
       "end_line": 97,
       "has_table": false,
@@ -1053,8 +1053,8 @@
         "犹豫期指"
       ],
       "key_terms": [
-        "保单",
         "犹豫期",
+        "保单",
         "投保人"
       ]
     },
@@ -1067,11 +1067,11 @@
     ]
   },
   {
-    "chunk_id": "ef6ead78-83c1-440d-abd4-7bfe3f5641a4",
+    "chunk_id": "327cfa95-a829-4d26-b61b-9be1ff515023",
     "text": "投保人在犹豫期内，有权以任何理由将本合同交回本公司并申请解除本合同，本公司返还所有的已付保险费。\n\n如投保人在犹豫期后申请解除本合同，请填写解除合同申请书并向本公司提供下列资料：",
     "embedding_text": "投保人在犹豫期内，有权以任何理由将本合同交回本公司并申请解除本合同，本公司返还所有的已付保险费。\n\n如投保人在犹豫期后申请解除本合同，请填写解除合同申请书并向本公司提供下列资料：",
     "metadata": {
-      "chunk_id": "ef6ead78-83c1-440d-abd4-7bfe3f5641a4",
+      "chunk_id": "327cfa95-a829-4d26-b61b-9be1ff515023",
       "chunk_type": "paragraph",
       "section_path": [
         "投保示例"
@@ -1079,7 +1079,7 @@
       "heading_level": 1,
       "char_count": 89,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
+      "source_file": "data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
       "start_line": 86,
       "end_line": 97,
       "has_table": false,
@@ -1094,9 +1094,9 @@
         "如投保人在犹豫期后申请解除本合同，"
       ],
       "key_terms": [
-        "保险费",
         "退保",
         "犹豫期",
+        "保险费",
         "投保人"
       ]
     },
@@ -1119,11 +1119,11 @@
     ]
   },
   {
-    "chunk_id": "fa030c61-7e93-4de1-a858-878438f9c099",
+    "chunk_id": "55375d8c-0fd1-4afd-861f-48375e12f6aa",
     "text": "（1）保险合同；\n（2）投保人的有效身份证件。\n\n自本公司收到解除合同申请书时起，本合同终止。本公司自收到解除合同申请书之日起三十日内向投保人退还本公司收到解除合同申请书之日的现金价值；若有借款，则先扣除未偿还的借款及借款利息。",
     "embedding_text": "（1）保险合同；\n（2）投保人的有效身份证件。\n\n自本公司收到解除合同申请书时起，本合同终止。\n本公司自收到解除合同申请书之日起三十日内向投保人退还本公司收到解除合同申请书之日的现金价值；\n若有借款，则先扣除未偿还的借款及借款利息。",
     "metadata": {
-      "chunk_id": "fa030c61-7e93-4de1-a858-878438f9c099",
+      "chunk_id": "55375d8c-0fd1-4afd-861f-48375e12f6aa",
       "chunk_type": "paragraph",
       "section_path": [
         "投保示例"
@@ -1131,7 +1131,7 @@
       "heading_level": 1,
       "char_count": 114,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
+      "source_file": "data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
       "start_line": 86,
       "end_line": 97,
       "has_table": false,
@@ -1146,10 +1146,10 @@
         "若有借款，"
       ],
       "key_terms": [
-        "保单",
         "退保",
-        "投保人",
-        "现金价值"
+        "现金价值",
+        "保单",
+        "投保人"
       ]
     },
     "sentence_infos": [
@@ -1186,11 +1186,11 @@
     ]
   },
   {
-    "chunk_id": "bd194084-9bf7-421e-ab54-ada947757587",
+    "chunk_id": "db4d0f6b-1fb0-4385-83ad-af00f57afbb3",
     "text": "投保人在效力中止期间申请解除合同的，本公司退还效力中止时的现金价值。\n\n投保人犹豫期后解除合同会遭受一定损失。",
     "embedding_text": "投保人在效力中止期间申请解除合同的，本公司退还效力中止时的现金价值。\n\n投保人犹豫期后解除合同会遭受一定损失。",
     "metadata": {
-      "chunk_id": "bd194084-9bf7-421e-ab54-ada947757587",
+      "chunk_id": "db4d0f6b-1fb0-4385-83ad-af00f57afbb3",
       "chunk_type": "paragraph",
       "section_path": [
         "投保示例"
@@ -1198,7 +1198,7 @@
       "heading_level": 1,
       "char_count": 55,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
+      "source_file": "data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
       "start_line": 86,
       "end_line": 97,
       "has_table": false,
@@ -1210,10 +1210,10 @@
       "is_core_section": false,
       "trigger_words": [],
       "key_terms": [
-        "投保人",
         "退保",
+        "现金价值",
         "犹豫期",
-        "现金价值"
+        "投保人"
       ]
     },
     "sentence_infos": [
@@ -1235,11 +1235,11 @@
     ]
   },
   {
-    "chunk_id": "8a6849e9-17c9-44ab-81f9-8dc2a5b9a552",
+    "chunk_id": "c40c13e9-e6d2-41d1-aa4a-44759e127748",
     "text": "王先生 40岁，是一位成功的企业家，在商海沉浮多年的他对世事变幻难料有深刻的体会，深知未雨绸缪的重要性。为了更好地将家族成就世代流传，确保资产安全无虞，传承后代，王先生选择购买《友邦传世经典优享版终身寿险（分红型） 》，基本保额 1,500 万，年交保费 832,500 元，交费期 10 年。",
     "embedding_text": "王先生 40岁，是一位成功的企业家，在商海沉浮多年的他对世事变幻难料有深刻的体会，深知未雨绸缪的重要性。\n为了更好地将家族成就世代流传，确保资产安全无虞，传承后代，王先生选择购买《友邦传世经典优享版终身寿险（分红型） 》，基本保额 1,500 万，年交保费 832,500 元，交费期 10 年。",
     "metadata": {
-      "chunk_id": "8a6849e9-17c9-44ab-81f9-8dc2a5b9a552",
+      "chunk_id": "c40c13e9-e6d2-41d1-aa4a-44759e127748",
       "chunk_type": "paragraph",
       "section_path": [
         "投保示例"
@@ -1247,7 +1247,7 @@
       "heading_level": 1,
       "char_count": 147,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
+      "source_file": "data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
       "start_line": 101,
       "end_line": 101,
       "has_table": false,
@@ -1262,8 +1262,8 @@
         "为"
       ],
       "key_terms": [
-        "保险费",
-        "保险金额"
+        "保险金额",
+        "保险费"
       ]
     },
     "sentence_infos": [
@@ -1280,11 +1280,11 @@
     ]
   },
   {
-    "chunk_id": "d4ba35ef-99d8-4e2a-92d0-d4dbe7d80371",
+    "chunk_id": "7fc88848-89b3-4612-b2c0-453db5e83247",
     "text": "王先生的保险利益如下：",
     "embedding_text": "王先生的保险利益如下：",
     "metadata": {
-      "chunk_id": "d4ba35ef-99d8-4e2a-92d0-d4dbe7d80371",
+      "chunk_id": "7fc88848-89b3-4612-b2c0-453db5e83247",
       "chunk_type": "paragraph",
       "section_path": [
         "投保示例"
@@ -1292,7 +1292,7 @@
       "heading_level": 1,
       "char_count": 11,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
+      "source_file": "data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
       "start_line": 101,
       "end_line": 101,
       "has_table": false,
@@ -1314,11 +1314,11 @@
     ]
   },
   {
-    "chunk_id": "c2d64a11-8bad-42b7-999c-800dd7c7bdbc",
+    "chunk_id": "3db5e0a8-185e-43f3-bf8a-ddd1c82c1d16",
     "text": "<table><tr><td rowspan=\"2\">保单年度</td><td rowspan=\"2\">被保险人年龄</td><td rowspan=\"2\">当年度保险费</td><td rowspan=\"2\">累计保险费</td><td colspan=\"2\">保证利益</td><td colspan=\"3\">当年度增值红利</td><td colspan=\"<table><tr><td rowspan=\"2\">保单年度</td><td rowspan=\"2\">被保险人年龄</td><td rowspan=\"2\">当年度保险费</td><td rowspan=\"2\">累计保险费</td><td colspan=\"2\">保证利益</td><td colspan=\"3\">当年度增值红利</td><td colspan=\"3\">累计增值红利</td><td colspan=\"3\">总退保金</td><td colspan=\"3\">总身故/全残/疾病终末期阶段保险金</td></tr><tr><td>身故/全残/疾病终末期阶段保险金</td><td>退保金(现金价值)</td><td>低</td><td>中</td><td>高</td><td>低</td><td>中</td><td>高</td><td>低</td><td>中</td><td>高</td><td>低</td><td>中</td><td>高</td></tr><tr><td>1</td><td>40</td><td>832,500</td><td>832,500</td><td>15,000,000</td><td>165,000</td><td>0</td><td>750</td><td>2,250</td><td>0</td><td>750</td><td>2,250</td><td>165,000</td><td>165,203</td><td>165,608</td><td>15,000,000</td><td>15,000,750</td><td>15,002,250</td></tr><tr><td>2</td><td>41</td><td>832,500</td><td>1,665,000</td><td>15,000,000</td><td>540,000</td><td>900</td><td>5,700</td><td>13,800</td><td>900</td><td>6,450</td><td>16,050</td><td>540,251</td><td>541,797</td><td>544,472</td><td>15,000,900</td><td>15,006,450</td><td>15,016,050</td></tr><tr><td>3</td><td>42</td><td>832,500</td><td>2,497,500</td><td>15,000,000</td><td>945,000</td><td>5,850</td><td>22,050</td><td>47,700</td><td>6,750</td><td>28,500</td><td>63,750</td><td>946,940</td><td>953,191</td><td>963,322</td><td>15,006,750</td><td>15,028,500</td><td>15,063,750</td></tr><tr><td>4</td><td>43</td><td>832,500</td><td>3,330,000</td><td>15,000,000</td><td>1,455,000</td><td>19,350</td><td>57,000</td><td>113,400</td><td>26,100</td><td>85,500</td><td>177,150</td><td>1,462,733</td><td>1,480,334</td><td>1,507,490</td><td>15,026,100</td><td>15,085,500</td><td>15,177,150</td></tr><tr><td>5</td><td>44</td><td>832,500</td><td>4,162,500</td><td>15,000,000</td><td>1,995,000</td><td>33,750</td><td>87,150</td><td>162,300</td><td>59,850</td><td>172,650</td><td>339,450</td><td>2,013,284</td><td>2,047,745</td><td>2,098,702</td><td>15,059,850</td><td>15,172,650</td><td>15,339,450</td></tr><tr><td>6</td><td>45</td><td>832,500</td><td>4,995,000</td><td>15,000,000</td><td>2,565,000</td><td>52,650</td><td>124,200</td><td>219,600</td><td>112,500</td><td>296,850</td><td>559,050</td><td>2,600,438</td><td>2,658,508</td><td>2,741,101</td><td>15,112,500</td><td>15,296,850</td><td>15,559,050</td></tr><tr><td>7</td><td>46</td><td>832,500</td><td>5,827,500</td><td>15,000,000</td><td>3,195,000</td><td>76,200</td><td>168,600</td><td>285,600</td><td>188,700</td><td>465,450</td><td>844,650</td><td>3,256,271</td><td>3,346,132</td><td>3,469,258</td><td>15,188,700</td><td>15,465,450</td><td>15,844,650</td></tr><tr><td>8</td><td>47</td><td>832,500</td><td>6,660,000</td><td>15,000,000</td><td>3,855,000</td><td>104,700</td><td>221,100</td><td>361,500</td><td>293,400</td><td>686,550</td><td>1,206,150</td><td>3,953,201</td><td>4,084,788</td><td>4,258,698</td><td>15,293,400</td><td>15,686,550</td><td>16,206,150</td></tr><tr><td>9</td><td>48</td><td>832,500</td><td>7,492,500</td><td>15,000,000</td><td>4,575,000</td><td>138,450</td><td>282,000</td><td>447,900</td><td>431,850</td><td>968,550</td><td>1,654,050</td><td>4,723,945</td><td>4,909,053</td><td>5,145,482</td><td>15,431,850</td><td>15,968,550</td><td>16,654,050</td></tr><tr><td>10</td><td>49</td><td>832,500</td><td>8,325,000</td><td>15,000,000</td><td>5,325,000</td><td>177,750</td><td>352,350</td><td>545,850</td><td>609,600</td><td>1,320,900</td><td>2,199,900</td><td>5,541,652</td><td>5,794,448</td><td>6,106,844</td><td>15,609,600</td><td>16,320,900</td><td>17,199,900</td></tr><tr><td>11</td><td>50</td><td>0</td><td>8,325,000</td><td>15,000,000</td><td>5,490,000</td><td>203,550</td><td>396,900</td><td>604,800</td><td>813,150</td><td>1,717,800</td><td>2,804,700</td><td>5,787,776</td><td>6,119,058</td><td>6,517,081</td><td>15,813,150</td><td>16,717,800</td><td>17,804,700</td></tr><tr><td>21</td><td>60</td><td>0</td><td>8,325,000</td><td>15,000,000</td><td>7,320,000</td><td>235,950</td><td>516,900</td><td>879,750</td><td>3,022,050</td><td>6,318,300</td><td>10,277,700</td><td>8,795,969</td><td>10,405,858</td><td>12,339,629</td><td>18,022,050</td><td>21,318,300</td><td>25,277,700</td></tr><tr><td>31</td><td>70</td><td>0</td><td>8,325,000</td><td>15,000,000</td><td>9,360,000</td><td>274,500</td><td>675,600</td><td>1,283,850</td><td>5,588,100</td><td>12,323,700</td><td>21,170,550</td><td>12,849,768</td><td>17,056,151</td><td>22,581,008</td><td>20,588,100</td><td>27,323,700</td><td>36,170,550</td></tr><tr><td>41</td><td>80</td><td>0</td><td>8,325,000</td><td>15,000,000</td><td>11,340,000</td><td>320,250</td><td>884,700</td><td>1,876,800</td><td>8,578,350</td><td>20,183,250</td><td>37,084,350</td><td>17,821,801</td><td>26,590,464</td><td>39,360,935</td><td>23,578,350</td><td>35,183,250</td><td>52,084,350</td></tr><tr><td>51</td><td>90</td><td>0</td><td>8,325,000</td><td>15,000,000</td><td>12,885,000</td><td>373,200</td><td>1,158,150</td><td>2,743,800</td><td>12,065,850</td><td>30,475,050</td><td>60,351,450</td><td>23,254,391</td><td>39,075,258</td><td>64,751,036</td><td>27,065,850</td><td>45,475,050</td><td>75,351,450</td></tr><tr><td>61</td><td>100</td><td>0</td><td>8,325,000</td><td>15,000,000</td><td>13,890,000</td><td>433,650</td><td>1,512,750</td><td>4,006,350</td><td>16,124,250</td><td>43,931,100</td><td>94,344,600</td><td>28,817,831</td><td>54,561,412</td><td>101,234,231</td><td>31,124,250</td><td>58,931,100</td><td>109,344,600</td></tr><tr><td>65</td><td>104</td><td>0</td><td>8,325,000</td><td>15,000,000</td><td>14,490,000</td><td>458,700</td><td>1,674,450</td><td>4,634,850</td><td>17,923,350</td><td>50,390,700</td><td>111,939,750</td><td>31,807,541</td><td>63,177,494</td><td>122,646,186</td><td>32,923,350</td><td>65,390,700</td><td>126,939,750</td></tr></table>他各项均为保单年度末的数值。",
     "embedding_text": "<table><tr><td rowspan=\"2\">保单年度</td><td rowspan=\"2\">被保险人年龄</td><td rowspan=\"2\">当年度保险费</td><td rowspan=\"2\">累计保险费</td><td colspan=\"2\">保证利益</td><td colspan=\"3\">当年度增值红利</td><td colspan=\"<table><tr><td rowspan=\"2\">保单年度</td><td rowspan=\"2\">被保险人年龄</td><td rowspan=\"2\">当年度保险费</td><td rowspan=\"2\">累计保险费</td><td colspan=\"2\">保证利益</td><td colspan=\"3\">当年度增值红利</td><td colspan=\"3\">累计增值红利</td><td colspan=\"3\">总退保金</td><td colspan=\"3\">总身故/全残/疾病终末期阶段保险金</td></tr><tr><td>身故/全残/疾病终末期阶段保险金</td><td>退保金(现金价值)</td><td>低</td><td>中</td><td>高</td><td>低</td><td>中</td><td>高</td><td>低</td><td>中</td><td>高</td><td>低</td><td>中</td><td>高</td></tr><tr><td>1</td><td>40</td><td>832,500</td><td>832,500</td><td>15,000,000</td><td>165,000</td><td>0</td><td>750</td><td>2,250</td><td>0</td><td>750</td><td>2,250</td><td>165,000</td><td>165,203</td><td>165,608</td><td>15,000,000</td><td>15,000,750</td><td>15,002,250</td></tr><tr><td>2</td><td>41</td><td>832,500</td><td>1,665,000</td><td>15,000,000</td><td>540,000</td><td>900</td><td>5,700</td><td>13,800</td><td>900</td><td>6,450</td><td>16,050</td><td>540,251</td><td>541,797</td><td>544,472</td><td>15,000,900</td><td>15,006,450</td><td>15,016,050</td></tr><tr><td>3</td><td>42</td><td>832,500</td><td>2,497,500</td><td>15,000,000</td><td>945,000</td><td>5,850</td><td>22,050</td><td>47,700</td><td>6,750</td><td>28,500</td><td>63,750</td><td>946,940</td><td>953,191</td><td>963,322</td><td>15,006,750</td><td>15,028,500</td><td>15,063,750</td></tr><tr><td>4</td><td>43</td><td>832,500</td><td>3,330,000</td><td>15,000,000</td><td>1,455,000</td><td>19,350</td><td>57,000</td><td>113,400</td><td>26,100</td><td>85,500</td><td>177,150</td><td>1,462,733</td><td>1,480,334</td><td>1,507,490</td><td>15,026,100</td><td>15,085,500</td><td>15,177,150</td></tr><tr><td>5</td><td>44</td><td>832,500</td><td>4,162,500</td><td>15,000,000</td><td>1,995,000</td><td>33,750</td><td>87,150</td><td>162,300</td><td>59,850</td><td>172,650</td><td>339,450</td><td>2,013,284</td><td>2,047,745</td><td>2,098,702</td><td>15,059,850</td><td>15,172,650</td><td>15,339,450</td></tr><tr><td>6</td><td>45</td><td>832,500</td><td>4,995,000</td><td>15,000,000</td><td>2,565,000</td><td>52,650</td><td>124,200</td><td>219,600</td><td>112,500</td><td>296,850</td><td>559,050</td><td>2,600,438</td><td>2,658,508</td><td>2,741,101</td><td>15,112,500</td><td>15,296,850</td><td>15,559,050</td></tr><tr><td>7</td><td>46</td><td>832,500</td><td>5,827,500</td><td>15,000,000</td><td>3,195,000</td><td>76,200</td><td>168,600</td><td>285,600</td><td>188,700</td><td>465,450</td><td>844,650</td><td>3,256,271</td><td>3,346,132</td><td>3,469,258</td><td>15,188,700</td><td>15,465,450</td><td>15,844,650</td></tr><tr><td>8</td><td>47</td><td>832,500</td><td>6,660,000</td><td>15,000,000</td><td>3,855,000</td><td>104,700</td><td>221,100</td><td>361,500</td><td>293,400</td><td>686,550</td><td>1,206,150</td><td>3,953,201</td><td>4,084,788</td><td>4,258,698</td><td>15,293,400</td><td>15,686,550</td><td>16,206,150</td></tr><tr><td>9</td><td>48</td><td>832,500</td><td>7,492,500</td><td>15,000,000</td><td>4,575,000</td><td>138,450</td><td>282,000</td><td>447,900</td><td>431,850</td><td>968,550</td><td>1,654,050</td><td>4,723,945</td><td>4,909,053</td><td>5,145,482</td><td>15,431,850</td><td>15,968,550</td><td>16,654,050</td></tr><tr><td>10</td><td>49</td><td>832,500</td><td>8,325,000</td><td>15,000,000</td><td>5,325,000</td><td>177,750</td><td>352,350</td><td>545,850</td><td>609,600</td><td>1,320,900</td><td>2,199,900</td><td>5,541,652</td><td>5,794,448</td><td>6,106,844</td><td>15,609,600</td><td>16,320,900</td><td>17,199,900</td></tr><tr><td>11</td><td>50</td><td>0</td><td>8,325,000</td><td>15,000,000</td><td>5,490,000</td><td>203,550</td><td>396,900</td><td>604,800</td><td>813,150</td><td>1,717,800</td><td>2,804,700</td><td>5,787,776</td><td>6,119,058</td><td>6,517,081</td><td>15,813,150</td><td>16,717,800</td><td>17,804,700</td></tr><tr><td>21</td><td>60</td><td>0</td><td>8,325,000</td><td>15,000,000</td><td>7,320,000</td><td>235,950</td><td>516,900</td><td>879,750</td><td>3,022,050</td><td>6,318,300</td><td>10,277,700</td><td>8,795,969</td><td>10,405,858</td><td>12,339,629</td><td>18,022,050</td><td>21,318,300</td><td>25,277,700</td></tr><tr><td>31</td><td>70</td><td>0</td><td>8,325,000</td><td>15,000,000</td><td>9,360,000</td><td>274,500</td><td>675,600</td><td>1,283,850</td><td>5,588,100</td><td>12,323,700</td><td>21,170,550</td><td>12,849,768</td><td>17,056,151</td><td>22,581,008</td><td>20,588,100</td><td>27,323,700</td><td>36,170,550</td></tr><tr><td>41</td><td>80</td><td>0</td><td>8,325,000</td><td>15,000,000</td><td>11,340,000</td><td>320,250</td><td>884,700</td><td>1,876,800</td><td>8,578,350</td><td>20,183,250</td><td>37,084,350</td><td>17,821,801</td><td>26,590,464</td><td>39,360,935</td><td>23,578,350</td><td>35,183,250</td><td>52,084,350</td></tr><tr><td>51</td><td>90</td><td>0</td><td>8,325,000</td><td>15,000,000</td><td>12,885,000</td><td>373,200</td><td>1,158,150</td><td>2,743,800</td><td>12,065,850</td><td>30,475,050</td><td>60,351,450</td><td>23,254,391</td><td>39,075,258</td><td>64,751,036</td><td>27,065,850</td><td>45,475,050</td><td>75,351,450</td></tr><tr><td>61</td><td>100</td><td>0</td><td>8,325,000</td><td>15,000,000</td><td>13,890,000</td><td>433,650</td><td>1,512,750</td><td>4,006,350</td><td>16,124,250</td><td>43,931,100</td><td>94,344,600</td><td>28,817,831</td><td>54,561,412</td><td>101,234,231</td><td>31,124,250</td><td>58,931,100</td><td>109,344,600</td></tr><tr><td>65</td><td>104</td><td>0</td><td>8,325,000</td><td>15,000,000</td><td>14,490,000</td><td>458,700</td><td>1,674,450</td><td>4,634,850</td><td>17,923,350</td><td>50,390,700</td><td>111,939,750</td><td>31,807,541</td><td>63,177,494</td><td>122,646,186</td><td>32,923,350</td><td>65,390,700</td><td>126,939,750</td></tr></table>他各项均为保单年度末的数值。",
     "metadata": {
-      "chunk_id": "c2d64a11-8bad-42b7-999c-800dd7c7bdbc",
+      "chunk_id": "3db5e0a8-185e-43f3-bf8a-ddd1c82c1d16",
       "chunk_type": "table",
       "section_path": [
         "投保示例"
@@ -1326,7 +1326,7 @@
       "heading_level": 1,
       "char_count": 5867,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
+      "source_file": "data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
       "start_line": 103,
       "end_line": 103,
       "has_table": true,
@@ -1338,14 +1338,14 @@
       "is_core_section": false,
       "trigger_words": [],
       "key_terms": [
+        "现金价值",
+        "保险人",
+        "保险金",
+        "被保险人",
         "保单",
         "身故",
         "保险费",
         "退保",
-        "保险金",
-        "被保险人",
-        "保险人",
-        "现金价值",
         "疾病"
       ]
     },
@@ -1358,11 +1358,11 @@
     ]
   },
   {
-    "chunk_id": "0390e3c9-421e-4a2a-80a3-c178295eceb0",
+    "chunk_id": "5294fe0d-4eef-4b94-a7c2-b9ac460b1a42",
     "text": "3、 总退保金为保证利益的退保金（现金价值）及累计增值红利的现金价值之和；总身故/ 全残/ 疾病终末期阶段保险金为保证利益的身故/ 全残/ 疾病终末期阶段保险金和累计增值红利之和。",
     "embedding_text": "3、 总退保金为保证利益的退保金（现金价值）及累计增值红利的现金价值之和；\n总身故/ 全残/ 疾病终末期阶段保险金为保证利益的身故/ 全残/ 疾病终末期阶段保险金和累计增值红利之和。",
     "metadata": {
-      "chunk_id": "0390e3c9-421e-4a2a-80a3-c178295eceb0",
+      "chunk_id": "5294fe0d-4eef-4b94-a7c2-b9ac460b1a42",
       "chunk_type": "paragraph",
       "section_path": [
         "投保示例"
@@ -1370,7 +1370,7 @@
       "heading_level": 1,
       "char_count": 90,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
+      "source_file": "data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
       "start_line": 105,
       "end_line": 112,
       "has_table": false,
@@ -1386,10 +1386,10 @@
         "总身故/ 全残/ 疾病终末期阶段保险金为"
       ],
       "key_terms": [
+        "现金价值",
+        "保险金",
         "身故",
         "退保",
-        "保险金",
-        "现金价值",
         "疾病"
       ]
     },
@@ -1407,11 +1407,11 @@
     ]
   },
   {
-    "chunk_id": "8436e7b2-333d-4791-bf49-c4968f56860c",
+    "chunk_id": "96a13313-e304-4dc5-a05a-86e96756a158",
     "text": "4、 增值红利将根据下列二种情况之一予以给付：\n\n（1）在被保险人身故时给付予健在的身故保险金受益人；\n\n投保人：\n\n签署日期：",
     "embedding_text": "4、 增值红利将根据下列二种情况之一予以给付：\n\n\n投保人：\n\n签署日期：",
     "metadata": {
-      "chunk_id": "8436e7b2-333d-4791-bf49-c4968f56860c",
+      "chunk_id": "96a13313-e304-4dc5-a05a-86e96756a158",
       "chunk_type": "paragraph",
       "section_path": [
         "投保示例"
@@ -1419,7 +1419,7 @@
       "heading_level": 1,
       "char_count": 64,
       "image_refs": [],
-      "source_file": "/home/chanson/Zhang/RAG-保险项目/data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
+      "source_file": "data/processed/友邦保险-寿险说明书/友邦保险-寿险说明书/hybrid_auto/友邦保险-寿险说明书.md",
       "start_line": 105,
       "end_line": 112,
       "has_table": false,
@@ -1432,12 +1432,12 @@
       "trigger_words": [],
       "key_terms": [
         "受益人",
-        "身故",
-        "给付",
-        "保险金",
-        "被保险人",
         "保险人",
-        "投保人"
+        "保险金",
+        "投保人",
+        "被保险人",
+        "身故",
+        "给付"
       ]
     },
     "sentence_infos": [
