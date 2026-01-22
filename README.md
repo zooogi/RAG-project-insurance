@@ -32,6 +32,7 @@ RAG-保险项目/
 │   ├── RERANKER_USAGE.md  # Reranker使用指南
 │   └── LLM_USAGE.md       # LLM使用指南
 ├── scripts/                # 工具脚本
+│   ├── Full_RAG_TEST.py   # 🚀 完整RAG流程测试脚本（推荐！）
 │   ├── test_ocr.py        # OCR测试脚本
 │   ├── test_embed.py      # Embedder测试脚本
 │   ├── test_chunker.py    # Chunker测试脚本
@@ -156,6 +157,21 @@ python -m app.main process --input data/raw_data
 
 # 查询
 python -m app.main query --query "如何申请意外险理赔？"
+```
+
+**快速测试**：
+```bash
+# 查看完整测试脚本（包含多个测试用例）
+cat scripts/Full_RAG_TEST.py
+
+# 按照脚本中的命令依次测试：
+# 1. 处理文档（前提：data/raw_data 目录下有原始数据）
+python -m app.main process --input data/raw_data
+
+# 2. 测试不同类型的查询
+python -m app.main query --query "如果我今年45岁，友邦终身寿险可以选择哪些付费年限？"
+python -m app.main query --query "吸烟者 (smoker=yes) 的平均保险费用(Average charges)是多少？"
+python -m app.main query --query "在知识库里的一份图片合同说明，这款附加合同的保险期间是多久"
 ```
 
 详见：[RAG Pipeline使用指南](docs/RAG_PIPELINE_USAGE.md)

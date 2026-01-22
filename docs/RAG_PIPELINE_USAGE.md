@@ -10,6 +10,19 @@ OCR → 文本清洗 → Chunk分块 → Embedding索引构建 → 检索 → Re
 
 ## 快速开始
 
+### 0. 快速测试脚本
+
+项目提供了完整的测试脚本 `scripts/Full_RAG_TEST.py`，包含：
+- 文档处理流程测试
+- PDF保险条款+表格测试
+- CSV表格数据测试
+- 图片OCR测试
+
+查看测试脚本：
+```bash
+cat scripts/Full_RAG_TEST.py
+```
+
 ### 1. 基本使用
 
 ```python
@@ -376,6 +389,31 @@ config = RAGPipelineConfig(
    - OCR输出保存在 `processed/` 目录
    - 清洗后的文本保存在 `cleaned/` 目录（如果启用）
    - Chunks保存在 `chunks/` 目录
+
+## 测试用例
+
+项目提供了完整的测试脚本 `scripts/Full_RAG_TEST.py`，包含以下测试用例：
+
+1. **文档处理流程测试**（embedding之前的流程）
+   ```bash
+   # 前提：data/raw_data 目录下有原始数据
+   python -m app.main process --input data/raw_data
+   ```
+
+2. **PDF保险条款+表格测试**
+   ```bash
+   python -m app.main query --query "如果我今年45岁，友邦终身寿险可以选择哪些付费年限？"
+   ```
+
+3. **CSV表格数据测试**
+   ```bash
+   python -m app.main query --query "吸烟者 (smoker=yes) 的平均保险费用(Average charges)是多少？"
+   ```
+
+4. **图片OCR测试**
+   ```bash
+   python -m app.main query --query "在知识库里的一份图片合同说明，这款附加合同的保险期间是多久"
+   ```
 
 ## 常见问题
 
