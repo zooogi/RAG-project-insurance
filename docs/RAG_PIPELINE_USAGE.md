@@ -12,7 +12,7 @@ OCR → 文本清洗 → Chunk分块 → Embedding索引构建 → 检索 → Re
 
 ### 0. 快速测试脚本
 
-项目提供了完整的测试脚本 `scripts/Full_RAG_TEST.py`，包含：
+项目提供了完整的测试脚本 `scripts/Full_RAG_TEST.sh`，包含：
 - 文档处理流程测试
 - PDF保险条款+表格测试
 - CSV表格数据测试
@@ -20,7 +20,12 @@ OCR → 文本清洗 → Chunk分块 → Embedding索引构建 → 检索 → Re
 
 查看测试脚本：
 ```bash
-cat scripts/Full_RAG_TEST.py
+cat scripts/Full_RAG_TEST.sh
+```
+
+运行测试脚本：
+```bash
+bash scripts/Full_RAG_TEST.sh
 ```
 
 ### 1. 基本使用
@@ -392,7 +397,7 @@ config = RAGPipelineConfig(
 
 ## 测试用例
 
-项目提供了完整的测试脚本 `scripts/Full_RAG_TEST.py`，包含以下测试用例：
+项目提供了完整的测试脚本 `scripts/Full_RAG_TEST.sh`，包含以下测试用例：
 
 1. **文档处理流程测试**（embedding之前的流程）
    ```bash

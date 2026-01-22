@@ -32,7 +32,7 @@ RAG-保险项目/
 │   ├── RERANKER_USAGE.md  # Reranker使用指南
 │   └── LLM_USAGE.md       # LLM使用指南
 ├── scripts/                # 工具脚本
-│   ├── Full_RAG_TEST.py   # 🚀 完整RAG流程测试脚本（推荐！）
+│   ├── Full_RAG_TEST.sh   # 🚀 完整RAG流程测试脚本（推荐！）
 │   ├── test_ocr.py        # OCR测试脚本
 │   ├── test_embed.py      # Embedder测试脚本
 │   ├── test_chunker.py    # Chunker测试脚本
@@ -162,7 +162,10 @@ python -m app.main query --query "如何申请意外险理赔？"
 **快速测试**：
 ```bash
 # 查看完整测试脚本（包含多个测试用例）
-cat scripts/Full_RAG_TEST.py
+cat scripts/Full_RAG_TEST.sh
+
+# 或直接运行测试脚本
+bash scripts/Full_RAG_TEST.sh
 
 # 按照脚本中的命令依次测试：
 # 1. 处理文档（前提：data/raw_data 目录下有原始数据）
