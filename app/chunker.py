@@ -568,6 +568,32 @@ class Chunk:
                 for info in self.sentence_infos
             ]
         return result
+    
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> 'Chunk':
+        """从字典格式创建Chunk对象"""
+        # 重建metadata
+        metadata_dict = data.get("metadata", {})
+        metadata = ChunkMetadata(**metadata_dict)
+        
+        # 重建sentence_infos（如果存在）
+        sentence_infos = None
+        if "sentence_infos" in data:
+            sentence_infos = [
+                SentenceInfo(
+                    text=info_dict["text"],
+                    skip_embedding=info_dict.get("skip_embedding", False),
+                    reason=info_dict.get("reason", "")
+                )
+                for info_dict in data["sentence_infos"]
+            ]
+        
+        return cls(
+            chunk_id=data["chunk_id"],
+            text=data["text"],
+            metadata=metadata,
+            sentence_infos=sentence_infos
+        )
 
 
 class SemanticChunker:

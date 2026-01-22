@@ -23,12 +23,14 @@ RAG-保险项目/
 |
 ├── docs/                   # 文档
 │   ├── DATA_STRUCTURE.md  # 📋 数据目录结构说明（重要！）
+│   ├── RAG_PIPELINE_USAGE.md  # 🚀 RAG Pipeline完整流程使用指南（推荐！）
 │   ├── OCR_USAGE.md       # OCR模块使用指南
 │   ├── CHUNKER_USAGE.md   # Chunker模块使用指南
 │   ├── TEXT_CLEANER_USAGE.md  # 文本清洗模块使用指南
 │   ├── SEMANTIC_CHUNKER_USAGE.md  # 语义切割和术语提取使用指南
 │   ├── EMBEDDER_USAGE.md  # Embedder使用指南
-│   └── RERANKER_USAGE.md  # Reranker使用指南
+│   ├── RERANKER_USAGE.md  # Reranker使用指南
+│   └── LLM_USAGE.md       # LLM使用指南
 ├── scripts/                # 工具脚本
 │   ├── test_ocr.py        # OCR测试脚本
 │   ├── test_embed.py      # Embedder测试脚本
@@ -75,7 +77,14 @@ RAG-保险项目/
 - 支持模型缓存机制，节省显存
 - 可调节生成参数（temperature、top_p等）
 
-### 6. API接口
+### 6. RAG Pipeline (完整流程)
+- **一键处理**：OCR -> 清洗 -> Chunk -> Embedding索引构建
+- **智能查询**：检索 -> Rerank -> LLM生成答案
+- **灵活配置**：支持自定义所有模块参数
+- **命令行接口**：支持命令行和Python API两种使用方式
+- 详见：[RAG Pipeline使用指南](docs/RAG_PIPELINE_USAGE.md)
+
+### 7. API接口
 
 
 ## 🚀 快速开始
@@ -118,7 +127,40 @@ mineru --help
 mineru -p data/pdf/保险基础知多少.pdf -o data/mineru_test --source modelscope
 ```
 
-#### 使用Embedding和Reranker
+#### 使用RAG Pipeline（推荐！完整流程）
+
+```python
+# 方式1: Python API
+from app.main import RAGPipeline
+from pathlib import Path
+
+# 创建pipeline
+pipeline = RAGPipeline()
+
+# 处理文档（OCR -> 清洗 -> Chunk -> 构建索引）
+result = pipeline.process_documents(
+    input_path=Path("data/raw_data"),
+    overwrite=False
+)
+
+# 查询答案
+answer = pipeline.query("如何申请意外险理赔？")
+print(answer["answer"])
+```
+
+```bash
+# 方式2: 命令行接口
+
+# 处理文档
+python -m app.main process --input data/raw_data
+
+# 查询
+python -m app.main query --query "如何申请意外险理赔？"
+```
+
+详见：[RAG Pipeline使用指南](docs/RAG_PIPELINE_USAGE.md)
+
+#### 使用Embedding和Reranker（单独使用）
 
 ```bash
 # 测试Embedder模块
@@ -139,8 +181,24 @@ python scripts/test_llm.py
 - **显存需求**：
   - Qwen2.5-3B：约6-8GB显存（默认）
   - Qwen2.5-1.5B：约3-4GB显存（显存不足时使用）
+  - **显存优化**：支持8bit/4bit量化，可大幅降低显存需求
+    - 8bit量化：显存减半（3-4GB）
+    - 4bit量化：显存减少75%（1.5-2GB）
+    - 安装量化库：`pip install bitsandbytes`
   - 如果显存不足，可以使用CPU模式或更小的模型
 - 模型会自动缓存到`~/.cache/huggingface/hub/`目录
+
+**显存优化示例**：
+```python
+from app.config import RAGPipelineConfig
+from app.main import RAGPipeline
+
+# 使用4bit量化（显存从6-8GB降到1.5-2GB）
+config = RAGPipelineConfig(
+    llm_load_in_4bit=True
+)
+pipeline = RAGPipeline(config)
+```
 
 ## 📋 数据目录说明
 

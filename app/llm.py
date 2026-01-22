@@ -32,7 +32,9 @@ class LLM:
         use_mirror: bool = True,
         max_new_tokens: int = 512,
         temperature: float = 0.7,
-        top_p: float = 0.9
+        top_p: float = 0.9,
+        load_in_8bit: bool = False,
+        load_in_4bit: bool = False
     ):
         """
         初始化LLM
@@ -46,20 +48,35 @@ class LLM:
             max_new_tokens: 最大生成token数
             temperature: 生成温度（控制随机性）
             top_p: nucleus sampling参数
+            load_in_8bit: 使用8bit量化（显存减半，需要bitsandbytes库）
+            load_in_4bit: 使用4bit量化（显存减少75%，需要bitsandbytes库）
         """
         self.model_name = model_name
         self.model_path = model_path
         self.max_new_tokens = max_new_tokens
         self.temperature = temperature
         self.top_p = top_p
+        self.load_in_8bit = load_in_8bit
+        self.load_in_4bit = load_in_4bit
         
         # 自动检测设备
         if device is None:
             device = 'cuda' if torch.cuda.is_available() else 'cpu'
         self.device = device
         
-        # 生成缓存key：模型名称+设备+路径
-        cache_key = f"{model_path or model_name}_{device}"
+        # 量化只能在CUDA上使用
+        if (load_in_8bit or load_in_4bit) and device == 'cpu':
+            print("⚠ 警告: 量化只能在CUDA设备上使用，已禁用量化")
+            load_in_8bit = False
+            load_in_4bit = False
+        
+        # 生成缓存key：模型名称+设备+路径+量化配置
+        quant_suffix = ""
+        if load_in_4bit:
+            quant_suffix = "_4bit"
+        elif load_in_8bit:
+            quant_suffix = "_8bit"
+        cache_key = f"{model_path or model_name}_{device}{quant_suffix}"
         
         # 检查模型缓存
         global _model_cache
@@ -80,26 +97,52 @@ class LLM:
             # 加载模型
             print(f"正在加载LLM模型: {model_path or model_name}")
             try:
+                # 准备加载参数
+                load_kwargs = {
+                    "trust_remote_code": True
+                }
+                
+                # 量化配置（显存优化）
+                if load_in_8bit or load_in_4bit:
+                    try:
+                        from transformers import BitsAndBytesConfig
+                        if load_in_4bit:
+                            quantization_config = BitsAndBytesConfig(
+                                load_in_4bit=True,
+                                bnb_4bit_compute_dtype=torch.float16,
+                                bnb_4bit_use_double_quant=True,
+                                bnb_4bit_quant_type="nf4"
+                            )
+                            load_kwargs["quantization_config"] = quantization_config
+                            print("✓ 启用4bit量化（显存减少约75%）")
+                        elif load_in_8bit:
+                            quantization_config = BitsAndBytesConfig(load_in_8bit=True)
+                            load_kwargs["quantization_config"] = quantization_config
+                            print("✓ 启用8bit量化（显存减少约50%）")
+                    except ImportError:
+                        print("⚠ 警告: bitsandbytes未安装，无法使用量化。安装: pip install bitsandbytes")
+                        print("   继续使用标准加载方式...")
+                        load_in_8bit = False
+                        load_in_4bit = False
+                
+                # 设备配置
+                if device == 'cuda' and not load_in_8bit and not load_in_4bit:
+                    load_kwargs["torch_dtype"] = torch.float16
+                    load_kwargs["device_map"] = "auto"
+                elif device == 'cpu':
+                    load_kwargs["torch_dtype"] = torch.float32
+                
+                # 加载模型
                 if model_path and os.path.exists(model_path):
                     self.tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
-                    self.model = AutoModelForCausalLM.from_pretrained(
-                        model_path,
-                        torch_dtype=torch.float16 if device == 'cuda' else torch.float32,
-                        device_map="auto" if device == 'cuda' else None,
-                        trust_remote_code=True
-                    )
-                    if device == 'cpu':
+                    self.model = AutoModelForCausalLM.from_pretrained(model_path, **load_kwargs)
+                    if device == 'cpu' and not load_in_8bit and not load_in_4bit:
                         self.model = self.model.to(device)
                     print(f"✓ 成功从本地加载LLM模型: {model_path}")
                 else:
                     self.tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
-                    self.model = AutoModelForCausalLM.from_pretrained(
-                        model_name,
-                        torch_dtype=torch.float16 if device == 'cuda' else torch.float32,
-                        device_map="auto" if device == 'cuda' else None,
-                        trust_remote_code=True
-                    )
-                    if device == 'cpu':
+                    self.model = AutoModelForCausalLM.from_pretrained(model_name, **load_kwargs)
+                    if device == 'cpu' and not load_in_8bit and not load_in_4bit:
                         self.model = self.model.to(device)
                     print(f"✓ 成功加载LLM模型: {model_name}")
                 
@@ -279,7 +322,9 @@ class LLM:
             "device": self.device,
             "max_new_tokens": self.max_new_tokens,
             "temperature": self.temperature,
-            "top_p": self.top_p
+            "top_p": self.top_p,
+            "load_in_8bit": self.load_in_8bit,
+            "load_in_4bit": self.load_in_4bit
         }
 
 
@@ -288,18 +333,22 @@ def create_llm(
     model_name: str = "Qwen/Qwen2.5-3B-Instruct",
     model_path: Optional[str] = None,
     use_mirror: bool = True,
+    load_in_8bit: bool = False,
+    load_in_4bit: bool = False,
     **kwargs
 ) -> LLM:
     """
     创建LLM实例的便捷函数
     
     注意：模型会被缓存，多个实例共享同一个模型，节省显存。
-    相同模型名称+设备+路径的实例会复用同一个模型。
+    相同模型名称+设备+路径+量化配置的实例会复用同一个模型。
     
     Args:
         model_name: 模型名称
         model_path: 本地模型路径
         use_mirror: 是否使用国内镜像源（默认True）
+        load_in_8bit: 使用8bit量化（显存减半）
+        load_in_4bit: 使用4bit量化（显存减少75%）
         **kwargs: 其他参数
         
     Returns:
@@ -309,6 +358,8 @@ def create_llm(
         model_name=model_name,
         model_path=model_path,
         use_mirror=use_mirror,
+        load_in_8bit=load_in_8bit,
+        load_in_4bit=load_in_4bit,
         **kwargs
     )
 

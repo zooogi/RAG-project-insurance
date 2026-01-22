@@ -31,6 +31,11 @@ click>=8.1.0                 # 命令行工具
 doclayout-yolo
 ultralytics
 
+# 可选依赖（显存优化）
+bitsandbytes>=0.41.0      # 模型量化库（用于8bit/4bit量化，降低显存需求）
+#                             安装: pip install bitsandbytes
+#                             注意: 需要CUDA支持，仅适用于GPU
+
 # 可选依赖（用于开发和测试）
 # pytest>=7.0.0              # 单元测试
 # black>=23.0.0              # 代码格式化
